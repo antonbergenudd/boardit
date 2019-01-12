@@ -3,9 +3,9 @@
 namespace boardit;
 
 use Illuminate\Database\Eloquent\Model;
-use Gloudemans\Shoppingcart\Contracts\BuyAble;
+use Gloudemans\Shoppingcart\Contracts\Buyable;
 
-class Product extends Model implements BuyAble
+class Product extends Model implements Buyable
 {
     public function getBuyableIdentifier($options = null) {
         return $this->id;
