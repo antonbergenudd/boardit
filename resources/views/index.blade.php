@@ -2,7 +2,7 @@
 @section('content')
     <div class="flex-center" style=" background: white; width:100%; height:30rem;">
         {{-- <h1 class="title">instaGames</h1> --}}
-        <img src="../images/logo.png" alt="" style="width:20rem;">
+        <img src="{{ asset('img/logo.png') }}" alt="" style="width:20rem;">
     </div>
 
     @if(isset($cart) && $cart->first())
