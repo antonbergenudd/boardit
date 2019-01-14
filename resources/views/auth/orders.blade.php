@@ -1,6 +1,6 @@
-@extends('layouts.default')
+@extends('layouts.auth')
 @section('content')
-    <div class="" style="height:100vh;">
+    <div style="height:100vh; margin-top:5rem;">
         <h1>List all orders</h1>
         <div class="" style="display:flex;">
             @foreach($orders as $order)
@@ -15,6 +15,7 @@
                     @else
                         <p>false</p>
                     @endif
+                    <a href="{{route('auth.confirm.order', ['order' => $order->id])}}" class="link">Confirm</a>
                 </div>
             @endforeach
         </div>

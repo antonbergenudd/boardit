@@ -23,9 +23,11 @@ Route::prefix('cart')->name('cart.')->group(function() {
 
 Route::prefix('payment')->name('payment.')->group(function () {
     Route::get('index', 'PaymentController@index')->name('index');
-    Route::post('confirm', 'PaymentController@confirm')->name('confirm');
+    Route::post('submit', 'PaymentController@submit')->name('submit');
+
 });
 
 Route::prefix('auth')->name('auth.')->middleware('restrict')->group(function() {
     Route::get('orders', 'MainController@orders')->name('orders');
+    Route::get('{order}/confirm', 'MainController@confirmOrder')->name('confirm.order');
 });

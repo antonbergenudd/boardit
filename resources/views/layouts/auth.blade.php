@@ -87,7 +87,7 @@
         </style>
     </head>
     <body>
-        @include('navbar')
+        @include('navbars/auth')
 
         <div class="content">
             @yield('content')

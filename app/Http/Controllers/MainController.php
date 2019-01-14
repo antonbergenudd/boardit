@@ -3,10 +3,11 @@
 namespace boardit\Http\Controllers;
 
 use Illuminate\Routing\Controller as BaseController;
-
-use Cart;
+use Illuminate\Support\Facades\Mail;
 use boardit\Product;
 use boardit\Order;
+use boardit\Mail\ConfirmationMailable;
+use Cart;
 
 class MainController extends BaseController
 {
@@ -38,5 +39,19 @@ class MainController extends BaseController
     public function orders() {
         $orders = Order::all();
         return view('auth.orders', compact('orders'));
+    }
+
+    public function confirmOrder(Order $order) {
+        $order->confirmed = 1;
+        $order->save();
+
+        $this->email($order);
+
+        return back();
+    }
+
+    private function email($data) {
+        Mail::to($data->email)
+            ->send(new ConfirmationMailable($data));
     }
 }
