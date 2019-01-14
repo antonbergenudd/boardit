@@ -11,7 +11,7 @@ use boardit\Order;
 class MainController extends BaseController
 {
     function index() {
-        $products = Product::paginate(4);
+        $products = Product::where('popular', 1)->get();
 
         $cart = Cart::content();
         $cartTotal = Cart::subTotal();

@@ -70,6 +70,8 @@
                         <button type="submit" name="button" class="link" style="margin-top:1rem; border:2px solid rgba(0,0,0,.2); padding:1rem 2rem; background-color:white; font-size:12pt; font-weight:200;">Done</button>
                     </form>
 
+
+                    {{-- Select pay method --}}
                     <div id="select_pay_method" class="flex-center" style="height:100%;width:100%;">
 
                         <div class="flex-center" style="flex-direction:column; width:50%; padding:1rem;">

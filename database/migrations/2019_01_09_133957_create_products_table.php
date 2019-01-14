@@ -20,6 +20,7 @@ class CreateProductsTable extends Migration
             $table->string('description');
             $table->string('thumbnail');
             $table->integer('price');
+            $table->integer('popular')->default(0);
             $table->integer('in_store')->default(1);
         });
     }

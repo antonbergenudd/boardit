@@ -11,7 +11,7 @@
 
     <div class="">
         <h1>Populära spel</h1>
-        <div style="display:flex; flex-wrap:wrap;">
+        <div style="display:flex; flex-wrap:wrap; padding:3rem 0;">
             @foreach($products as $product)
                 @include('product.default')
             @endforeach

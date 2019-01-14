@@ -5,7 +5,7 @@
 
     <hr>
 
-    <div class="" style="text-align:left;">
+    <div class="" style="text-align:left; max-height:50vh; overflow:scroll;">
         @foreach($cart as $row)
             <div class="">
                 <h4 style="margin:0;">{{ $row->name }} <a href="{{ route('cart.remove', ['item' => $row->rowId])}}" style="float:right; color:red; font-size:10pt; text-decoration:none;">remove</a></h4>
