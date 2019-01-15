@@ -7,9 +7,8 @@
 
     <div class="" style="margin-top:4rem; width:100%;">
         <div style="display:flex; width:100%; text-align:center;">
-            <p style="flex:1;">Anton bergenudd</p>
-            <p style="flex:1;">anton@bergenudd.nu</p>
-            <p style="flex:1;">Boardit</p>
+            <p style="flex:1;">Boarditgames@gmail.com</p>
+            <p style="flex:1;">Boarditgames</p>
             <p style="flex:1;">Duettgatan 4, 65636, Karlstad</p>
         </div>
     </div>
