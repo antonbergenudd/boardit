@@ -6,7 +6,7 @@
     <p>{{$product->description}}</p>
     <p></p>
 
-    @if($product->in_store)
+    @if($product->quantity)
         @if(! \Cart::content()->where('id', $product->id)->count())
             <div class="add_cart">
                 <a class="link" href="{{ route('cart.add', ['product' => $product->id]) }}">Add to cart</a>
