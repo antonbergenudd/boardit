@@ -29,12 +29,35 @@ class CartController extends BaseController
     }
 
     public function destroy() {
+        foreach(Cart::content() as $item) {
+            $product = $item->model;
+
+            $product->quantity++;
+            if($product->quantity > 0) {
+                $product->in_store = 1;
+            }
+
+            $product->save();
+        }
+
         Cart::destroy();
 
         return back();
     }
 
     public function remove($rowId) {
+        $item = Cart::content()->where('rowId', $rowId)->first();
+
+        $product = $item->model;
+
+        $product->quantity++;
+
+        if($product->quantity > 0) {
+            $product->in_store = 1;
+        }
+
+        $product->save();
+
         Cart::remove($rowId);
 
         return back();
