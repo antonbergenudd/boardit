@@ -6,7 +6,6 @@ $(window).on("load",function() {
             locale: 'auto',
             allowRememberMe: false,
             token: function(token) {
-                console.log(token);
                 var stripeToken = document.createElement("input");
                 stripeToken.value = token.id;
                 stripeToken.type = 'hidden';

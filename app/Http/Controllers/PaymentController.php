@@ -40,59 +40,80 @@ class PaymentController extends BaseController
         $code = str_random(12);
         $order = new Order;
 
-        if(isset($request->payment_by_swish)) {
-            // Swish
-        } else if(isset($request->payment_by_card)) {
-            $total = str_replace(".00", "", Cart::subTotal());
-            $charge = Charge::create([
-                'amount' => $total * 100,
-                'currency' => 'sek',
-                'description' => 'Beställning av spel',
-                'source' => $request->stripeToken,
-                'receipt_email' => $request->email,
-            ]);
-
-            if($charge->status == 'succeeded') {
+        $payment_ok = 0;
+        if(strtolower($request->city) == 'karlstad') {
+            if(isset($request->payment_by_swish)) {
                 $order->code = $code;
-                $order->address = $request->address;
+                $order->address = $request->street.', '.$request->postcode.', '.$request->city;
                 $order->email = isset($request->email) ? $request->email : NULL;
                 $order->phone = isset($request->tel) ? $request->tel : NULL;
                 $order->payment = $total;
-                $order->payment_type = 'card';
+                $order->payment_type = 'swish';
+                $order->note = $request->note;
                 $order->save();
-            } else {
-                $error = \Illuminate\Validation\ValidationException::withMessages([
-                   '' => ['Betalningen misslyckades'],
+
+                $payment_ok = 1;
+            } else if(isset($request->payment_by_card)) {
+                $total = str_replace(".00", "", Cart::subTotal());
+                $charge = Charge::create([
+                    'amount' => $total * 100,
+                    'currency' => 'sek',
+                    'description' => 'Beställning av spel',
+                    'source' => $request->stripeToken,
+                    'receipt_email' => $request->email,
                 ]);
 
-                throw $error;
+                if($charge->status == 'succeeded') {
+                    $order->code = $code;
+                    $order->address = $request->street.', '.$request->postcode.', '.$request->city;
+                    $order->email = isset($request->email) ? $request->email : NULL;
+                    $order->phone = isset($request->tel) ? $request->tel : NULL;
+                    $order->payment = $total;
+                    $order->payment_type = 'card';
+                    $order->note = $request->note;
+                    $order->save();
+
+                    $payment_ok = 1;
+                } else {
+                    $error = \Illuminate\Validation\ValidationException::withMessages([
+                       '' => ['Betalningen misslyckades'],
+                    ]);
+
+                    throw $error;
+                }
             }
+
+            if($payment_ok) {
+                foreach(Cart::content() as $row) {
+                    $product = $row->model;
+                    $orderToProduct = new ProductOrder;
+
+                    if($product->name == 'Random') {
+                        $items = Product::where('quantity', '>=', 0)->get();
+                        $product = $items[array_rand($items->toArray())];
+                    }
+
+                    $orderToProduct->product_id = $product->id;
+                    $orderToProduct->order_id = $order->id;
+
+                    // Remove item from DB
+                    if($product->quantity) {
+                        $product->quantity--;
+                    }
+
+                    $product->save();
+
+                    $orderToProduct->save();
+                }
+
+                return back()->with([
+                    'code' => $code,
+                ]);
+            }
+        } else {
+            return back()->withErrors([
+                'Tyvärr kör vi inte ut till din stad just nu, oroa dig inte, ingen betalning har utförts.'
+            ]);
         }
-
-        foreach(Cart::content() as $row) {
-            $product = $row->model;
-            $orderToProduct = new ProductOrder;
-
-            if($product->name == 'Random') {
-                $items = Product::where('quantity', '>=', 0)->get();
-                $product = $items[array_rand($items->toArray())];
-            }
-
-            $orderToProduct->product_id = $product->id;
-            $orderToProduct->order_id = $order->id;
-
-            // Remove item from DB
-            if($product->quantity) {
-                $product->quantity--;
-            }
-            
-            $product->save();
-
-            $orderToProduct->save();
-        }
-
-        return back()->with([
-            'code' => $code,
-        ]);
     }
 }
