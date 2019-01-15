@@ -29,7 +29,7 @@
 
         <div class="" style="width:40rem; padding:5rem;">
             <h1 style="font-size:40pt; margin-bottom:0;">Upp till 24 timmar</h1>
-            <p style="font-size:18pt;">Efter det att du fått dina spela levererade till din dörr, har du upp till 24 timmar på dig att spela så mycket det bara går, sedan kommer ett bud att hämta upp spelen igen vid samma adress som avlämningen skedde på.</p>
+            <p style="font-size:18pt;">Efter det att du fått dina spel levererade till din dörr, har du upp till 24 timmar på dig att spela så mycket det bara går, sedan kommer ett bud att hämta upp spelen igen vid samma adress som avlämningen skedde på.</p>
         </div>
     </div>
 @stop
