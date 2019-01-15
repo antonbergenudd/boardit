@@ -72,9 +72,14 @@ class PaymentController extends BaseController
         foreach(Cart::content() as $row) {
             $product = $row->model;
             $orderToProduct = new ProductOrder;
+
+            if($product->name == 'Random') {
+                $items = Product::where('quantity', '>=', 0)->get();
+                $product = $items[array_rand($items->toArray())];
+            }
+
             $orderToProduct->product_id = $product->id;
             $orderToProduct->order_id = $order->id;
-            $orderToProduct->save();
 
             // Remove item from DB
             $product->quantity--;
@@ -82,6 +87,8 @@ class PaymentController extends BaseController
                 $product->in_store = 0;
             }
             $product->save();
+
+            $orderToProduct->save();
         }
 
         return back()->with([
