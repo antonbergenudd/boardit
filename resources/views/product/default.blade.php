@@ -7,9 +7,13 @@
     <p></p>
 
     @if($product->in_store)
-    <div class="add_cart">
-        <a class="link" href="{{ route('cart.add', ['product' => $product->id]) }}">Add to cart</a>
-    </div>
+        @if(! \Cart::content()->where('id', $product->id)->count())
+            <div class="add_cart">
+                <a class="link" href="{{ route('cart.add', ['product' => $product->id]) }}">Add to cart</a>
+            </div>
+        @else
+            <p>Product added to cart</p>
+        @endif
     @else
         <p>Product not in store</p>
     @endif

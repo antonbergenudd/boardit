@@ -14,7 +14,9 @@ use \Cart;
 class CartController extends BaseController
 {
     public function add(Product $product) {
-        Cart::add($product, 1)->associate('boardit\Product');
+        if(! Cart::content()->where('id', $product->id)->count()) {
+            Cart::add($product, 1)->associate('boardit\Product');
+        }
 
         return back();
     }

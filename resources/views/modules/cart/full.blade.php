@@ -4,16 +4,10 @@
     <hr style="margin:0;">
     <div class="" style="text-align:left; overflow:scroll; height:75%; position:relative;">
         @foreach($cart as $row)
-            <h1 style="padding:1rem; margin-bottom:0;">{{ $row->name }} <a href="{{ route('cart.remove', ['item' => $row->rowId])}}" style="float:right; color:red; font-size:10pt;">remove</a></h1>
-            <div class="" style="display:flex; text-align:center;">
-                <div class="" style="flex:1;">
-                    <p style="flex:1;"><b>Pris</b></p>
-                    <p style="flex:1;">{{ $row->price }} kr</p>
-                </div>
-                <div class="" style="flex:1;">
-                    <p style="flex:1;"><b>Antal</b></p>
-                    <p style="flex:1;">{{ $row->qty }} st</p>
-                </div>
+            <div style="display:flex; align-items: center; padding:1rem;">
+                <h2 style="margin:0; flex:1;">{{ $row->name }}</h2>
+                <p style="flex:1; margin:0;">{{ $row->price }} kr</p>
+                <a href="{{ route('cart.remove', ['item' => $row->rowId])}}" style=" text-align: right;flex:1; color:red; font-size:10pt; text-decoration:none;">remove</a>
             </div>
 
             <hr>

@@ -7,13 +7,10 @@
 
     <div class="" style="text-align:left; max-height:50vh; overflow:scroll;">
         @foreach($cart as $row)
-            <div class="">
-                <h4 style="margin:0;">{{ $row->name }} <a href="{{ route('cart.remove', ['item' => $row->rowId])}}" style="float:right; color:red; font-size:10pt; text-decoration:none;">remove</a></h4>
-                <div class="" style="display:flex; width:14rem;">
-                    <p style="flex:1;">{{ $row->price }} kr</p>
-                    <p style="flex:1;">{{ $row->qty }} st</p>
-                    <p style="flex:1;">{{ $row->subtotal }} kr</p>
-                </div>
+            <div class="" style="display:flex; width:14rem;">
+                <h4 style="margin:0; flex:1;">{{ $row->name }}</h4>
+                <p style="flex:1; margin:0;">{{ $row->price }} kr</p>
+                <a href="{{ route('cart.remove', ['item' => $row->rowId])}}" style=" text-align: right;flex:1; color:red; font-size:10pt; text-decoration:none;">remove</a>
             </div>
 
             <hr>
