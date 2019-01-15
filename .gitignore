@@ -10,3 +10,5 @@ yarn-error.log
 /public/*/*
 !/public/img/*
 /ssl_cert
+/public/css
+/public/js
