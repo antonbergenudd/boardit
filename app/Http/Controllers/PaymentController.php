@@ -76,7 +76,7 @@ class PaymentController extends BaseController
             $orderToProduct->order_id = $order->id;
             $orderToProduct->save();
 
-            // Remove item from DV
+            // Remove item from DB
             $product->quantity--;
             if($product->quantity == 0) {
                 $product->in_store = 0;
