@@ -22,16 +22,15 @@
                 @endif
 
                 {{-- Display success --}}
-                @if(session()->has('message'))
+                @if(session()->has('code'))
                     <div class="" style="display:flex; flex-direction:column; width: 25rem;">
                         <h1>Din referens kod är</h1>
-                        <h3 style="text-align:center;">{{ Session::get('code') }}</h3>
+                        <h3>{{ Session::get('code') }}</h3>
                         <p>Använd denna kod om du har några funderingar runt din order</p>
                         <p><b>Kontakta oss via</b></p>
                         <p>boarditgames@gmail.com</p>
-                        <p>+46708605003</p>
-                        <p>{{ session()->get('message') }}</p>
-                        <p>Tack för att du handlade hos <b>Boardit</b>!</p>
+                        <p>Bekräftelse kommer skickas via sms samt email inom kort.</p>
+                        <h2>Tack för att du handlade hos <b>Boardit</b>!</h2>
                     </div>
                 @else
                     {{-- Select pay method --}}

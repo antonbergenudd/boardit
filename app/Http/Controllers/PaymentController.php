@@ -78,7 +78,6 @@ class PaymentController extends BaseController
         }
 
         return back()->with([
-            'message' => 'Bekräftelse kommer skickas inom kort via sms alternativt email!',
             'code' => $code,
         ]);
     }
