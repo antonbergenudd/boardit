@@ -1,14 +1,55 @@
 
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css?family=Nunito:200,600');
 
 // Variables
 @import 'variables';
 
-// Bootstrap
-@import '~bootstrap/scss/bootstrap';
+// Pages
+@import 'index';
+@import 'navbar';
+@import 'footer';
+@import 'about';
 
-.navbar-laravel {
-  background-color: #fff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+// GENERAL SASS
+
+html, body {
+    background-color: #fff;
+    color: #636b6f;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 200;
+    height: 100vh;
+    margin: 0;
+}
+
+.title {
+    font-size: 84px;
+}
+
+.content {
+    text-align: center;
+}
+
+.hide {
+    display:none;
+}
+
+.link {
+    color: $link-color;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.full-height {
+    height: 100vh;
+}
+
+.flex-center {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.bg-gray {
+    background-color:rgba(0,0,0,.1);
 }

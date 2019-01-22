@@ -1,0 +1,33 @@
+.footer {
+    flex-direction:column;
+    height:20rem;
+
+    &-contact {
+        margin-top:4rem;
+        width:100%;
+    }
+
+    &-contact-info-wrapper {
+        display:flex;
+        width:100%;
+        text-align:center;
+
+        p {
+            flex:1;
+        }
+    }
+
+    .links > a {
+        color: #636b6f;
+        padding: 0 25px;
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: .1rem;
+        text-decoration: none;
+        text-transform: uppercase;
+
+        @media(max-width: $mobile-bp) {
+            display: none;
+        }
+    }
+}

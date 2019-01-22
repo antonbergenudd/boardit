@@ -1,0 +1,22 @@
+.about {
+    &-wrapper {
+        &-text {
+            text-align:left;
+            padding:5rem;
+            width:20rem;
+        }
+
+        &-image {
+            width:20rem;
+
+            img {
+                width:100%;
+                box-shadow:-2px -2px 6px rgba(0,0,0,.5)
+            }
+        }
+
+        @media(max-width:$mobile-bp) {
+            flex-direction: column;
+        }
+    }
+}

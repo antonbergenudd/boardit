@@ -1,0 +1,39 @@
+.index {
+    .index-box {
+        .text-wrapper {
+            width:40rem;
+            padding:5rem;
+
+            h1 {
+                font-size:40pt;
+                margin-bottom:0;
+            }
+
+            p {
+                font-size:18pt;
+            }
+        }
+
+        .popular-games-wrapper {
+            display:flex;
+            flex-wrap:wrap; 
+            padding:3rem 0;
+        }
+    }
+
+    &-jumbotron {
+        background: white;
+        width:100%;
+        height:30rem;
+
+        .jumbotron-content-wrapper {
+            img {
+                width:20rem;
+            }
+
+            .jumbotron-slogan {
+                font-size:20pt;
+            }
+        }
+    }
+}
