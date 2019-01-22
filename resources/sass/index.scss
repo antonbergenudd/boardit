@@ -1,5 +1,16 @@
 .index {
     .index-box {
+        &.v-split {
+            @media(max-width: $mobile-bp) {
+                flex-direction: column;
+
+                .text-wrapper {
+                    width: 80%;
+                    padding: 2rem 0;
+                }
+            }
+        }
+
         .text-wrapper {
             width:40rem;
             padding:5rem;
@@ -16,7 +27,7 @@
 
         .popular-games-wrapper {
             display:flex;
-            flex-wrap:wrap; 
+            flex-wrap:wrap;
             padding:3rem 0;
         }
     }

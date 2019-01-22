@@ -1,6 +1,6 @@
 <div class="flex-center footer">
     <div class="links">
-        <a href="{{ url('/') }}">Home</a>
+        <a href="{{ url('/') }}">Hem</a>
         <a href="{{ url('/games') }}">Spel</a>
         <a href="{{ url('/about') }}">Om oss</a>
         <a href="{{ url('/policy') }}">Policy</a>
