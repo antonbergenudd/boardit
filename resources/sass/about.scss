@@ -1,4 +1,6 @@
 .about {
+    margin-top: 5rem;
+
     &-wrapper {
         &-text {
             text-align:left;
@@ -18,5 +20,9 @@
         @media(max-width:$mobile-bp) {
             flex-direction: column;
         }
+    }
+
+    @media(max-width:$mobile-bp) {
+        margin-top: 0;
     }
 }

@@ -1,6 +1,6 @@
 @extends('layouts.default')
 @section('content')
-    <div class="flex-center full-height about">
+    <div class="flex-center about">
         <div class="flex-center about-wrapper">
             <div class="about-wrapper-text">
                 <h1>Om mig</h1>

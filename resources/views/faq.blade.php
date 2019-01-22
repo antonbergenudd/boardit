@@ -1,6 +1,6 @@
 @extends('layouts.default')
 @section('content')
-    <div class="flex-center full-height faq">
+    <div class="flex-center faq">
         <h1>FAQ</h1>
         <div class="faq-text-wrapper">
             <h1>Vad händer om jag råkar skada spelet?</h1>
