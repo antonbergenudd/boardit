@@ -27,6 +27,20 @@ class MainController extends BaseController
         return view('about', compact('cart', 'cartTotal'));
     }
 
+    function faq() {
+        $cart = Cart::content();
+        $cartTotal = Cart::subTotal();
+
+        return view('faq', compact('cart', 'cartTotal'));
+    }
+
+    function policy() {
+        $cart = Cart::content();
+        $cartTotal = Cart::subTotal();
+
+        return view('policy', compact('cart', 'cartTotal'));
+    }
+
     function games() {
         $products = Product::all();
 

@@ -102,6 +102,7 @@
                         </div>
                     </div>
 
+                    <p>Läs igenom våran användar <a class="link" href="{{ route('policy') }}">policy</a> innan du betalar!</p>
                     <p class="link hide"
                         data-payment-card
                         data-stripe-pay

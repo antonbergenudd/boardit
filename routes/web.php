@@ -14,6 +14,8 @@
 Route::get('/', 'MainController@index');
 Route::get('/games', 'MainController@games')->name('games');
 Route::get('/about', 'MainController@about')->name('about');
+Route::get('/faq', 'MainController@faq')->name('faq');
+Route::get('/policy', 'MainController@policy')->name('policy');
 
 Route::prefix('cart')->name('cart.')->group(function() {
     Route::get('{product}/add', 'CartController@add')->name('add');
