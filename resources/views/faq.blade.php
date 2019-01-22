@@ -1,8 +1,8 @@
 @extends('layouts.default')
 @section('content')
-    <div class="flex-center" style="width:100%; height:100vh; flex-direction:column;">
+    <div class="flex-center full-height faq">
         <h1>FAQ</h1>
-        <div class="" style="width:70%;">
+        <div class="faq-text-wrapper">
             <h1>Vad händer om jag råkar skada spelet?</h1>
             <p>Beroende på skadans omfattning kan det motsvara allt ifrån inget alls till full omsättning av spelets orginal pris. Full ersättning kommer krävas om spelets skick inte är spelbart längre, dvs om det stör spelets ursprungliga logik.</p>
 

@@ -1,11 +1,11 @@
-<div class="cart" style="border-radius: 5%; box-shadow:-2px 2px 8px rgba(0,0,0,.3); position:fixed; right: 1rem; top: 4rem; background-color:white; padding:1rem;">
-    <a href="{{ route('cart.destroy') }}" style="position:absolute; top:1.3rem; right:1rem; text-decoration: none; color:red;">X</a>
+<div class="cart-floating">
+    <a class="cart-floating-close" href="{{ route('cart.destroy') }}">X</a>
 
-    <h2 style="margin:0;">Cart </h2>
+    <h2 class="cart-floating-title">Cart </h2>
 
     <hr>
 
-    <div class="" style="text-align:left; max-height:50vh; overflow:scroll;">
+    <div class="cart-floating-items-wrapper">
         @foreach($cart as $row)
             <div class="" style="display:flex; width:14rem;">
                 <h4 style="margin:0; flex:1;">{{ $row->name }}</h4>
