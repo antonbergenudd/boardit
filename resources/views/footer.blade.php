@@ -8,7 +8,7 @@
 
     <div class="footer-contact">
         <div class="footer-contact-info-wrapper">
-            <p>Boarditgames@gmail.com</p>
+            <p>support@boarditgames.se</p>
             <p>Boarditgames</p>
             <p>Duettgatan 4, 65636, Karlstad</p>
         </div>
