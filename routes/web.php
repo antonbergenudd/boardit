@@ -32,7 +32,9 @@ Route::prefix('payment')->name('payment.')->group(function () {
 
 Route::prefix('auth')->name('auth.')->middleware(['restrict', 'auth'])->group(function() {
     Route::get('orders', 'MainController@orders')->name('orders');
-    Route::get('{order}/confirm', 'MainController@confirmOrder')->name('confirm.order');
+    Route::get('user/{user}/confirm/order/{order}', 'MainController@confirmOrder')->name('confirm.order');
+    Route::post('employee/{user}/delivering', 'MainController@delivering')->name('delivering');
+
 });
 
 Auth::routes();

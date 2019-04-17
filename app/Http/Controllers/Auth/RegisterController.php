@@ -3,6 +3,7 @@
 namespace boardit\Http\Controllers\Auth;
 
 use boardit\User;
+use boardit\RegisterCode;
 use boardit\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -63,10 +64,29 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        $timeToLive = 10;
+        
+        $validCodes = RegisterCode::where('created_at', '<=', \Carbon\Carbon::now())
+            ->where('created_at', '>=', \Carbon\Carbon::now()->subMinute($timeToLive))
+            ->get();
+
+        foreach ($validCodes as $code) {
+            if(Hash::check($data['code'], $code->code)) {
+                $code->delete();
+
+                return User::create([
+                    'name' => $data['name'],
+                    'email' => $data['email'],
+                    'password' => Hash::make($data['password']),
+                ]);
+            }
+        }
+
+        // Remove all invalid codes
+        RegisterCode::where('created_at', '>', \Carbon\Carbon::now())
+            ->where('created_at', '<', \Carbon\Carbon::now()->subMinute($timeToLive))
+            ->delete();
+
+        return back();
     }
 }
