@@ -28,7 +28,7 @@ class ConfirmationMailable extends Mailable
      */
     public function build()
     {
-        return $this->from("boarditgames@gmail.com", 'Boardit')
+        return $this->from("boarditgames@gmail.com", 'Boarditgames')
             ->subject('Orderbekräftelse')
             ->view('emails.orderConfirmation')->with('order', $this->order);
     }

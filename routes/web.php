@@ -12,6 +12,7 @@
 */
 
 Route::get('/', 'MainController@index');
+
 Route::get('/games', 'MainController@games')->name('games');
 Route::get('/about', 'MainController@about')->name('about');
 Route::get('/faq', 'MainController@faq')->name('faq');
@@ -29,7 +30,9 @@ Route::prefix('payment')->name('payment.')->group(function () {
 
 });
 
-Route::prefix('auth')->name('auth.')->middleware('restrict')->group(function() {
+Route::prefix('auth')->name('auth.')->middleware(['restrict', 'auth'])->group(function() {
     Route::get('orders', 'MainController@orders')->name('orders');
     Route::get('{order}/confirm', 'MainController@confirmOrder')->name('confirm.order');
 });
+
+Auth::routes();

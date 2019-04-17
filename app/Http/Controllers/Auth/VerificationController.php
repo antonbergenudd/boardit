@@ -1,8 +1,8 @@
 <?php
 
-namespace boardit\Http\Controllers\Auth;
+namespace App\Http\Controllers\Auth;
 
-use boardit\Http\Controllers\Controller;
+use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\VerifiesEmails;
 
 class VerificationController extends Controller
@@ -25,7 +25,7 @@ class VerificationController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/auth/orders';
 
     /**
      * Create a new controller instance.
