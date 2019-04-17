@@ -15,6 +15,9 @@
         <a href="{{ route('games') }}">Spel</a>
         <a href="{{ route('faq') }}">FAQ</a>
         <a href="{{ route('about') }}">Om oss</a>
+        @if(Auth::check())
+            <a href="{{ route('auth.orders') }}"><b>Orders</b></a>
+        @endif
     </div>
 
     <div class="navbar-collapsed" id="nav-collapsed">
@@ -35,6 +38,9 @@
         <a class="navbar-collapsed-link" href="{{ route('faq') }}">FAQ</a>
         <hr class="navbar-collapsed-divider">
         <a class="navbar-collapsed-link" href="{{ route('about') }}">Om oss</a>
+        @if(Auth::check())
+            <a class="navbar-collapsed-link" href="{{ route('auth.orders') }}">Orders (auth)</a>
+        @endif
         <hr class="navbar-collapsed-divider">
 
     </div>

@@ -4,8 +4,10 @@ namespace boardit\Http\Controllers;
 
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\Request;
 use boardit\Product;
 use boardit\Order;
+use boardit\User;
 use boardit\Mail\ConfirmationMailable;
 use Cart;
 use Carbon\Carbon;
@@ -58,13 +60,21 @@ class MainController extends BaseController
         return view('auth.orders', compact('orders'));
     }
 
-    public function confirmOrder(Order $order) {
+    public function confirmOrder(User $user, Order $order) {
         $order->confirmed = 1;
+        $order->user_id = $user->id;
         $order->save();
 
         //$this->notifyThroughSms($order);
 
         $this->email($order);
+
+        return back();
+    }
+
+    public function delivering(User $user, Request $request) {
+        $user->delivering = $request->delivering;
+        $user->save();
 
         return back();
     }

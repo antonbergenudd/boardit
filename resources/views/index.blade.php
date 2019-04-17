@@ -13,6 +13,11 @@
         @include('modules.cart.floating')
     @endif
 
+    @if(! boardit\User::where('delivering', 1)->count())
+        <div class="index-box flex-center">
+            <h1 style="width:50rem;">Vi har tyvärr inga anställda som leverar vid detta tillfälle, du kan fortfarande kolla in våran shop</h1>
+        </div>
+    @else
     <div class="index-box">
         <h1>Populära spel</h1>
         <div class="popular-games-wrapper">
@@ -33,5 +38,6 @@
             <p>Efter det att du fått dina spel levererade till din dörr, har du upp till 24 timmar på dig att spela så mycket det bara går, sedan kommer ett bud att hämta upp spelen igen vid samma adress som avlämningen skedde på.</p>
         </div>
     </div>
+    @endif
 </div>
 @stop
