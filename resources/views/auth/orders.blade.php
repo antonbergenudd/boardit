@@ -1,6 +1,10 @@
 @extends('layouts.auth')
 @section('content')
     <div style="height:100vh; margin-top:5rem;">
+        <h1>Activity</h1>
+        <div class="" style="width:100%;">
+            <button type="button" name="button">Can deliver</button>
+        </div>
         <h1>List all orders</h1>
         <div class="" style="">
             <hr style="width:90%; opacity:.5;">
