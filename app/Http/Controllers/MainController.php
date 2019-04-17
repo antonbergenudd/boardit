@@ -8,6 +8,9 @@ use boardit\Product;
 use boardit\Order;
 use boardit\Mail\ConfirmationMailable;
 use Cart;
+use Carbon\Carbon;
+
+use Twilio\Rest\Client;
 
 class MainController extends BaseController
 {
@@ -59,13 +62,50 @@ class MainController extends BaseController
         $order->confirmed = 1;
         $order->save();
 
+        //$this->notifyThroughSms($order);
+
         $this->email($order);
 
         return back();
     }
 
     private function email($data) {
-        Mail::to($data->email)
-            ->send(new ConfirmationMailable($data));
+        try {
+            Mail::to($data->email)
+                ->send(new ConfirmationMailable($data));
+        } catch(\Exception $e) {
+            dd($e);
+        }
+    }
+
+    private function notifyThroughSms($order)
+    {
+        $this->sendSms(
+            $order->phone,
+            'Din order är bekräftad!' .
+            ' Referenskod: ' . $order->code .
+            ' Väntad leveranstid ' . Carbon::now('Europe/Stockholm')->addHours('1')->format('H:i') .
+            ' Mvh, Boarditgames. Tack för att ni hantlade hos oss!'
+        );
+    }
+
+    protected function sendSms($to, $message)
+    {
+        $accountSid = env('TWILIO_ACCOUNT_SID');
+        $authToken = env('TWILIO_AUTH_TOKEN');
+
+        $client = new Client($accountSid, $authToken);
+
+        try {
+            $client->messages->create(
+                $to,
+                [
+                    "body" => $message,
+                    "from" => env('TWILIO_NUMBER')
+                ]
+            );
+        } catch (TwilioException $e) {
+            echo  $e;
+        }
     }
 }
