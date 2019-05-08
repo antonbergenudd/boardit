@@ -1,5 +1,17 @@
 .index {
     .index-box {
+
+        &.info {
+            padding-top:4rem;
+            .text-wrapper {
+                padding: .5rem 0;
+
+                p {
+                    font-size: 12pt;
+                }
+            }
+        }
+
         &.v-split {
             @media(max-width: $mobile-bp) {
                 flex-direction: column;

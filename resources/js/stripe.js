@@ -1,5 +1,5 @@
 $(window).on("load",function() {
-    if($('#card')[0]) {
+    if($('#payment_form')[0]) {
         var handler = StripeCheckout.configure({
             key: $('[data-env]')[0].dataset.env ? 'pk_test_38fBm3VYGdVl0KiQ8xnutiP2' : 'pk_live_01fyhXs7K9kXx32qtNq1AA1j',
             image: '',
@@ -11,10 +11,10 @@ $(window).on("load",function() {
                 stripeToken.type = 'hidden';
                 stripeToken.name = 'stripeToken';
 
-                $('#card').append(stripeToken);
+                $('#payment_form').append(stripeToken);
 
                 //document.querySelector('.loading').style.display = 'flex';
-                $('#card').submit();
+                $('#payment_form').submit();
             }
         });
 

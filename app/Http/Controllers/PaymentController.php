@@ -42,6 +42,17 @@ class PaymentController extends BaseController
 
         $payment_ok = 0;
         if(strtolower($request->city) == 'karlstad') {
+
+            foreach(Cart::content() as $product) {
+                if($product->id == 15) {
+                    $order->collect = 1;
+                }
+
+                if($product->id == 16) {
+                    $order->deliver = 1;
+                }
+            }
+
             if(isset($request->payment_by_swish)) {
                 $order->code = $code;
                 $order->address = $request->street.', '.$request->postcode.', '.$request->city;
@@ -88,9 +99,13 @@ class PaymentController extends BaseController
                     $product = $row->model;
                     $orderToProduct = new ProductOrder;
 
-                    if($product->name == 'Random') {
+                    if($product->id == 14) {
                         $items = Product::where('quantity', '>=', 0)->get();
-                        $product = $items[array_rand($items->toArray())];
+                        do {
+                            $item_id = array_rand($items->toArray());
+                        } while($item_id == 14);
+
+                        $product = $items[$item_id];
                     }
 
                     $orderToProduct->product_id = $product->id;
@@ -105,6 +120,8 @@ class PaymentController extends BaseController
 
                     $orderToProduct->save();
                 }
+
+                Cart::destroy();
 
                 return back()->with([
                     'code' => $code,

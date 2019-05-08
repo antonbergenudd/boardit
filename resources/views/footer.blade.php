@@ -10,7 +10,7 @@
         <div class="footer-contact-info-wrapper">
             <p>support@boarditgames.se</p>
             <p>Boarditgames</p>
-            <p>Duettgatan 4, 65636, Karlstad</p>
+            <p>Jakthornsgatan 76E, 65632, Karlstad</p>
         </div>
     </div>
 </div>

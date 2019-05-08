@@ -2,6 +2,13 @@
 
 @section('content')
 <div class="index">
+    @if(! boardit\User::where('delivering', 1)->count())
+        <div class="index-box info flex-center bg-gray">
+            <div class="text-wrapper">
+                <p><b>Tyvärr</b> så finns där inga som kan leverera spel till dig förtillfället, återkom gärna någon annan dag eller kolla in vårat sortiment av spel!</p>
+            </div>
+        </div>
+    @endif
     <div class="index-box flex-center index-jumbotron">
         <div class="jumbotron-content-wrapper">
             <img src="{{ asset('img/logo.png') }}" alt="Boarditgames">
@@ -13,11 +20,6 @@
         @include('modules.cart.floating')
     @endif
 
-    @if(! boardit\User::where('delivering', 1)->count())
-        <div class="index-box flex-center">
-            <h1 style="width:50rem;">Vi har tyvärr inga anställda som leverar vid detta tillfälle, du kan fortfarande kolla in våran shop</h1>
-        </div>
-    @else
     <div class="index-box">
         <h1>Populära spel</h1>
         <div class="popular-games-wrapper">
@@ -30,14 +32,13 @@
     <div class="index-box flex-center bg-gray v-split">
         <div class="text-wrapper">
             <h1>Inom 1 timme</h1>
-            <p>Om din leverans inte kommer till dig inom 1 timme efter bekräftelse så får du låna spelet <b>gratis</b>! Denna garanti är satt pågrund av att kunna försäkra er om att ni blir erhållen bästa möjliga service.</p>
+            <p><b>Vid utkörning endast!</b> Om din leverans inte kommer till dig inom 1 timme efter bekräftelse så får du låna spelet <b>gratis</b>! Denna garanti är satt pågrund av att kunna försäkra er om att ni blir erhållen bästa möjliga service.</p>
         </div>
 
         <div class="text-wrapper">
             <h1>Upp till 24 timmar</h1>
-            <p>Efter det att du fått dina spel levererade till din dörr, har du upp till 24 timmar på dig att spela så mycket det bara går, sedan kommer ett bud att hämta upp spelen igen vid samma adress som avlämningen skedde på.</p>
+            <p><b>Vid upphämtning endast!</b> Efter det att du fått dina spel levererade till din dörr, har du upp till 24 timmar på dig att spela så mycket det bara går, sedan kommer ett bud att hämta upp spelen igen vid samma adress som avlämningen skedde på.</p>
         </div>
     </div>
-    @endif
 </div>
 @stop

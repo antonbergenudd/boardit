@@ -20,12 +20,14 @@
                 {{-- Display success --}}
                 @if(session()->has('code'))
                     <div class="payment-code">
-                        <h1>Din referens kod är</h1>
-                        <h3>{{ Session::get('code') }}</h3>
-                        <p>Använd denna kod om du har några funderingar runt din order</p>
-                        <p><b>Kontakta oss via</b></p>
-                        <p>boarditgames@gmail.com</p>
+                        <h1>Tack så mycket!</h1>
+                        <h3 style="margin:0;">Din referenskod är: <br> {{ Session::get('code') }}</h3>
+                        <p>Använd denna kod om du har några funderingar runt din order.</p>
+                        <p><b>Kontakta oss via</b>: <br> <b>boarditgames@gmail.com</b></p>
                         <p>Bekräftelse kommer skickas via sms samt email inom kort.</p>
+                        <h3>Har du inte beställt upphämtning?</h3>
+                        <p>Adress för återlämning är: <b>Jakthornsgatan 76E, 65632, Karlstad</b></p>.
+                        <p>Återlämning sker inom 24 timmar efter det att du fått spelet.</p>
                         <h2>Tack för att du handlade hos <b>Boardit</b>!</h2>
                     </div>
                 @else
@@ -103,18 +105,22 @@
                     <p>Läs igenom våran användar <a class="link" href="{{ route('policy') }}">policy</a> innan du betalar!</p>
 
                     <div class="actions">
-                        <p class="payment-form-submit-card link hide"
+                        <p class="payment-form-submit-card link hide @if($cartTotal == 0) lock-link @endif"
                             data-payment-card
+                            @if($cartTotal != 0)
                             data-stripe-pay
                             data-stripe-amount="{{$cartTotal}}"
+                            @endif
                             >
                             Betala
                         </p>
 
                         <button
                             data-payment-swish
+                            @if($cartTotal != 0)
                             type="submit"
-                            class="payment-form-submit-swish link hide"
+                            @endif
+                            class="payment-form-submit-swish link hide lock-link"
                             >
                             Skickat
                         </button>
@@ -126,7 +132,14 @@
         <div class="payment-divider"></div>
 
         <div class="payment-right">
-            @include('modules.cart.full')
+            <div style="height:80%;">
+                @include('modules.cart.full')
+            </div>
+
+            <div class="flex-center" style="height:20%;width:100%;display:flex;">
+                <a class="link" href="{{ route('cart.add', ['product' => 15]) }}" style="flex:1;">Lägg till upphämtning (30kr)</a>
+                <a class="link" href="{{ route('cart.add', ['product' => 16]) }}" style="flex:1;">Lägg till utkörning (30kr)</a>
+            </div>
         </div>
     </div>
 @endsection

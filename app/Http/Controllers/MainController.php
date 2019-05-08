@@ -2,6 +2,8 @@
 
 namespace boardit\Http\Controllers;
 
+use boardit\ProductOrder;
+
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
@@ -47,7 +49,7 @@ class MainController extends BaseController
     }
 
     function games() {
-        $products = Product::all();
+        $products = Product::where('show', 1)->get();
 
         $cart = Cart::content();
         $cartTotal = Cart::subTotal();
@@ -68,6 +70,20 @@ class MainController extends BaseController
         //$this->notifyThroughSms($order);
 
         $this->email($order);
+
+        return back();
+    }
+
+    public function returnOrder(User $user, Order $order) {
+        $relationships = ProductOrder::where('order_id', $order->id)->get();
+
+        foreach($relationships as $relation) {
+            $relation->product->quantity++;
+            $relation->product->save();
+        }
+
+        $order->returned = 1;
+        $order->save();
 
         return back();
     }
