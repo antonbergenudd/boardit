@@ -29,7 +29,6 @@ class CreateOrdersTable extends Migration
             $table->integer('deliver')->default(0);
             $table->integer('collect')->default(0);
             $table->integer('returned')->default(0);
-            $table->integer('quantity')->default(0);
         });
     }
 

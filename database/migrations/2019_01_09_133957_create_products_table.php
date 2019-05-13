@@ -22,6 +22,7 @@ class CreateProductsTable extends Migration
             $table->integer('price');
             $table->integer('show')->default(1);
             $table->integer('popular')->default(0);
+            $table->integer('quantity')->default(0);
         });
     }
 
