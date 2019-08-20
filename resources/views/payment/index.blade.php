@@ -135,11 +135,6 @@
             <div style="height:80%;">
                 @include('modules.cart.full')
             </div>
-
-            <div class="flex-center" style="height:20%;width:100%;display:flex;">
-                <a class="link" href="{{ route('cart.add', ['product' => 15]) }}" style="flex:1;">Lägg till upphämtning (30kr)</a>
-                <a class="link" href="{{ route('cart.add', ['product' => 16]) }}" style="flex:1;">Lägg till utkörning (30kr)</a>
-            </div>
         </div>
     </div>
 @endsection

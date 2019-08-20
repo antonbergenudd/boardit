@@ -12,7 +12,7 @@
     <div class="links top-right">
         <a href="{{ url('/') }}">Hem</a>
         @if(boardit\User::where('delivering', 1)->count())
-            <a href="{{ route('payment.index') }}">Checkout ({{$cart->count()}})</a>
+            <a href="{{ route('payment.index') }}">Beställ ({{$cart->count()}})</a>
         @endif
         <a href="{{ route('games') }}">Spel</a>
         <a href="{{ route('faq') }}">FAQ</a>

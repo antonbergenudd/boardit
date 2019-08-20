@@ -3,7 +3,7 @@
     <div class="flex-center about">
         <div class="flex-center about-wrapper">
             <div class="about-wrapper-text">
-                <h1>Om mig</h1>
+                {{-- <h1>Om </h1> --}}
                 <p>
                     Mitt namn är Anton Bergenudd och jag studerar på heltid på Karlstads universitet.
                     Utbildningen jag studerar till heter Civilingenjör datateknik och varar i 5 år, varav jag är inne på år 2.
