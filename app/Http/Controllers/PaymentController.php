@@ -53,6 +53,8 @@ class PaymentController extends BaseController
                 }
             }
 
+            $total = str_replace(".00", "", Cart::subTotal() + 30); // Addon för utkörning
+
             if(isset($request->payment_by_swish)) {
                 $order->code = $code;
                 $order->address = $request->street.', '.$request->postcode.', '.$request->city;
@@ -65,7 +67,6 @@ class PaymentController extends BaseController
 
                 $payment_ok = 1;
             } else if(isset($request->payment_by_card)) {
-                $total = str_replace(".00", "", Cart::subTotal());
                 $charge = Charge::create([
                     'amount' => $total * 100,
                     'currency' => 'sek',
@@ -79,7 +80,7 @@ class PaymentController extends BaseController
                     $order->address = $request->street.', '.$request->postcode.', '.$request->city;
                     $order->email = isset($request->email) ? $request->email : NULL;
                     $order->phone = isset($request->tel) ? $request->tel : NULL;
-                    $order->payment = $total;
+                    $order->payment = $total; // Addon för utkörning
                     $order->payment_type = 'card';
                     $order->note = $request->note;
                     $order->save();
