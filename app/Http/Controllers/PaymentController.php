@@ -41,7 +41,7 @@ class PaymentController extends BaseController
         $order = new Order;
 
         $payment_ok = 0;
-        if(strtolower($request->city) == 'karlstad') {
+        if(strtolower($request->city) == 'lund') {
 
             foreach(Cart::content() as $product) {
                 if($product->id == 15) {

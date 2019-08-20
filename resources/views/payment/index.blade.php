@@ -61,7 +61,7 @@
                         <h1>1231802255</h1>
                     </div>
 
-                    <h1>Kontakt uppgifter</h1>
+                    <h2>Kontakt uppgifter</h2>
                     <div class="payment-form-input-box">
                         <div class="input-box-wrapper">
                             <label for="tel">Telefonnummer</label>
@@ -72,33 +72,33 @@
                     <div class="payment-form-input-box">
                         <div class="input-box-wrapper">
                             <label for="tel">Email</label>
-                            <input type="text" name="email" placeholder="john@doe.com">
+                            <input type="text" name="email" placeholder="min@email.com">
                         </div>
                     </div>
 
-                    <h1>Adress</h1>
+                    <h2>Adress</h2>
                     <div class="payment-form-input-box">
                         <div class="input-box-wrapper">
                             <label for="address">Gata</label>
-                            <input type="text" name="street" placeholder="johndoe 99" required>
+                            <input type="text" name="street" placeholder="Bangatan 123" required>
                         </div>
                     </div>
 
                     <div class="payment-form-input-box">
                         <div class="input-box-wrapper">
                             <label for="address">Stad</label>
-                            <input type="text" name="city" placeholder="Karlstad" required>
+                            <input type="text" name="city" placeholder="Lund" required>
                         </div>
                         <div class="input-box-wrapper">
                             <label for="address">Postnummer</label>
-                            <input type="number" name="postcode" placeholder="65636" required>
+                            <input type="number" name="postcode" placeholder="222 21" required>
                         </div>
                     </div>
 
                     <div class="payment-form-input-box">
                         <div class="input-box-wrapper">
-                            <label for="note">Till leverans</label>
-                            <textarea name="note" rows="4" cols="80" placeholder="Övrigt"></textarea>
+                            <label for="note">Övriga anteckningar</label>
+                            <textarea name="note" rows="4" cols="80" placeholder="Text här.."></textarea>
                         </div>
                     </div>
 
@@ -108,8 +108,8 @@
                         <p class="payment-form-submit-card link hide @if($cartTotal == 0) lock-link @endif"
                             data-payment-card
                             @if($cartTotal != 0)
-                            data-stripe-pay
-                            data-stripe-amount="{{$cartTotal}}"
+                                data-stripe-pay
+                                data-stripe-amount="{{$cartTotal}}"
                             @endif
                             >
                             Betala
@@ -118,11 +118,11 @@
                         <button
                             data-payment-swish
                             @if($cartTotal != 0)
-                            type="submit"
+                                type="submit"
                             @endif
-                            class="payment-form-submit-swish link hide lock-link"
+                            class="payment-form-submit-swish link hide @if($cartTotal == 0) lock-link @endif"
                             >
-                            Skickat
+                            Swish utfört
                         </button>
                     </div>
                 </form>
