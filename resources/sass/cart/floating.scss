@@ -6,6 +6,12 @@
     top: 4rem;
     background-color:white;
     padding:1rem;
+    opacity: .4;
+    transition: all 150ms linear;
+
+    &:hover {
+        opacity: 1;
+    }
 
     @media(max-width: $mobile-bp) {
         display: none;
