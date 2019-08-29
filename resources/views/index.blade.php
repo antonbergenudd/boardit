@@ -16,9 +16,9 @@
         </div>
     </div>
 
-    @if(isset($cart) && $cart->first())
+    {{-- @if(isset($cart) && $cart->first())
         @include('modules.cart.floating')
-    @endif
+    @endif --}}
 
     <div class="index-box">
         <h1>Populära spel</h1>
@@ -31,8 +31,8 @@
 
     <div class="index-box flex-center bg-gray v-split">
         <div class="text-wrapper">
-            <h1>Inom 1 timme</h1>
-            <p><b>Vid utkörning endast!</b> Om din leverans inte kommer till dig inom 1 timme efter bekräftelse så får du låna spelet <b>gratis</b>! Denna garanti är satt pågrund av att kunna försäkra er om att ni blir erhållen bästa möjliga service.</p>
+            <h1>Inom 2 timmar</h1>
+            <p><b>Vid utkörning endast!</b> Om din leverans inte kommer till dig inom 2 timmar efter bekräftelse så får du låna spelet <b>gratis</b> i 24 timmar! Denna garanti är satt så att vi på boardit ska kunna försäkra er om att ni blir erhållen bästa möjliga service.</p>
         </div>
 
         <div class="text-wrapper">

@@ -8,8 +8,8 @@
         @endforeach
     </div>
 
-    @if(isset($cart) && $cart->first())
+    {{-- @if(isset($cart) && $cart->first())
         @include('modules.cart.floating')
-    @endif
+    @endif --}}
 </div>
 @stop

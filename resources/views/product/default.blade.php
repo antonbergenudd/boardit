@@ -7,15 +7,20 @@
 
     @if(boardit\User::where('delivering', 1)->count())
         @if($product->quantity)
-            @if(! \Cart::content()->where('id', $product->id)->count())
-                <div class="add_cart">
-                    <a class="link" href="{{ route('cart.add', ['product' => $product->id]) }}">Lägg till i korg</a>
+            <div class="add_cart">
+
+                <p data-cart-item-not-added="{{$product->id}}" class="link @if(\Cart::content()->where('id', $product->id)->count()) hide @endif" data-cart-add="{{ $product->id }}">Lägg till i kundvagn</p>
+
+                <div data-cart-item-added="{{$product->id}}" class="@if(! \Cart::content()->where('id', $product->id)->count()) hide @endif">
+                    <p>Produkt redan tillagd i kundvagn</p>
+
+                    <p class="link" data-cart-remove="{{ $product->id }}" style="margin:0;">
+                        Ta bort
+                    </p>
                 </div>
-            @else
-                <p>Produkt tillagd i korgen</p>
-            @endif
+            </div>
         @else
-            <p>Ej på lager</p>
+            <p>Finns ej på lager</p>
         @endif
     @else
         <p>Levererar ej för tillfället</p>

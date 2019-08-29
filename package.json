@@ -24,6 +24,7 @@
         "vue-template-compiler": "^2.5.21"
     },
     "dependencies": {
-        "dinero.js": "^1.5.0"
+        "dinero.js": "^1.5.0",
+        "material-design-icons": "^3.0.1"
     }
 }

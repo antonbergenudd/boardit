@@ -6,7 +6,7 @@
             <div class="pay-method flex-center" id="pay_method">
 
                 {{-- Display errors --}}
-                @if($errors->any())
+                {{-- @if($errors->any())
                     <div class="errors">
                         @foreach ($errors->all() as $error)
                             <div class="errors-wrapper">
@@ -15,7 +15,7 @@
                             </div>
                         @endforeach
                     </div>
-                @endif
+                @endif --}}
 
                 {{-- Display success --}}
                 @if(session()->has('code'))
@@ -65,14 +65,14 @@
                     <div class="payment-form-input-box">
                         <div class="input-box-wrapper">
                             <label for="tel">Telefonnummer</label>
-                            <input type="text" name="tel" placeholder="0700112233">
+                            <input type="number" name="tel" placeholder="0700112233" data-validate-required>
                         </div>
                     </div>
 
                     <div class="payment-form-input-box">
                         <div class="input-box-wrapper">
                             <label for="tel">Email</label>
-                            <input type="text" name="email" placeholder="min@email.com">
+                            <input type="email" name="email" placeholder="min@email.com" data-validate-required data-validate-email>
                         </div>
                     </div>
 
@@ -80,18 +80,18 @@
                     <div class="payment-form-input-box">
                         <div class="input-box-wrapper">
                             <label for="address">Gata</label>
-                            <input type="text" name="street" placeholder="Bangatan 123" required>
+                            <input type="text" name="street" placeholder="Bangatan 123" required data-validate-required>
                         </div>
                     </div>
 
                     <div class="payment-form-input-box">
                         <div class="input-box-wrapper">
                             <label for="address">Stad</label>
-                            <input type="text" name="city" placeholder="Lund" required>
+                            <input type="text" name="city" placeholder="Lund" required data-validate-required>
                         </div>
                         <div class="input-box-wrapper">
                             <label for="address">Postnummer</label>
-                            <input type="number" name="postcode" placeholder="222 21" required>
+                            <input type="text" name="postcode" placeholder="222 21" required data-validate-required>
                         </div>
                     </div>
 
@@ -102,12 +102,20 @@
                         </div>
                     </div>
 
-                    <p>Läs igenom våran användar <a class="link" href="{{ route('policy') }}">policy</a> innan du betalar!</p>
+                    <div class="payment-form-input-box">
+                        <div class="input-box-wrapper">
+                            <label for="user_consent">
+                                <input name="user_consent" type="checkbox" data-validate-checkbox>
+                                Läs igenom och godkänn våran användar <a class="link" href="{{ route('policy') }}">policy</a> innan du betalar!
+                            </label>
+                        </div>
+                    </div>
 
-                    <div class="actions">
-                        <p class="payment-form-submit-card link hide @if($cartTotal == 0) lock-link @endif"
+                    <div class="actions" data-validate-submit>
+                        @if($cartTotal > 0)
+                        <p class="payment-form-submit-card link hide"
                             data-payment-card
-                            @if($cartTotal != 0)
+                            @if($cartTotal > 0)
                                 data-stripe-pay
                                 data-stripe-amount="{{$cartTotal}}"
                             @endif
@@ -117,13 +125,16 @@
 
                         <button
                             data-payment-swish
-                            @if($cartTotal != 0)
+                            @if($cartTotal > 0)
                                 type="submit"
                             @endif
-                            class="payment-form-submit-swish link hide @if($cartTotal == 0) lock-link @endif"
+                            class="payment-form-submit-swish link hide"
                             >
                             Swish utfört
                         </button>
+                        @else
+                            <h4>Kundvagnen är tom</h4>
+                        @endif
                     </div>
                 </form>
             </div>

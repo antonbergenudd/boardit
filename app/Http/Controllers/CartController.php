@@ -27,7 +27,17 @@ class CartController extends BaseController
         return back();
     }
 
-    public function remove($rowId) {
+    public function removeById($id) {
+        $items = Cart::search(function($cartItem, $rowId) use ($id) {
+            return $cartItem->id == $id;
+        });
+
+        Cart::remove($items->first()->rowId);
+
+        return back();
+    }
+
+    public function removeByRowId($rowId) {
         Cart::remove($rowId);
 
         return back();

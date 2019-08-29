@@ -20,7 +20,8 @@ Route::get('/policy', 'MainController@policy')->name('policy');
 
 Route::prefix('cart')->name('cart.')->group(function() {
     Route::get('{product}/add', 'CartController@add')->name('add');
-    Route::get('{rowId}/remove', 'CartController@remove')->name('remove');
+    Route::get('{id}/remove', 'CartController@removeById')->name('remove');
+    Route::get('rowid/{rowId}/remove', 'CartController@removeByRowId')->name('remove.rowid');
     Route::get('destroy', 'CartController@destroy')->name('destroy');
 });
 

@@ -10,9 +10,9 @@
         <div class="stripe"></div>
     </div>
     <div class="links top-right">
-        <a href="{{ url('/') }}">Hem</a>
+        {{-- <a href="{{ url('/') }}">Hem</a> --}}
         @if(boardit\User::where('delivering', 1)->count())
-            <a href="{{ route('payment.index') }}">Beställ ({{$cart->count()}})</a>
+            <a href="{{ route('payment.index') }}">Beställ (<span data-cart-count>{{$cart->count()}}</span>)</a>
         @endif
         <a href="{{ route('games') }}">Spel</a>
         <a href="{{ route('faq') }}">FAQ</a>
