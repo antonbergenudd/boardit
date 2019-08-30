@@ -172,12 +172,14 @@ class MainController extends BaseController
             if ($response == 'ja') {
                 $body = 'Du har accepterat uppdraget.';
 
-                $user = User::where('phone', $to)->first();
-                Log::warning($to);
+                // Provides: <body text='black'>
+                $nr = str_replace($to, "+46", "0");
+                $user = User::where('phone', $nr)->first();
+                Log::warning($nr);
 
                 $messages = $client->messages->read(array(), 20);
-                Log::warning($messages);
-                preg_match('/referenskod:\s[0-9a-zA-Z]*/', $messages[0]->body, $matches, PREG_OFFSET_CAPTURE);
+                Log::warning($messages[0]);
+                preg_match('/referenskod:\s[0-9a-zA-Z]*/', $messages[0]->body, $matches);
                 Log::warning($matches);
                 $code = explode("referenskod: ", $matches[0]);
 
