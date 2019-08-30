@@ -169,11 +169,8 @@ class MainController extends BaseController
         ** Choose the correct message response and set default to false.
         */
         if ($response == 'ja') {
-            $body = 'Du har accepterat uppdraget.';
 
-            $nr = str_replace("+46", "0", $to);
-            $user = User::where('phone', $nr)->first();
-
+            // Retrieve old messages to get last sent code
             $messages = $client->messages->read(array(), 20);
             foreach ($messages as $i => $record) {
                 if(strpos($record->body, 'Referenskod') !== false) {
@@ -183,17 +180,24 @@ class MainController extends BaseController
                 }
             }
 
-            Log::warning($code);
-
+            // Retrieve order from DB
             $order = Order::where('code', $code)->first();
 
-            $this->confirmOrder($user, $order);
+            // Check if already confirmed
+            if(!$order->confirmed) {
+                $body = 'Du har accepterat uppdraget.';
+
+                $nr = str_replace("+46", "0", $to);
+                $user = User::where('phone', $nr)->first();
+
+                $this->confirmOrder($user, $order);
+            } else {
+                $body = 'Uppdraget är redan taget.';
+            }
 
             $sendDefault = false;
         }
 
-        Log::warning($from);
-        Log::warning($to);
         // Send the correct response message.
         if ($sendDefault != false) {
             $client->messages->create(
