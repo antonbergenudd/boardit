@@ -162,7 +162,7 @@ class MainController extends BaseController
         */
         $response = preg_replace("/[^A-Za-z0-9]/u", " ", $body);
         $response = trim($response);
-        $response = strtolower($result);
+        $response = strtolower($response);
         $sendDefault = true; // Default message is sent unless key word is found in following loop.
 
         /*
