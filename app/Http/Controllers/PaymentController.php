@@ -157,7 +157,7 @@ class PaymentController extends BaseController
 
         $client = new Client($accountSid, $authToken);
 
-        foreach(User::all() as $employee) {
+        foreach(User::where('delivering', 1)->get() as $employee) {
             if($employee->phone != 0) {
                 try {
                     $client->messages->create(
