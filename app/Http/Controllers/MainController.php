@@ -168,31 +168,28 @@ class MainController extends BaseController
         /*
         ** Choose the correct message response and set default to false.
         */
-        // foreach ($responseMessages as $i => $messages) {
-            if ($response == 'ja') {
-                $body = 'Du har accepterat uppdraget.';
+        if ($response == 'ja') {
+            $body = 'Du har accepterat uppdraget.';
 
-                // Provides: <body text='black'>
-                $nr = str_replace("+46", "0", $to);
-                $user = User::where('phone', $nr)->first();
+            $nr = str_replace("+46", "0", $to);
+            $user = User::where('phone', $nr)->first();
 
-                $messages = $client->messages->read(array(), 20);
-                // foreach ($messages as $record) {
-                //     Log::warning($record->body);
-                //     Log::warning($record->sid);
-                // }
-                preg_match('/referenskod:\s[0-9a-zA-Z]*/', $messages[1]->body, $matches);
-                Log::warning($matches);
-                $code = explode("referenskod: ", $matches[0]);
-
-                Log::warning($code);
-                $order = Order::where('code', $code)->first();
-
-                $this->confirmOrder($user, $order);
-
-                $sendDefault = false;
+            $messages = $client->messages->read(array(), 20);
+            foreach ($messages as $i => $record) {
+                if($i == 1) {
+                    preg_match('/referenskod:\s[0-9a-zA-Z]*/', $messages[1]->body, $matches);
+                    Log::warning($matches);
+                    $code = explode("referenskod: ", $matches[0]);
+                }
             }
-        // }
+
+            Log::warning($code);
+            $order = Order::where('code', $code)->first();
+
+            $this->confirmOrder($user, $order);
+
+            $sendDefault = false;
+        }
 
         // Send the correct response message.
         if ($sendDefault != false) {
