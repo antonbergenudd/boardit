@@ -18,7 +18,7 @@ Route::get('/about', 'MainController@about')->name('about');
 Route::get('/faq', 'MainController@faq')->name('faq');
 Route::get('/policy', 'MainController@policy')->name('policy');
 
-Route::get('/sms/reply', 'MainController@receiveSms')->name('sms.reply');
+Route::post('/sms/reply', 'MainController@receiveSms')->name('sms.reply');
 
 Route::prefix('cart')->name('cart.')->group(function() {
     Route::get('{product}/add', 'CartController@add')->name('add');
