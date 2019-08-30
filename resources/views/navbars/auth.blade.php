@@ -1,6 +1,8 @@
 <div class="navbar">
     <div class="left">
-        <img class="logo-img" src="{{ asset('img/logo.png') }}" alt="Boarditgames logo">
+        <a href="{{ url('/') }}">
+            <img class="logo-img" src="{{ asset('img/logo.png') }}" alt="Boarditgames logo">
+        </a>
     </div>
     <div class="links top-right">
         <a href="{{ url('/') }}">Hem</a>
