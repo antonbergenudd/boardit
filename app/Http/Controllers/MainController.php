@@ -168,7 +168,7 @@ class MainController extends BaseController
         /*
         ** Choose the correct message response and set default to false.
         */
-        foreach ($responseMessages as $i => $messages) {
+        // foreach ($responseMessages as $i => $messages) {
             if ($response == 'ja') {
                 $body = 'Du har accepterat uppdraget.';
 
@@ -186,7 +186,7 @@ class MainController extends BaseController
 
                 $sendDefault = false;
             }
-        }
+        // }
 
         // Send the correct response message.
         if ($sendDefault != false) {
