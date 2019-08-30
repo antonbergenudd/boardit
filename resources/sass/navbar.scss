@@ -17,6 +17,7 @@
         transition: 200ms ease-in;
         display: flex;
         flex-direction: column;
+        overflow: auto;
 
         &-title {
             padding: 2rem;

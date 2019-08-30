@@ -41,6 +41,7 @@
         <hr class="navbar-collapsed-divider">
         <a class="navbar-collapsed-link" href="{{ route('about') }}">Om oss</a>
         @if(Auth::check())
+            <hr class="navbar-collapsed-divider">
             <a class="navbar-collapsed-link" href="{{ route('auth.orders') }}">Orders (auth)</a>
         @endif
         <hr class="navbar-collapsed-divider">
