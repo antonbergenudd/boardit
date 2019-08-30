@@ -6,6 +6,11 @@
             text-align:left;
             padding:5rem;
             width:20rem;
+
+            @media(max-width:$mobile-bp) {
+                margin: 2rem;
+                padding:0;
+            }
         }
 
         &-image {

@@ -5,5 +5,9 @@
 
     .faq-text-wrapper {
         width:50%;
+
+        @media(max-width:$mobile-bp) {
+            width: 90%;
+        }
     }
 }
