@@ -20,15 +20,20 @@
                 {{-- Display success --}}
                 @if(session()->has('code'))
                     <div class="payment-code">
-                        <h1>Tack så mycket!</h1>
-                        <h3 style="margin:0;">Din referenskod är: <br> {{ Session::get('code') }}</h3>
-                        <p>Använd denna kod om du har några funderingar runt din order.</p>
-                        <p><b>Kontakta oss via</b>: <br> <b>boarditgames@gmail.com</b></p>
-                        <p>Bekräftelse kommer skickas via sms samt email inom kort.</p>
-                        <h3>Har du inte beställt upphämtning?</h3>
-                        <p>Adress för återlämning är: <b>Jakthornsgatan 76E, 65632, Karlstad</b></p>.
-                        <p>Återlämning sker inom 24 timmar efter det att du fått spelet.</p>
-                        <h2>Tack för att du handlade hos <b>Boardit</b>!</h2>
+                        <div class="" style="text-align:center;">
+                            <i class="material-icons" style="font-size:50pt; color:#90EE90;">check_circle</i>
+                            <h4 style="margin:0;">referenskod</h4>
+                            <h2 style="margin-top:0;">{{ Session::get('code') }}</h2>
+                        </div>
+
+                        <p style="margin:0;">Använd denna kod om du har några funderingar runt din order. <br> Bekräftelse kommer skickas via sms samt email inom kort.</p>
+
+                        <h2 style="margin-bottom:.5rem;">Har du inte beställt upphämtning?</h2>
+                        <p style="margin:0;">Återlämning sker inom 24 timmar efter det att du fått spelet.</p>
+                        <p style="margin:0;">Adress för återlämning: <b>Vikingavägen 16b, 224 77, Lund</b></p>.
+                        <br>
+                        <br>
+                        <h2>Tack för att du handlade hos på <b>Boardit</b>!</h2>
                     </div>
                 @else
                     {{-- Select pay method --}}
@@ -87,7 +92,7 @@
                     <div class="payment-form-input-box">
                         <div class="input-box-wrapper">
                             <label for="address">Stad</label>
-                            <input type="text" name="city" placeholder="Lund" required data-validate-required>
+                            <input type="text" name="city" value="Lund" required data-validate-required data-validate-city readonly>
                         </div>
                         <div class="input-box-wrapper">
                             <label for="address">Postnummer</label>
@@ -117,7 +122,7 @@
                             data-payment-card
                             @if($cartTotal > 0)
                                 data-stripe-pay
-                                data-stripe-amount="{{$cartTotal}}"
+                                data-stripe-amount="{{ $cartTotal + 30 }}"
                             @endif
                             >
                             Betala
