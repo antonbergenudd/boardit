@@ -24,11 +24,11 @@ class PaymentSubmitRequest extends FormRequest
     public function rules()
     {
         return [
-            'street' => 'required',
-            'postcode' => 'required|digits:5',
-            'city' => 'required',
-            'tel' => 'required_without:email',
-            'email' => 'required_without:tel',
+            // 'street' => 'required',
+            // 'postcode' => 'required|digits:5',
+            // 'city' => 'required',
+            // 'tel' => 'required_without:email',
+            // 'email' => 'required_without:tel',
         ];
     }
 }
