@@ -14,6 +14,8 @@ use boardit\Mail\ConfirmationMailable;
 use Cart;
 use Carbon\Carbon;
 
+use Illuminate\Support\Facades\Log;
+
 use Twilio\Rest\Client;
 
 class MainController extends BaseController
