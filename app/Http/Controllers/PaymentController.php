@@ -158,16 +158,18 @@ class PaymentController extends BaseController
         $client = new Client($accountSid, $authToken);
 
         foreach(User::all() as $employee) {
-            try {
-                $client->messages->create(
-                    $employee->phone,
-                    [
-                        "body" => $message,
-                        "from" => env('TWILIO_NUMBER')
-                    ]
-                );
-            } catch (TwilioException $e) {
-                echo  $e;
+            if($employee->phone != 0) {
+                try {
+                    $client->messages->create(
+                        $employee->phone,
+                        [
+                            "body" => $message,
+                            "from" => env('TWILIO_NUMBER')
+                        ]
+                    );
+                } catch (TwilioException $e) {
+                    echo  $e;
+                }
             }
         }
     }
