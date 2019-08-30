@@ -181,7 +181,7 @@ class MainController extends BaseController
                     Log::warning($record->body);
                     preg_match('/referenskod:\s[0-9a-zA-Z]*/', $record->body, $matches);
                     Log::warning($matches);
-                    $code = explode("referenskod: ", $matches[0]);
+                    $code = explode("Referenskod: ", $matches[0]);
                     break;
                 }
             }
