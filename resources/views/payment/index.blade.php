@@ -49,8 +49,12 @@
                             <div class="divider-line"></div>
                         </div>
 
-                        <div class="payment-select-swish flex-center">
+                        {{-- <div class="payment-select-swish flex-center" >
                             <p class="link" data-pay-method="swish">Swish</p>
+                        </div> --}}
+
+                        <div class="payment-select-swish flex-center" style="cursor:not-allowed;" >
+                            <p>Swish</p>
                         </div>
 
                     </div>
