@@ -137,6 +137,8 @@ class MainController extends BaseController
 
     public function receiveSms()
     {
+        Log::warning($_REQUEST);
+
         $accountSid = env('TWILIO_ACCOUNT_SID');
         $authToken = env('TWILIO_AUTH_TOKEN');
 
@@ -181,6 +183,8 @@ class MainController extends BaseController
         ** Choose the correct message response and set default to false.
         */
         foreach ($responseMessages as $animal => $messages) {
+            Log::warning($animal);
+            Log::warning($messages);
             if ($animal == $result) {
                 $body = $messages['body'];
                 $media = $messages['media'];
@@ -203,7 +207,7 @@ class MainController extends BaseController
                 array(
                     'from' => $from,
                     'body' => $body,
-                    'mediaUrl' => $media,
+                    // 'mediaUrl' => $media,
                 )
             );
         }
