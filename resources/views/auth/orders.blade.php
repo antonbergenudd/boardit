@@ -72,7 +72,7 @@
                             @if($order->confirmed)
                                 <p>{{$order->confirmedBy->name}}</p>
                             @else
-                                <p>false</p>
+                                <p>ingen</p>
                             @endif
                     </div>
                     @if(!$order->confirmed)
