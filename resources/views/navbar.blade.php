@@ -33,7 +33,7 @@
         <hr class="navbar-collapsed-divider">
         <a class="navbar-collapsed-link" href="{{ url('/') }}">Hem</a>
         <hr class="navbar-collapsed-divider">
-        <a class="navbar-collapsed-link" href="{{ route('payment.index') }}">Checkout ({{$cart->count()}})</a>
+        <a class="navbar-collapsed-link" href="{{ route('payment.index') }}">Checkout (<span data-cart-count>{{$cart->count()}}</span>)</a>
         <hr class="navbar-collapsed-divider">
         <a class="navbar-collapsed-link" href="{{ route('games') }}">Spel</a>
         <hr class="navbar-collapsed-divider">
