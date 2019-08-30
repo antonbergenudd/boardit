@@ -175,7 +175,7 @@ class MainController extends BaseController
                 $user = User::where('phone', $from)->first();
                 Log::warning($from);
 
-                $messages = $twilio->messages->read(array(), 20);
+                $messages = $client->messages->read(array(), 20);
                 preg_match('/referenskod:\s[0-9a-zA-Z]*/', $messages[0]->body, $matches, PREG_OFFSET_CAPTURE);
                 $code = explode("referenskod: ", $matches[0]);
 
