@@ -122,6 +122,8 @@ class PaymentController extends BaseController
                     $orderToProduct->save();
                 }
 
+                $this->notifyThroughSms($order);
+
                 Cart::destroy();
 
                 return back()->with([
@@ -132,6 +134,38 @@ class PaymentController extends BaseController
             return back()->withErrors([
                 'Tyvärr kör vi inte ut till din stad just nu, oroa dig inte, ingen betalning har utförts.'
             ]);
+        }
+    }
+
+    private function notifyThroughSms($order)
+    {
+        $this->sendSms(
+            'En order har skapats!' .
+            ' Referenskod: ' . $order->code .
+            ' Adress: ' . $order->address .
+            ' Svara med JA för att bekräfta order'
+        );
+    }
+
+    protected function sendSms($message)
+    {
+        $accountSid = env('TWILIO_ACCOUNT_SID');
+        $authToken = env('TWILIO_AUTH_TOKEN');
+
+        $client = new Client($accountSid, $authToken);
+
+        foreach(User::all() as $employee) {
+            try {
+                $client->messages->create(
+                    $employee->phone,
+                    [
+                        "body" => $message,
+                        "from" => env('TWILIO_NUMBER')
+                    ]
+                );
+            } catch (TwilioException $e) {
+                echo  $e;
+            }
         }
     }
 }
