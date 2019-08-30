@@ -177,10 +177,8 @@ class MainController extends BaseController
             $messages = $client->messages->read(array(), 20);
             foreach ($messages as $i => $record) {
                 if(strpos($record->body, 'Referenskod') !== false) {
-                    Log::warning($record->body);
                     preg_match('/Referenskod:\s[0-9a-zA-Z]*/', $record->body, $matches);
-                    Log::warning($matches);
-                    $code = explode("Referenskod: ", $matches[0]);
+                    $code = explode("Referenskod: ", $matches[1]);
                     break;
                 }
             }
