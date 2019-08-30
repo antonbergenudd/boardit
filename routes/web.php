@@ -18,6 +18,8 @@ Route::get('/about', 'MainController@about')->name('about');
 Route::get('/faq', 'MainController@faq')->name('faq');
 Route::get('/policy', 'MainController@policy')->name('policy');
 
+Route::get('/sms/reply', 'MainController@receiveSms')->name('sms.reply');
+
 Route::prefix('cart')->name('cart.')->group(function() {
     Route::get('{product}/add', 'CartController@add')->name('add');
     Route::get('{id}/remove', 'CartController@removeById')->name('remove');
@@ -36,7 +38,6 @@ Route::prefix('auth')->name('auth.')->middleware(['auth'])->group(function() {
     Route::get('user/{user}/confirm/order/{order}', 'MainController@confirmOrder')->name('confirm.order');
     Route::get('user/{user}/return/order/{order}', 'MainController@returnOrder')->name('return.order');
     Route::post('employee/{user}/delivering', 'MainController@delivering')->name('delivering');
-
 });
 
 Auth::routes();

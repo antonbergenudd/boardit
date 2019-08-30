@@ -135,7 +135,7 @@ class MainController extends BaseController
         }
     }
 
-    protected function receiveSms($to, $message)
+    public function receiveSms()
     {
         $accountSid = env('TWILIO_ACCOUNT_SID');
         $authToken = env('TWILIO_AUTH_TOKEN');

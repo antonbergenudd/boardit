@@ -8,6 +8,7 @@ use boardit\Http\Requests\PaymentSubmitRequest;
 use Illuminate\Routing\Controller as BaseController;
 
 use boardit\Product;
+use boardit\User;
 
 use Illuminate\Http\Request;
 
@@ -16,6 +17,8 @@ use boardit\Order;
 
 use Stripe\Charge;
 use Stripe\Stripe;
+
+use Twilio\Rest\Client;
 
 // https://github.com/Crinsane/LaravelShoppingcart#usage
 // https://github.com/stripe/stripe-php
