@@ -11,6 +11,9 @@
 
             <h1>Går det att köpa ut spel?</h1>
             <p>Ja. Känner ni att spelet du spelade var väldigt roligt, eller bara inte vill lämna tillbaka det, så finns det möjlighet att köpa ut spelet. Kontakta boarditgames@gmail.com för pris.</p>
+
+            <h1>Var ska jag lämna tillbaka spelet?</h1>
+            <p>Vi har våra spel på adressen <b>Vikingavägen 16B, 224 77, Lund</b>. Dit ska man åka och sedan ringa på hos Andreas Hellström som möter er och tar emot spelen</p>
         </div>
     </div>
 @stop
