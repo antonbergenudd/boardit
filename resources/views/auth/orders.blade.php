@@ -46,21 +46,23 @@
                     </div>
                     @endif
                     <div class="" style="flex:1; min-width:10rem;">
-                        <h4>Leverering</h4>
+                        <h4>Upphämtning</h4>
                         <p>
-                        @if($order->deliver)
+                        {{-- @if($order->deliver)
                             Utkörning
-                        @endif
-                        @if($order->collect && $order->deliver)
+                        @endif --}}
+                        {{-- @if($order->collect && $order->deliver)
                             &
-                        @endif
+                        @endif --}}
                         @if($order->collect)
-                            Upphämtning
+                            Ja
+                        @else
+                            Nej
                         @endif
 
-                        @if(!$order->collect && !$order->deliver)
+                        {{-- @if(!$order->collect && !$order->deliver)
                             N/A
-                        @endif
+                        @endif --}}
                         </p>
                     </div>
                     <div class="" style="flex:1;">
