@@ -12,11 +12,19 @@ $(window).on('load', () => {
     $('[data-validate-checkbox]').each((index, el) => {
         $(el).on('click', checkbox);
     })
+
+    $('[data-validate-city]').each((index, el) => {
+        $(el).on('input', city);
+    })
 })
 
 function validateEmail(el) {
     var emailRegex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     return emailRegex.test(el.value)
+}
+
+function validateCity(el) {
+    return el.value.toLowerCase() == 'lund';
 }
 
 function validateRequired(el) {
@@ -29,6 +37,16 @@ function validateCheckbox(el) {
 
 function required(e) {
     if(! validateRequired(e.target)) {
+        setInputInvalid(e.target);
+    } else {
+        setInputValid(e.target);
+    }
+
+    checkValid();
+}
+
+function city(e) {
+    if(! validateCity(e.target)) {
         setInputInvalid(e.target);
     } else {
         setInputValid(e.target);
@@ -83,6 +101,12 @@ function checkValid() {
 
     $('[data-validate-checkbox]').each((index, el) => {
         if(! validateCheckbox(el)) {
+            unlock = false;
+        }
+    })
+
+    $('[data-validate-city]').each((index, el) => {
+        if(! validateCity(el)) {
             unlock = false;
         }
     })
