@@ -183,6 +183,8 @@ class MainController extends BaseController
                 }
             }
 
+            Log::warning($code);
+
             $order = Order::where('code', $code)->first();
 
             $this->confirmOrder($user, $order);
