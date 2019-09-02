@@ -3,7 +3,7 @@
 @section('content')
 <div class="index">
     @if(! boardit\User::where('delivering', 1)->count())
-        <div class="index-box info flex-center bg-gray">
+        <div class="index-box info flex-center bg-project">
             <div class="text-wrapper">
                 <p><b>Tyvärr</b> så finns där inga som kan leverera spel till dig förtillfället, återkom gärna någon annan dag eller kolla in vårat sortiment av spel!</p>
             </div>
@@ -12,7 +12,7 @@
     <div class="index-box flex-center index-jumbotron">
         <div class="jumbotron-content-wrapper">
             <img src="{{ asset('img/logo.png') }}" alt="Boarditgames">
-            <p class="jumbotron-slogan">Rent it. Board it. Enjoy it.</p>
+            <p class="jumbotron-slogan">Rent it. <span class="font-project">Board it.</span> Enjoy it.</p>
         </div>
     </div>
 

@@ -71,17 +71,21 @@ html, body {
     background-color:rgba(0,0,0,.1);
 }
 
+.font-project {
+    color: $project-color;
+}
+
 .bg-project {
-    // color: white;
+    color: white;
     background-color: $project-color;
 
     &-light {
-        // color: white;
+        color: white;
         background-color: $project-color-light;
     }
 
     &-dark {
-        // color: white;
+        color: white;
         background-color: $project-color-dark;
     }
 }

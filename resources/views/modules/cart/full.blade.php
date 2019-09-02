@@ -28,6 +28,6 @@
 
     <div class="" style="width:100%; background-color:white;">
         <p style="margin:0;">Leveransavgift: 30.00 kr</p>
-        <h1 style="margin:0;"><b>Totalt</b>: {{ $cartTotal + 30 }} kr</h1>
+        <h1 style="margin:0;"><b>Totalt</b>: <span class="font-project">{{ $cartTotal + 30 }}</span> kr</h1>
     </div>
 </div>

@@ -20,7 +20,7 @@
                 </div>
             </div>
         @else
-            <p>Finns ej på lager</p>
+            <p>Tillfälligt slut</p>
         @endif
     @else
         <p>Levererar ej för tillfället</p>
