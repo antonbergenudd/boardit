@@ -29,7 +29,7 @@
         </div>
     </div>
 
-    <div class="index-box flex-center bg-gray v-split">
+    <div class="index-box flex-center bg-project-light v-split">
         <div class="text-wrapper">
             <h1>Inom 2 timmar</h1>
             <p><b>Vid utkörning endast!</b> Om din leverans inte kommer till dig inom 2 timmar efter bekräftelse så får du låna spelet <b>gratis</b> i 24 timmar! Denna garanti är satt så att vi på boardit ska kunna försäkra er om att ni blir erhållen bästa möjliga service.</p>

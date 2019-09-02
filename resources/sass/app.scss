@@ -70,3 +70,18 @@ html, body {
 .bg-gray {
     background-color:rgba(0,0,0,.1);
 }
+
+.bg-project {
+    // color: white;
+    background-color: $project-color;
+
+    &-light {
+        // color: white;
+        background-color: $project-color-light;
+    }
+
+    &-dark {
+        // color: white;
+        background-color: $project-color-dark;
+    }
+}
