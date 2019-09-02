@@ -103,8 +103,10 @@ class PaymentController extends BaseController
                     $product = $row->model;
                     $orderToProduct = new ProductOrder;
 
+                    // Random product
                     if($product->id == 14) {
                         $items = Product::where('quantity', '>=', 0)->get();
+                        
                         do {
                             $item_id = array_rand($items->toArray());
                         } while($item_id == 14);
