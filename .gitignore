@@ -11,3 +11,4 @@ yarn-error.log
 /ssl_cert
 public/css/*
 public/js/*
+/logga

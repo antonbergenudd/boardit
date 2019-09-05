@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>Boardit</title>
+        <link rel="shortcut icon" type="image/png" href="{{ asset('img/favicon.png') }}"/>
 
         <!-- Style -->
         <link href="{!! asset('css/app.css') !!}" rel="stylesheet" type="text/css">
