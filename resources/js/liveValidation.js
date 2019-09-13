@@ -16,7 +16,27 @@ $(window).on('load', () => {
     $('[data-validate-city]').each((index, el) => {
         $(el).on('input', city);
     })
+
+    $('[data-validate-discount]').each((index, el) => {
+        $(el).on('input', discount);
+    })
 })
+
+async function validateDiscount(el) {
+    return $.ajax({
+        url: '/check/discount',
+        type: 'post',
+        data: {
+            code: el.value
+        },
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        success: function (data) {
+            return data;
+        }
+    });
+}
 
 function validateEmail(el) {
     var emailRegex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
@@ -43,6 +63,23 @@ function required(e) {
     }
 
     checkValid();
+}
+
+async function discount(e) {
+    let test = await validateDiscount(e.target).then((amount) => {
+        if(! amount) {
+            setInputInvalid(e.target);
+            e.target.dataset.discount = 0;
+            $('input[name="discount_amount"]').val(0);
+            $('[data-discount-number]').parent().addClass('hide');
+            $('[data-discount-number]').text(0);
+        } else {
+            setInputValid(e.target);
+            $('input[name="discount_amount"]').val(amount);
+            $('[data-discount-number]').parent().removeClass('hide');
+            $('[data-discount-number]').text(amount);
+        }
+    });
 }
 
 function city(e) {

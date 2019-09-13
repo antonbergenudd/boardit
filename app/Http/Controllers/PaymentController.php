@@ -2,6 +2,7 @@
 
 namespace boardit\Http\Controllers;
 
+use boardit\DiscountCode;
 use boardit\ProductOrder;
 use boardit\Http\Requests\PaymentSubmitRequest;
 
@@ -29,6 +30,37 @@ class PaymentController extends BaseController
         $cartTotal = Cart::subtotal();
 
         return view('payment.index', compact('cart', 'cartTotal'));
+    }
+
+    function checkDiscount($discount_code, $total) {
+        if($discount_code) {
+            $code = DiscountCode::where('code', $discount_code)->first();
+
+            if(isset($code)) {
+                $total = $total * ($code->amount / 100);
+            }
+        }
+
+        return $total;
+    }
+
+    function controlDiscount(Request $request) {
+        $code = $request->code;
+
+        if($code) {
+            $code = DiscountCode::where('code', $code)->first();
+
+            if(isset($code)) {
+                return $code->amount;
+            }
+        }
+
+        return null;
+    }
+
+    function removeDiscountCode($discount_code) {
+        $code = DiscountCode::where('code', $discount_code)->first();
+        $code->delete();
     }
 
     function submit(PaymentSubmitRequest $request) {
@@ -63,7 +95,7 @@ class PaymentController extends BaseController
                 $order->address = $request->street.', '.$request->postcode.', '.$request->city;
                 $order->email = isset($request->email) ? $request->email : NULL;
                 $order->phone = isset($request->tel) ? $request->tel : NULL;
-                $order->payment = $total;
+                $order->payment = $this->checkDiscount($request->discount_code, $total);
                 $order->payment_type = 'swish';
                 $order->note = $request->note;
                 $order->save();
@@ -71,7 +103,7 @@ class PaymentController extends BaseController
                 $payment_ok = 1;
             } else if(isset($request->payment_by_card)) {
                 $charge = Charge::create([
-                    'amount' => $total * 100,
+                    'amount' => $this->checkDiscount($request->discount_code, $total) * 100,
                     'currency' => 'sek',
                     'description' => 'Beställning av spel',
                     'source' => $request->stripeToken,
@@ -83,7 +115,7 @@ class PaymentController extends BaseController
                     $order->address = $request->street.', '.$request->postcode.', '.$request->city;
                     $order->email = isset($request->email) ? $request->email : NULL;
                     $order->phone = isset($request->tel) ? $request->tel : NULL;
-                    $order->payment = $total; // Addon för utkörning
+                    $order->payment = $this->checkDiscount($request->discount_code, $total); // Addon för utkörning
                     $order->payment_type = 'card';
                     $order->note = $request->note;
                     $order->save();
@@ -106,7 +138,7 @@ class PaymentController extends BaseController
                     // Random product
                     if($product->id == 14) {
                         $items = Product::where('quantity', '>=', 0)->get();
-                        
+
                         do {
                             $item_id = array_rand($items->toArray());
                         } while($item_id == 14);
@@ -128,6 +160,10 @@ class PaymentController extends BaseController
                 }
 
                 $this->notifyThroughSms($order);
+
+                if($request->discount_code) {
+                    $this->removeDiscountCode($request->discount_code);
+                }
 
                 Cart::destroy();
 

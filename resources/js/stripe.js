@@ -22,12 +22,17 @@ $(window).on("load",function() {
         $('[data-stripe-pay]').on('click', function(e) {
             e.preventDefault();
 
+            let amount = parseInt(e.target.dataset.stripeAmount);
+
+            // Apply discount
+            amount = amount * (1 - ($('input[name="discount_amount"]').val() / 100));
+
             //Open checkout on click
             handler.open({
                 name: 'Boardit',
                 description: 'Beställning av spel',
                 currency: 'sek',
-                amount: parseInt(e.target.dataset.stripeAmount) * 100,
+                amount: amount * 100,
                 email: $('input[name="email"]')[0].value,
             });
         });

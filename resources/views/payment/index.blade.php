@@ -113,6 +113,15 @@
 
                     <div class="payment-form-input-box">
                         <div class="input-box-wrapper">
+                            <label for="note">Rabattkod</label>
+                            <input type="text" name="discount_code" placeholder="Kod här.." id="discount_code" data-validate-discount>
+                            <input type="hidden" name="discount_amount" value="0">
+                            <p class="hide">Rabatt tillagd: <span data-discount-number></span>%</p>
+                        </div>
+                    </div>
+
+                    <div class="payment-form-input-box">
+                        <div class="input-box-wrapper">
                             <label for="user_consent">
                                 <input name="user_consent" type="checkbox" data-validate-checkbox>
                                 Läs igenom och godkänn våran användar <a class="link" href="{{ route('policy') }}">policy</a> innan du betalar!

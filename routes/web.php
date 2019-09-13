@@ -30,8 +30,9 @@ Route::prefix('cart')->name('cart.')->group(function() {
 Route::prefix('payment')->name('payment.')->group(function () {
     Route::get('index', 'PaymentController@index')->name('index');
     Route::post('submit', 'PaymentController@submit')->name('submit');
-
 });
+
+Route::post('check/discount', 'PaymentController@controlDiscount')->name('check.discount');
 
 Route::prefix('auth')->name('auth.')->middleware(['auth'])->group(function() {
     Route::get('orders', 'MainController@orders')->name('orders');
