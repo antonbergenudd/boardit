@@ -160,9 +160,22 @@
             width:50%;
 
             p {
+                cursor: not-allowed;
                 margin:0;
                 font-size:30pt;
                 font-weight:400;
+                color:#d3d3d3;
+                position: relative;
+
+                &:after {
+                    color: black;
+                    font-weight: 800;
+                    content: 'Coming soon';
+                    position: absolute;
+                    left: 17px;
+                    top:19px;
+                    font-size: 10pt;
+                }
             }
         }
 

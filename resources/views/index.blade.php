@@ -5,11 +5,11 @@
     @if(! boardit\User::where('delivering', 1)->count())
         <div class="index-box info flex-center bg-project">
             <div class="text-wrapper">
-                <p><b>Tyvärr</b> så finns där inga som kan leverera spel till dig förtillfället, återkom gärna någon annan dag eller kolla in vårat sortiment av spel!</p>
+                <p><b>Tyvärr</b> så finns det inga som kan leverera spel till dig för tillfället, återkom gärna någon annan dag eller kolla in vårt sortiment av spel!</p>
             </div>
         </div>
     @endif
-    
+
     <div class="index-box flex-center index-jumbotron">
         <div class="jumbotron-content-wrapper">
             <img src="{{ asset('img/logo.png') }}" alt="Boarditgames">

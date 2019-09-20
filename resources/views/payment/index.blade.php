@@ -70,7 +70,7 @@
                         <h1>1231802255</h1>
                     </div>
 
-                    <h2>Kontakt uppgifter</h2>
+                    <h2>Kontaktuppgifter</h2>
                     <div class="payment-form-input-box">
                         <div class="input-box-wrapper">
                             <label for="tel">Telefonnummer</label>
@@ -124,7 +124,7 @@
                         <div class="input-box-wrapper">
                             <label for="user_consent">
                                 <input name="user_consent" type="checkbox" data-validate-checkbox>
-                                Läs igenom och godkänn våran användar <a class="link" href="{{ route('policy') }}">policy</a> innan du betalar!
+                                Läs igenom och godkänn våran <a class="link" href="{{ route('policy') }}">användarpolicy</a> innan du betalar!
                             </label>
                         </div>
                     </div>

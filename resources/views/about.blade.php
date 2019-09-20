@@ -9,7 +9,7 @@
                     Utbildningen jag studerar till heter Civilingenjör datateknik och varar i 5 år, varav jag är inne på år 3.
                     På fritiden spenderar jag det mesta av min tid till mina projekt som till exempel denna sida.
                     Med entreprenörskap som intresse har jag valt att starta den här sidan för att bedriva min egna verksamhet och se hur långt jag kan ta det.
-                    Har jobbat som webbutvecklare i snart 3 år med glödande passion för ämnet.
+                    Jag har jobbat som webbutvecklare i snart 3 år med glödande passion för ämnet.
                 </p>
             </div>
             <div class="flex-center about-wrapper-image">

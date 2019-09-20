@@ -10,18 +10,25 @@
     &-contact-info-wrapper {
         display:flex;
         width:100%;
-        text-align:center;
         flex-wrap: wrap;
 
         p {
             flex:1;
             padding: 1rem;
+            text-align: center;
         }
     }
 
+    .links {
+        display: flex;
+        width: 100%;
+        margin-top:5rem;
+    }
+
     .links > a {
+        text-align: center;
         color: #636b6f;
-        padding: 0 25px;
+        flex:1;
         font-size: 13px;
         font-weight: 600;
         letter-spacing: .1rem;

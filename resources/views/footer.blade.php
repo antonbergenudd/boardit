@@ -8,9 +8,9 @@
 
     <div class="footer-contact">
         <div class="footer-contact-info-wrapper">
-            <p>support@boarditgames.se</p>
-            <p>Boarditgames</p>
-            <p>Jakthornsgatan 76E, 65632, Karlstad</p>
+            <p class="font-project">support@boarditgames.se</p>
+            <p class="font-project">Boarditgames</p>
+            <p class="font-project">Jakthornsgatan 76E, 65632, Karlstad</p>
         </div>
     </div>
 </div>
