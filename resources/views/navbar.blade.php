@@ -10,7 +10,6 @@
         <div class="stripe"></div>
     </div>
     <div class="links top-right">
-        {{-- <a href="{{ url('/') }}">Hem</a> --}}
         @if(boardit\User::where('delivering', 1)->count())
             <a href="{{ route('payment.index') }}">Beställ (<span data-cart-count>{{$cart->count()}}</span>)</a>
         @endif
@@ -24,12 +23,13 @@
 
     <div class="navbar-collapsed" id="nav-collapsed">
         <h1 class="navbar-collapsed-title">Boardit</h1>
-        <p class="navbar-collapsed-subtitle">Rent it. Board it. Enjoy it.</p>
+        <p class="navbar-collapsed-subtitle">Rent it. <span class="font-project">Board it</span>. Enjoy it.</p>
 
         <div class="navbar-collapsed-close" id="nav-collapsed-close">
-            X
+            <i class="material-icons">arrow_back</i>
         </div>
 
+        {{-- collapsed links --}}
         <hr class="navbar-collapsed-divider">
         <a class="navbar-collapsed-link" href="{{ url('/') }}">Hem</a>
         <hr class="navbar-collapsed-divider">

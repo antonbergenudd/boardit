@@ -9,12 +9,15 @@
 
             @media(max-width:$mobile-bp) {
                 margin: 2rem;
+                margin-top:4rem;
                 padding:0;
             }
         }
 
         &-image {
             width:20rem;
+
+            margin-bottom:4rem;
 
             img {
                 width:100%;

@@ -9,6 +9,7 @@
             </div>
         </div>
     @endif
+    
     <div class="index-box flex-center index-jumbotron">
         <div class="jumbotron-content-wrapper">
             <img src="{{ asset('img/logo.png') }}" alt="Boarditgames">

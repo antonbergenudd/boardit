@@ -108,6 +108,7 @@
 
         @media(max-width:$mobile-bp) {
             width: 80%;
+            padding: 0;
         }
     }
 
@@ -136,6 +137,10 @@
                 margin:0;
                 font-size:30pt;
                 font-weight:400;
+            }
+
+            @media(max-width: $mobile-bp) {
+                padding: 0;
             }
         }
 
