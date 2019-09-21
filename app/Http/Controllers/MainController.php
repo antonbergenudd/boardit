@@ -4,6 +4,8 @@ namespace boardit\Http\Controllers;
 
 use boardit\ProductOrder;
 
+use Twilio\Exceptions\TwilioException;
+
 use boardit\Jobs\ControlDelivering;
 
 use Illuminate\Routing\Controller as BaseController;
@@ -71,7 +73,11 @@ class MainController extends BaseController
         $order->user_id = $user->id;
         $order->save();
 
-        $this->notifyThroughSms($order);
+        try {
+            $this->notifyThroughSms($order);
+        } catch (TwilioException $e) {
+            echo  $e;
+        }
 
         $this->email($order);
 
