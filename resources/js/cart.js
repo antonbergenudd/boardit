@@ -18,12 +18,34 @@ function addToCart(e) {
             $(`[data-cart-item-added="${e.target.dataset.cartAdd}"]`).removeClass('hide');
             $(`[data-cart-item-not-added="${e.target.dataset.cartAdd}"]`).addClass('hide');
 
-            let count = parseInt($('[data-cart-count]').text());
-            count++;
-
-            $('[data-cart-count]').text(count);
+            recountCart(true);
         }
     });
+}
+
+function recountCart(add) {
+    let count;
+    if(window.innerWidth < 766) {
+        count = parseInt($('[data-cart-count-mobile]').text());
+
+        if(add) {
+            count++;
+        } else {
+            count--;
+        }
+
+        $('[data-cart-count-mobile]').text(count);
+    } else {
+        count = parseInt($('[data-cart-count-desktop]').text());
+
+        if(add) {
+            count++;
+        } else {
+            count--;
+        }
+
+        $('[data-cart-count-desktop]').text(count);
+    }
 }
 
 function removeFromCart(e) {
@@ -34,10 +56,7 @@ function removeFromCart(e) {
             $(`[data-cart-item-added="${e.target.dataset.cartRemove}"]`).addClass('hide');
             $(`[data-cart-item-not-added="${e.target.dataset.cartRemove}"]`).removeClass('hide');
 
-            let count = parseInt($('[data-cart-count]').text());
-            count--;
-
-            $('[data-cart-count]').text(count);
+            recountCart(false);
         }
     });
 }
