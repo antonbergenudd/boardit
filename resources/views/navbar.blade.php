@@ -22,11 +22,13 @@
     </div>
 
     <div class="navbar-collapsed" id="nav-collapsed">
-        <h1 class="navbar-collapsed-title">Boardit</h1>
-        <p class="navbar-collapsed-subtitle">Rent it. <span class="font-project">Board it</span>. Enjoy it.</p>
+        <div class="navbar-collapsed-header">
+            <h1 class="navbar-collapsed-title">Boardit</h1>
+            <p class="navbar-collapsed-subtitle">Rent it. Board it. Enjoy it.</p>
+        </div>
 
         <div class="navbar-collapsed-close" id="nav-collapsed-close">
-            <i class="material-icons">arrow_back</i>
+            <i class="material-icons">arrow_forward</i>
         </div>
 
         {{-- collapsed links --}}
