@@ -130,7 +130,7 @@ class MainController extends BaseController
             "Din order är bekräftad!" .
             "\r\nReferenskod: " . $order->code .
             "\r\nVäntad leveranstid ". Carbon::now('Europe/Stockholm')->addHours('2')->format('H:i') .
-            "\r\nMvh, Boarditgames. Tack för att ni valde oss!"
+            "\r\nMvh, Boarditgames.\r\nTack för att ni valde oss!"
         );
     }
 

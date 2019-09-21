@@ -181,10 +181,10 @@ class PaymentController extends BaseController
     private function notifyThroughSms($order)
     {
         $this->sendSms(
-            'En order har skapats!' .
-            ' Referenskod: ' . $order->code .
-            ' Adress: ' . $order->address .
-            ' Svara med JA för att bekräfta order'
+            "En order har skapats!" .
+            "\r\nReferenskod: " . $order->code .
+            "\r\nAdress: " . $order->address .
+            "\r\nSvara med JA för att bekräfta order"
         );
     }
 
