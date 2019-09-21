@@ -1,14 +1,13 @@
+<div class="full-cart">
+    <i class="material-icons header-icon">shopping_cart</i>
 
-<div style="position:relative; height:100%; position: relative; width:100%;">
-    <i class="material-icons" style="font-size:40pt;">shopping_cart</i>
-
-    <hr style="margin:0;">
-    <div class="" style="text-align:left; overflow:scroll; height:90%; position:relative;">
+    <hr class="divider">
+    <div class="full-cart-items">
         @foreach($cart as $row)
-            <div style="display:flex; align-items: center; padding:1rem;">
-                <h2 style="margin:0; flex:1;">{{ $row->name }}</h2>
-                <p style="flex:1; margin:0;">{{ $row->price }} kr</p>
-                <a href="{{ route('cart.remove.rowid', ['rowId' => $row->rowId])}}" style=" text-align: right;flex:1; color:red; font-size:10pt; text-decoration:none;">Ta bort</a>
+            <div class="full-cart-item">
+                <h2 class="full-cart-item-header">{{ $row->name }}</h2>
+                <p class="full-cart-item-price">{{ $row->price }} kr</p>
+                <a class="full-cart-item-remove" href="{{ route('cart.remove.rowid', ['rowId' => $row->rowId])}}">Ta bort</a>
             </div>
 
             <hr>
@@ -16,18 +15,18 @@
 
         @if($cartTotal > 0)
             @if(! \Cart::content()->where('id', 15)->count())
-            <a class="link" href="{{ route('cart.add', ['product' => 15]) }}" style="flex:1; margin-top:1rem;">Lägg till upphämtning (30kr)</a>
-            {{-- <a class="link" href="{{ route('cart.add', ['product' => 16]) }}" style="flex:1;">Lägg till utkörning (30kr)</a> --}}
+                <div class="full-cart-pickup-wrapper">
+                    <a class="link full-cart-pickup" href="{{ route('cart.add', ['product' => 15]) }}">Lägg till upphämtning (30kr)</a>
+                    {{-- <a class="link" href="{{ route('cart.add', ['product' => 16]) }}" style="flex:1;">Lägg till utkörning (30kr)</a> --}}
+                </div>
             @endif
         @else
             <h4>Kundvagnen är tom</h4>
         @endif
-
-
     </div>
 
-    <div class="" style="width:100%; background-color:white;">
-        <p style="margin:0;">Leveransavgift: 30.00 kr</p>
-        <h1 style="margin:0;"><b>Totalt</b>: <span class="font-project">{{ $cartTotal + 30 }}</span> kr</h1>
+    <div class="full-cart-total">
+        <p class="full-cart-total-subtitle">Leveransavgift: 30.00 kr</p>
+        <h1 class="full-cart-total-title"><b>Totalt</b>: <span class="font-project">{{ $cartTotal + 30 }}</span> kr</h1>
     </div>
 </div>
