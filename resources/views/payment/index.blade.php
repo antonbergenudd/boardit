@@ -124,7 +124,7 @@
                         <div class="input-box-wrapper">
                             <label for="user_consent">
                                 <input name="user_consent" type="checkbox" data-validate-checkbox>
-                                Läs igenom och godkänn våran <a class="link" href="{{ route('policy') }}">användarpolicy</a> innan du betalar!
+                                Läs igenom och godkänn våran <a class="link" href="{{ route('policy') }}" target="_blank">användarpolicy</a> innan du betalar!
                             </label>
                         </div>
                     </div>
