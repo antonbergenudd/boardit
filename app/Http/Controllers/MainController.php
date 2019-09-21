@@ -127,10 +127,10 @@ class MainController extends BaseController
     {
         $this->sendSms(
             $order->phone,
-            'Din order är bekräftad!%0a' .
-            'Referenskod: ' . $order->code .
-            ' Väntad leveranstid '. Carbon::now('Europe/Stockholm')->addHours('2')->format('H:i') .
-            ' Mvh, Boarditgames. Tack för att ni valde oss!'
+            "Din order är bekräftad!" .
+            "\r\nReferenskod: " . $order->code .
+            "\r\nVäntad leveranstid ". Carbon::now('Europe/Stockholm')->addHours('2')->format('H:i') .
+            "\r\nMvh, Boarditgames. Tack för att ni valde oss!"
         );
     }
 
