@@ -131,7 +131,7 @@
 
                     <div class="actions" data-validate-submit>
                         @if($cartTotal > 0)
-                        <p class="payment-form-submit-card link hide"
+                        <p class="payment-form-submit-card hide"
                             data-payment-card
                             @if($cartTotal > 0)
                                 data-stripe-pay
