@@ -66,7 +66,7 @@ class MainController extends BaseController
         return view('auth.orders', compact('orders'));
     }
 
-    public function confirmOrder(User $user, Order $order) {
+    public function confirmOrder(User $user, Order $order, $redirect = true) {
         $order->confirmed = 1;
         $order->user_id = $user->id;
         $order->save();
@@ -75,7 +75,9 @@ class MainController extends BaseController
 
         $this->email($order);
 
-        return back();
+        if($redirect) {
+            return back();
+        }
     }
 
     public function returnOrder(User $user, Order $order) {
@@ -199,7 +201,7 @@ class MainController extends BaseController
                 $nr = str_replace("+46", "0", $to);
                 $user = User::where('phone', $nr)->first();
 
-                $this->confirmOrder($user, $order);
+                $this->confirmOrder($user, $order, false);
             } else {
                 $body = 'Uppdraget är redan taget.';
             }
@@ -208,22 +210,12 @@ class MainController extends BaseController
         }
 
         // Send the correct response message.
-        if ($sendDefault != false) {
-            $client->messages->create(
-                $to,
-                array(
-                    'from' => $from,
-                    'body' => $defaultMessage,
-                )
-            );
-        } else {
-            $client->messages->create(
-                $to,
-                array(
-                    'from' => $from,
-                    'body' => $body,
-                )
-            );
-        }
+        $client->messages->create(
+            $to,
+            array(
+                'from' => $from,
+                'body' => $sendDefault ? $defaultMessage : $body,
+            )
+        );
     }
 }
