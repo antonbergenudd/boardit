@@ -142,13 +142,15 @@ class MainController extends BaseController
 
     private function notifyThroughSms($order)
     {
-        $this->sendSms(
-            $order->phone,
-            "Din order är bekräftad!" .
-            "\r\nReferenskod: " . $order->code .
-            "\r\nVäntad leveranstid ". Carbon::now('Europe/Stockholm')->addHours('2')->format('H:i') .
-            "\r\nMvh, Boarditgames.\r\nTack för att ni valde oss!"
-        );
+        if(env('SEND_SMS')) {
+            $this->sendSms(
+                $order->phone,
+                "Din order är bekräftad!" .
+                "\r\nReferenskod: " . $order->code .
+                "\r\nVäntad leveranstid ". Carbon::now('Europe/Stockholm')->addHours('2')->format('H:i') .
+                "\r\nMvh, Boarditgames.\r\nTack för att ni valde oss!"
+            );
+        }
     }
 
     protected function sendSms($to, $message)
