@@ -2,63 +2,29 @@
 
 @section('content')
     <div class="payment">
-        <div class="payment-left flex-center" style="@if(Session::get('code')) flex-direction:column; @endif">
+        <div class="payment-left flex-center">
             <div class="pay-method flex-center" id="pay_method">
-
-                {{-- Display errors --}}
-                {{-- @if($errors->any())
-                    <div class="errors">
-                        @foreach ($errors->all() as $error)
-                            <div class="errors-wrapper">
-                                <h2>{{ $error }}</h2>
-                                <h4>Ingen betalning har utförts!</h4>
-                            </div>
-                        @endforeach
+                
+                {{-- Select pay method --}}
+                <div class="payment-select flex-center" id="select_pay_method">
+                    <div class="payment-select-card flex-center">
+                        <p class="link" data-pay-method="card">Kort</p>
                     </div>
-                @endif --}}
 
-                {{-- Display success --}}
-                @if(session()->has('code'))
-                    <div class="payment-code">
-                        <div class="" style="text-align:center;">
-                            <i class="material-icons" style="font-size:50pt; color:#90EE90;">check_circle</i>
-                            <h4 style="margin:0;">referenskod</h4>
-                            <h2 style="margin-top:0;">{{ Session::get('code') }}</h2>
-                        </div>
-
-                        <p style="margin:0;">Använd denna kod om du har några funderingar runt din order. <br> Bekräftelse kommer skickas via sms samt email inom kort.</p>
-
-                        <h2 style="margin-bottom:.5rem;">Har du inte beställt upphämtning?</h2>
-                        <p style="margin:0;">Återlämning sker inom 24 timmar efter det att du fått spelet.</p>
-                        <p style="margin:0;">Adress för återlämning: <b>Vikingavägen 16b, 224 77, Lund</b></p>.
-                        <br>
-                        <br>
-                        <h2>Tack för att du handlade hos på <b>Boardit</b>!</h2>
+                    <div class="payment-select-divider flex-center">
+                        <div class="divider-line"></div>
+                        <h4>eller</h4>
+                        <div class="divider-line"></div>
                     </div>
-                @else
-                    {{-- Select pay method --}}
-                    <div class="payment-select flex-center" id="select_pay_method">
 
-                        <div class="payment-select-card flex-center">
-                            <p class="link" data-pay-method="card">Kort</p>
-                        </div>
+                    {{-- <div class="payment-select-swish flex-center" >
+                        <p class="link" data-pay-method="swish">Swish</p>
+                    </div> --}}
 
-                        <div class="payment-select-divider flex-center">
-                            <div class="divider-line"></div>
-                            <h4>eller</h4>
-                            <div class="divider-line"></div>
-                        </div>
-
-                        {{-- <div class="payment-select-swish flex-center" >
-                            <p class="link" data-pay-method="swish">Swish</p>
-                        </div> --}}
-
-                        <div class="payment-select-swish flex-center" style="cursor:not-allowed;" >
-                            <p>Swish</p>
-                        </div>
-
+                    <div class="payment-select-swish flex-center" style="cursor:not-allowed;" >
+                        <p>Swish</p>
                     </div>
-                @endif
+                </div>
 
                 <form class="payment-form hide" id="payment_form" action="{{ route('payment.submit') }}" method="post">
                     {{ csrf_field() }}

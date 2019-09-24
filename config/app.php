@@ -174,6 +174,7 @@ return [
         // boardit\Providers\BroadcastServiceProvider::class,
         boardit\Providers\EventServiceProvider::class,
         boardit\Providers\RouteServiceProvider::class,
+        boardit\Providers\ComposerServiceProvider::class
 
     ],
 

@@ -27,45 +27,32 @@ class MainController extends BaseController
     function index() {
         $products = Product::where('popular', 1)->get();
 
-        $cart = Cart::content();
-        $cartTotal = Cart::subTotal();
-
-        return view('index', compact('products', 'cart', 'cartTotal'));
+        return view('index', compact('products'));
     }
 
     function about() {
-        $cart = Cart::content();
-        $cartTotal = Cart::subTotal();
 
-        return view('about', compact('cart', 'cartTotal'));
+        return view('about');
     }
 
     function faq() {
-        $cart = Cart::content();
-        $cartTotal = Cart::subTotal();
-
-        return view('faq', compact('cart', 'cartTotal'));
+        return view('faq', compact('cart'));
     }
 
     function policy() {
-        $cart = Cart::content();
-        $cartTotal = Cart::subTotal();
-
-        return view('policy', compact('cart', 'cartTotal'));
+        return view('policy', compact('cart'));
     }
 
     function games() {
         $products = Product::where('show', 1)->get();
 
-        $cart = Cart::content();
-        $cartTotal = Cart::subTotal();
-
-        return view('games', compact('products', 'cart', 'cartTotal'));
+        return view('games', compact('products'));
     }
 
     // MOVE TO AUTH CONTROLLER
     public function orders() {
         $orders = Order::all();
+        
         return view('auth.orders', compact('orders'));
     }
 
