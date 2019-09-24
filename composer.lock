@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cccf61d966e8a0e50b51d087658a8570",
+    "content-hash": "54f70dae34342166229008da0756d481",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -844,6 +844,53 @@
                 "shoppingcart"
             ],
             "time": "2019-03-18T07:57:52+00:00"
+        },
+        {
+            "name": "jacobbennett/stripe-test-token",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/JacobBennett/StripeTestToken.git",
+                "reference": "0253949e66043108c992c92a7a96c60c0a2250a0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/JacobBennett/StripeTestToken/zipball/0253949e66043108c992c92a7a96c60c0a2250a0",
+                "reference": "0253949e66043108c992c92a7a96c60c0a2250a0",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.2",
+                "stripe/stripe-php": "^4.0|^5.0|^6.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "JacobBennett\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jacob Bennett",
+                    "email": "me@jakebennett.net",
+                    "homepage": "https://jakebennett.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Quickly create Stripe test tokens for successful and exceptional Stripe responses.",
+            "homepage": "https://github.com/JacobBennett/StripeTestToken",
+            "keywords": [
+                "stripe",
+                "stripe-test-token"
+            ],
+            "time": "2019-09-19T14:38:20+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",
