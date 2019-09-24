@@ -1,8 +1,8 @@
 @extends('layouts.default')
 
 @section('content')
-    <div style="margin-top:5rem; display:flex; justify-content:center; align-items:center;">
-        <div style="padding:4rem 10rem; border-radius: 15%; box-shadow:-1px -1px 7px rgba(0,0,0,.1);">
+    <div class="feedback">
+        <div class="feedback-wrapper">
         {{-- Display errors --}}
         @if($errors->any())
             <div class="" id="errors">
