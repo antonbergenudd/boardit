@@ -25,7 +25,6 @@ function addToCart(e) {
 
                 $(el).text(count);
 
-                console.log(count);
                 if(count > 0) {
                     $(el).parent().removeClass('hide');
                 }
@@ -49,7 +48,6 @@ function removeFromCart(e) {
 
                 $(el).text(count);
 
-                console.log(count);
                 if(count == 0) {
                     $(el).parent().addClass('hide');
                 }
