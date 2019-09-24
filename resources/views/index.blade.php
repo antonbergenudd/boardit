@@ -17,10 +17,6 @@
         </div>
     </div>
 
-    {{-- @if(isset($cart) && $cart->first())
-        @include('modules.cart.floating')
-    @endif --}}
-
     <div class="index-box">
         <h1>Populära spel</h1>
         <div class="popular-games-wrapper">

@@ -63,13 +63,16 @@ class MainController extends BaseController
         return view('games', compact('products', 'cart', 'cartTotal'));
     }
 
+    // MOVE TO AUTH CONTROLLER
     public function orders() {
         $orders = Order::all();
         return view('auth.orders', compact('orders'));
     }
 
     public function confirmOrder(User $user, Order $order, $redirect = true) {
-        $order->confirmed = 1;
+        $order->status = Order::CONFIRMED;
+        $order->confirmed_at = Carbon::now();
+        $order->delivered_at = NULL;
         $order->user_id = $user->id;
         $order->save();
 
@@ -94,7 +97,21 @@ class MainController extends BaseController
             $relation->product->save();
         }
 
-        $order->returned = 1;
+        $order->status = Order::RETURNED;
+        $order->error = 0;
+        $order->delivered_at = NULL;
+
+        $order->save();
+
+        return back();
+    }
+
+    public function deliverOrder(User $user, Order $order) {
+        $order->status = Order::DELIVERED;
+        $order->delivered_at = Carbon::now();
+        $order->confirmed_at = NULL;
+        $order->error = 0;
+
         $order->save();
 
         return back();
@@ -223,5 +240,19 @@ class MainController extends BaseController
                 'body' => $sendDefault ? $defaultMessage : $body,
             )
         );
+    }
+
+    public function controlOrder(Request $request) {
+        $order = Order::where('id', $request->order)->first();
+
+        if($order->status == Order::CONFIRMED && Carbon::parse($order->confirmed_at)->addHours('2') < Carbon::now()) {
+            $order->error = 1;
+        }
+
+        if($order->status == Order::DELIVERED && Carbon::parse($order->delivered_at)->addDays('1') < Carbon::now()) {
+            $order->error = 1;
+        }
+
+        $order->save();
     }
 }

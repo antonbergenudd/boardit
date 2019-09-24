@@ -3,6 +3,7 @@
 namespace boardit\Console;
 
 use boardit\Jobs\CloseDelivering;
+use boardit\Jobs\ControlOrders;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -29,7 +30,12 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->job(new ControlDelivering)->everyFifteenMinutes();
-        $schedule->job(new CloseDelivering)->dailyAt("20:00"); // Motsvarar 23 på svensk tid
+
+        // Close website
+        $schedule->job(new CloseDelivering)->dailyAt("20:00"); // Motsvarar 22 på svensk tid
+
+        // Set corrupt orders
+        $schedule->job(new CloseDelivering)->everyMinute();
     }
 
     /**
