@@ -1,9 +1,11 @@
 @extends('layouts.auth')
 @section('content')
+    <!-- The actual snackbar -->
+    {{-- <div class="snackbar">Some text some message..</div> --}}
+
     <div style="height:100vh; margin-top:5rem;">
         <h1>Aktivitet</h1>
         <div class="" style="width:100%;">
-
             @if(! Auth::user()->delivering)
             <form action="{{ route('auth.delivering', ['user' => Auth::user()->id])}}" method="post">
                 {{ csrf_field() }}
