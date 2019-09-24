@@ -24,6 +24,11 @@ function addToCart(e) {
                 count++;
 
                 $(el).text(count);
+
+                console.log(count);
+                if(count > 0) {
+                    $(el).parent().removeClass('hide');
+                }
             })
         }
     });
@@ -43,6 +48,11 @@ function removeFromCart(e) {
                 count--;
 
                 $(el).text(count);
+
+                console.log(count);
+                if(count == 0) {
+                    $(el).parent().addClass('hide');
+                }
             })
         }
     });
