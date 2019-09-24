@@ -33,6 +33,7 @@ Route::prefix('cart')->name('cart.')->group(function() {
 // Payment
 Route::prefix('payment')->name('payment.')->group(function () {
     Route::get('index', 'PaymentController@index')->name('index');
+    Route::get('feedback', 'PaymentController@feedback')->name('feedback');
     Route::post('submit', 'PaymentController@submit')->name('submit');
 });
 

@@ -32,6 +32,10 @@ class PaymentController extends BaseController
         return view('payment.index', compact('cart', 'cartTotal'));
     }
 
+    function feedback() {
+        return view('payment.feedback');
+    }
+
     function checkDiscount($discount_code, $total) {
         if($discount_code) {
             $code = DiscountCode::where('code', $discount_code)->first();
@@ -91,16 +95,16 @@ class PaymentController extends BaseController
             $total = str_replace(".00", "", Cart::subTotal() + 30); // Addon för utkörning
 
             if(isset($request->payment_by_swish)) {
-                $order->code = $code;
-                $order->address = $request->street.', '.$request->postcode.', '.$request->city;
-                $order->email = isset($request->email) ? $request->email : NULL;
-                $order->phone = isset($request->tel) ? $request->tel : NULL;
-                $order->payment = $this->checkDiscount($request->discount_code, $total);
-                $order->payment_type = 'swish';
-                $order->note = $request->note;
-                $order->save();
-
-                $payment_ok = 1;
+                // $order->code = $code;
+                // $order->address = $request->street.', '.$request->postcode.', '.$request->city;
+                // $order->email = isset($request->email) ? $request->email : NULL;
+                // $order->phone = isset($request->tel) ? $request->tel : NULL;
+                // $order->payment = $this->checkDiscount($request->discount_code, $total);
+                // $order->payment_type = 'swish';
+                // $order->note = $request->note;
+                // $order->save();
+                //
+                // $payment_ok = 1;
             } else if(isset($request->payment_by_card)) {
                 $charge = Charge::create([
                     'amount' => $this->checkDiscount($request->discount_code, $total) * 100,
@@ -121,12 +125,6 @@ class PaymentController extends BaseController
                     $order->save();
 
                     $payment_ok = 1;
-                } else {
-                    $error = \Illuminate\Validation\ValidationException::withMessages([
-                       '' => ['Betalningen misslyckades'],
-                    ]);
-
-                    throw $error;
                 }
             }
 
@@ -167,12 +165,14 @@ class PaymentController extends BaseController
 
                 Cart::destroy();
 
-                return back()->with([
-                    'code' => $code,
+                return view('payment.feedback', compact('code'));
+            } else {
+                return view('payment.feedback')->withErrors([
+                    'Det gick fel vid betalningen.'
                 ]);
             }
         } else {
-            return back()->withErrors([
+            return view('payment.feedback')->withErrors([
                 'Tyvärr kör vi inte ut till din stad just nu, oroa dig inte, ingen betalning har utförts.'
             ]);
         }
