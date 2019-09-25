@@ -23,7 +23,7 @@ Route::get('/faq', 'MainController@faq')->name('faq');
 Route::get('/policy', 'MainController@policy')->name('policy');
 
 // SMS
-Route::get('/sms/reply', 'MainController@receiveSms')->name('sms.reply');
+Route::get('/sms/reply', 'OrderController@receiveSms')->name('sms.reply');
 
 // Cart
 Route::prefix('cart')->name('cart.')->group(function() {
