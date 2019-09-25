@@ -1,4 +1,4 @@
-<div class="product default" id="{{$product->id}}">
+<div class="product default" id="{{$product->id}}" style="max-width:30rem;">
     @if($product->thumbnail)
         <img class="product-default-img" src="{{ asset('img/games/'.$product->thumbnail) }}" alt="{{$product->name}}">
     @endif
