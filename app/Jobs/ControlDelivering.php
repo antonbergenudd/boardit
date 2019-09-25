@@ -32,28 +32,26 @@ class ControlDelivering implements ShouldQueue
      */
     public function handle()
     {
-        foreach(User::where('delivering', 1)->get() as $user) {
+        foreach(User::where('delivering', 1)->where('phone', '!=', 0)->get() as $user) {
             if(Carbon::parse($user->delivering_since)->addHours('2') < Carbon::now()) {
                 $accountSid = env('TWILIO_ACCOUNT_SID');
                 $authToken = env('TWILIO_AUTH_TOKEN');
 
                 $client = new Client($accountSid, $authToken);
 
-                if($user->phone != 0) {
-                    try {
-                        $client->messages->create(
-                            $employee->phone,
-                            [
-                                "body" => "2 timmar har gått sedan du började leverera, glöm inte att stänga av om du inte är tillgänglig längre!",
-                                "from" => env('TWILIO_NUMBER')
-                            ]
-                        );
+                try {
+                    $client->messages->create(
+                        $user->phone,
+                        [
+                            "body" => "2 timmar har gått sedan du började leverera, glöm inte att stänga av om du inte är tillgänglig längre!",
+                            "from" => env('TWILIO_NUMBER')
+                        ]
+                    );
 
-                        $user->delivering_since = Carbon::now();
-                        $user->save();
-                    } catch (TwilioException $e) {
-                        echo  $e;
-                    }
+                    $user->delivering_since = Carbon::now();
+                    $user->save();
+                } catch (TwilioException $e) {
+                    echo  $e;
                 }
             }
         }
