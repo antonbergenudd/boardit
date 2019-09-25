@@ -4,7 +4,7 @@
     <div class="payment">
         <div class="payment-left flex-center">
             <div class="pay-method flex-center" id="pay_method">
-                
+
                 {{-- Select pay method --}}
                 <div class="payment-select flex-center" id="select_pay_method">
                     <div class="payment-select-card flex-center">
@@ -107,7 +107,7 @@
                             Betala
                         </p>
 
-                        <button
+                        {{-- <button
                             data-payment-swish
                             @if($cartTotal > 0)
                                 type="submit"
@@ -115,7 +115,7 @@
                             class="payment-form-submit-swish link hide"
                             >
                             Swish utfört
-                        </button>
+                        </button> --}}
                         @else
                             <h4>Kundvagnen är tom</h4>
                         @endif

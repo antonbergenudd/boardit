@@ -12,14 +12,13 @@ use Illuminate\Http\Request;
 use boardit\Product;
 use boardit\User;
 
-use \Cart;
 use boardit\Order;
 
 use Stripe\Charge;
 use Stripe\Stripe;
 
 use Twilio\Rest\Client;
-use Gloudemans\Shoppingcart\Cart;
+use Gloudemans\Shoppingcart\Facades\Cart;
 
 // https://github.com/Crinsane/LaravelShoppingcart#usage
 // https://github.com/stripe/stripe-php

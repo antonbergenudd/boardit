@@ -4,7 +4,7 @@ namespace boardit\Http\Controllers;
 
 use Illuminate\Routing\Controller as BaseController;
 use boardit\Product;
-use Gloudemans\Shoppingcart\Cart;
+use Gloudemans\Shoppingcart\Facades\Cart;
 
 class MainController extends BaseController
 {

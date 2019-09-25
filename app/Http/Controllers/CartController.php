@@ -5,8 +5,7 @@ namespace boardit\Http\Controllers;
 use Illuminate\Routing\Controller as BaseController;
 
 use boardit\Product;
-
-use \Cart;
+use Gloudemans\Shoppingcart\Facades\Cart;
 
 // https://github.com/Crinsane/LaravelShoppingcart#usage
 class CartController extends BaseController
