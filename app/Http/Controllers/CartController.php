@@ -6,8 +6,6 @@ use Illuminate\Routing\Controller as BaseController;
 
 use boardit\Product;
 
-use Illuminate\Http\Request;
-
 use \Cart;
 
 // https://github.com/Crinsane/LaravelShoppingcart#usage
