@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Routing\Route;
+use Illuminate\Support\Facades\Auth;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -42,12 +45,14 @@ Route::post('check/discount', 'PaymentController@controlDiscount')->name('check.
 
 // Auth
 Route::prefix('auth')->name('auth.')->middleware(['auth'])->group(function() {
-    Route::get('orders', 'MainController@orders')->name('orders');
-    Route::get('user/{user}/confirm/order/{order}', 'MainController@confirmOrder')->name('confirm.order');
-    Route::get('user/{user}/return/order/{order}', 'MainController@returnOrder')->name('return.order');
-    Route::get('user/{user}/deliver/order/{order}', 'MainController@deliverOrder')->name('deliver.order');
-    Route::post('employee/{user}/delivering', 'MainController@delivering')->name('delivering');
-    Route::post('control/order', 'MainController@controlOrder')->name('order.control');
+
+    // Orders
+    Route::get('orders', 'OrderController@index')->name('orders');
+    Route::get('user/{user}/confirm/order/{order}', 'OrderController@confirm')->name('confirm.order');
+    Route::get('user/{user}/return/order/{order}', 'OrderController@return')->name('return.order');
+    Route::get('user/{user}/deliver/order/{order}', 'OrderController@deliver')->name('deliver.order');
+
+    Route::post('employee/{user}/delivering', 'AuthController@delivering')->name('delivering');
 });
 
 Auth::routes();
