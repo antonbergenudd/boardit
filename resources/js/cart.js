@@ -41,6 +41,17 @@ function removeFromCart(e) {
             $(`[data-cart-item-added="${e.target.dataset.cartRemove}"]`).addClass('hide');
             $(`[data-cart-item-not-added="${e.target.dataset.cartRemove}"]`).removeClass('hide');
 
+            let id = $(e.target).data('cartRemove');
+            if($('.full-cart')[0]) {
+                let newTotal = parseInt($('[data-cart-total]').text()) - parseInt($(`[data-cart-item="${id}"]`).find('[data-cart-item-price]').text());
+
+                $('[data-cart-total]').text(newTotal);
+
+                $(e.target).parent().next().remove();
+                $(e.target).parent().remove();
+            }
+
+            // Update count
             $('[data-cart-count]').each((i, el) => {
                 let count = parseInt($(el).text());
 
