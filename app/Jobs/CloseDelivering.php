@@ -34,6 +34,7 @@ class CloseDelivering implements ShouldQueue
     {
         foreach(User::where('delivering', 1)->get() as $user) {
             $user->delivering = 0;
+            $user->delivering_since = NULL;
             $user->save();
         }
     }
