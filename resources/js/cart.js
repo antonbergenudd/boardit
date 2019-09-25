@@ -46,6 +46,7 @@ function removeFromCart(e) {
                 let newTotal = parseInt($('[data-cart-total]').text()) - parseInt($(`[data-cart-item="${id}"]`).find('[data-cart-item-price]').text());
 
                 $('[data-cart-total]').text(newTotal);
+                $('[data-stripe-amount]').attr('data-stripe-amount', newTotal);
 
                 $(e.target).parent().next().remove();
                 $(e.target).parent().remove();
