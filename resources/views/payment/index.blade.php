@@ -47,7 +47,7 @@
                             <div class="" style="display:flex;">
                                 <input name="date_hour" style="width:1rem; text-align: center; padding: 0.56rem; font-family: inherit;" type="number" min="{{ Carbon\Carbon::now('Europe/Stockholm')->addHours('1')->format('H')}}" max="23" value="{{ Carbon\Carbon::now('Europe/Stockholm')->addHours('1')->format('H') }}">
                                 <span style="border-bottom:1px solid #96DDFF; height:calc(100% - 1px); display:flex; align-items:center;">:</span>
-                                <input name="date_minute" style="width:1rem; text-align: center; padding: 0.56rem; font-family: inherit;" type="number" value="{{ Carbon\Carbon::now('Europe/Stockholm')->format('i')}}" max="59" min="0">
+                                <input name="date_minute" style="width:100%; text-align: left; padding: 0.56rem; font-family: inherit;" type="number" value="{{ Carbon\Carbon::now('Europe/Stockholm')->format('i')}}" max="59" min="0">
                             </div>
                         </div>
                     </div>
@@ -106,7 +106,7 @@
                     <div class="payment-form-input-box">
                         <div class="input-box-wrapper">
                             <label for="user_consent">
-                                <input name="user_consent" type="checkbox" data-validate-checkbox>
+                                <input name="user_consent" type="checkbox" data-validate-checkbox style="padding: 1rem 0;">
                                 Läs igenom och godkänn våran <a class="link" href="{{ route('policy') }}" target="_blank">användarpolicy</a> innan du betalar!
                             </label>
                         </div>
