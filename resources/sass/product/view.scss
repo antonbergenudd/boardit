@@ -1,0 +1,32 @@
+.product-view {
+    margin-top: 5rem;
+
+    &-wrapper {
+        &-text {
+            text-align:left;
+            padding:5rem;
+            width:20rem;
+
+            @media(max-width:$mobile-bp) {
+                margin: 2rem;
+                margin-top:4rem;
+                padding:0;
+            }
+        }
+
+        &-image {
+            width:20rem;
+
+            margin-bottom:4rem;
+
+            img {
+                width:100%;
+                box-shadow:-2px -2px 6px rgba(0,0,0,.5)
+            }
+        }
+
+        @media(max-width:$mobile-bp) {
+            flex-direction: column;
+        }
+    }
+}
