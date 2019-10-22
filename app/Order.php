@@ -15,15 +15,18 @@ class Order extends Model
         return $this->belongsTo('boardit\User', 'user_id');
     }
 
-    // Member type
+    // Order status
+    // Has to be in chronological order
     const
-        IDLE = 1,
-        CONFIRMED = 2,
-        DELIVERED = 3,
-        RETURNED = 4;
+        PROCESSING = 1,
+        PAYMENT_FAILED = 2,
+        CONFIRMED_AND_RESERVED = 3,
+        CONFIRMED = 4,
+        DELIVERED = 5,
+        RETURNED = 6;
 
     // Payment type
     const
-        CARD = 1,
-        SWISH = 2;
+        PAYMENT_CARD = 1,
+        PAYMENT_SWISH = 2;
 }

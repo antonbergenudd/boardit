@@ -191,16 +191,6 @@
         }
     }
 
-    &-code {
-        display:flex;
-        flex-direction:column;
-        width: 25rem;
-
-        @media(max-width: $mobile-bp) {
-            width: auto;
-        }
-    }
-
     .errors {
         &-wrapper {
             text-align:center;

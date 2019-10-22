@@ -5,14 +5,24 @@
     align-items:center;
 
     &-wrapper {
-        padding:4rem 10rem;
-        border-radius: 15%;
-        box-shadow:-1px -1px 7px rgba(0,0,0,.1);
+        padding:4rem 8rem;
+        box-shadow: 0 9px 0px 0px white,
+            0 -10px 0px 0px white, 10px 0 15px -4px rgba(0, 0, 0, 0.1),
+            -10px 0 15px -4px rgba(0, 0, 0, 0.1);
 
         @media(max-width: $mobile-bp) {
             padding-right: 3rem;
             padding-left: 3rem;
             border-radius: 0;
+        }
+    }
+
+    &-info {
+        display:flex;
+        flex-direction:column;
+
+        @media(max-width: $mobile-bp) {
+            width: auto;
         }
     }
 }

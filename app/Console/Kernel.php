@@ -4,6 +4,8 @@ namespace boardit\Console;
 
 use boardit\Jobs\CloseDelivering;
 use boardit\Jobs\ControlOrders;
+use boardit\Jobs\NotifyDeliverance;
+use boardit\Jobs\CheckScheduledProducts;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
@@ -29,12 +31,16 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->job(new ControlDelivering)->everyFifteenMinutes();
+        // $schedule->job(new ControlDelivering)->everyFifteenMinutes();
+
+        // $schedule->job(new NotifyDeliverance)->everyFifteenMinutes();
+
+        // $schedule->job(new CheckScheduledProducts)->everyFifteenMinutes();
 
         // Close website
         $schedule->job(new CloseDelivering)->dailyAt("20:00"); // Motsvarar 22 på svensk tid
 
-        // Set corrupt orders
+        // Set passed orders
         $schedule->job(new ControlOrders)->everyMinute();
     }
 

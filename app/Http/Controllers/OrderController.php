@@ -4,43 +4,100 @@ namespace boardit\Http\Controllers;
 
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
 use boardit\ProductOrder;
 use boardit\User;
 use boardit\Order;
+use boardit\Product;
+use boardit\Mail\ConfirmationMailable;
 
 use Carbon\Carbon;
+use Stripe\Charge;
+use Stripe\Stripe;
+use Gloudemans\Shoppingcart\Facades\Cart;
 
 use Twilio\Exceptions\TwilioException;
 use Twilio\Rest\Client;
-
-use boardit\Mail\ConfirmationMailable;
 
 class OrderController extends BaseController
 {
     public function index() {
         $orders = Order::all();
-        
+
         return view('auth.orders', compact('orders'));
     }
 
     public function confirm(User $user, Order $order, $redirect = true) {
-        $order->status = Order::CONFIRMED;
-        $order->confirmed_at = Carbon::now();
-        $order->delivered_at = NULL;
-        $order->user_id = $user->id;
-        $order->save();
-
-        try {
-            $this->notifyThroughSms($order);
-        } catch (TwilioException $e) {
-            echo  $e;
+        if(env('STRIPE_TEST_MODE')) {
+            Stripe::setApiKey(env('STRIPE_TEST_KEY'));
+        } else {
+            Stripe::setApiKey(env('STRIPE_PROD_KEY'));
         }
 
-        $this->email($order);
+        $charge = Charge::create([
+            'amount' => $order->payment * 100,
+            'currency' => 'sek',
+            'description' => 'Beställning av spel',
+            'customer' => $order->payment_token,
+        ]);
+
+        if($charge->status == 'succeeded') {
+            $order->status = Order::CONFIRMED;
+
+            $order->confirmed_at = Carbon::now();
+            $order->delivered_at = NULL;
+            $order->user_id = $user->id;
+
+            // Reserve product from stock if within 24 hours
+            if(Carbon::now()->addDays('1')->addHours('2')->gte(Carbon::parse($order->deliverance_date))) {
+
+                // Set product as reserved if outside of 2 hours of deliverance
+                if(Carbon::now()->addHours('4')->gte(Carbon::parse($order->deliverance_date))) {
+                    $order->status = Order::CONFIRMED_AND_RESERVED;
+                }
+
+                $this->removeFromStock($order);
+            }
+
+            // Text confirmation to client
+            try {
+                $this->notifyClientThroughSms($order);
+            } catch (TwilioException $e) {
+                echo  $e;
+            }
+        } else {
+            $order->status = Order::PAYMENT_FAILED;
+        }
+
+        $order->save();
 
         if($redirect) {
             return back();
+        }
+    }
+
+    private function removeFromStock($order) {
+        foreach(Cart::content() as $row) {
+            $product = $row->model;
+
+            // Random product
+            if($product->id == 14) {
+                $items = Product::where('quantity', '>=', 0)->get();
+
+                do {
+                    $item_id = array_rand($items->toArray());
+                } while($item_id == 14);
+
+                $product = $items[$item_id];
+            }
+
+            // Remove item from DB
+            if($product->quantity) {
+                $product->quantity--;
+            }
+
+            $product->save();
         }
     }
 
@@ -72,14 +129,14 @@ class OrderController extends BaseController
         return back();
     }
 
-    private function notifyThroughSms($order)
+    private function notifyClientThroughSms($order)
     {
         $this->sendSms(
             $order->phone,
             "Din order är bekräftad!" .
             "\r\nReferenskod: " . $order->code .
-            "\r\nVäntad leveranstid ". Carbon::now('Europe/Stockholm')->addHours('2')->format('H:i') .
-            "\r\nMvh, Boarditgames.\r\nTack för att ni valde oss!"
+            "\r\nVäntad leveranstid ". $order->deliverance_date .
+            "\r\nMvh, Boarditgames.\r\nTack för att ni handlade hos oss!"
         );
     }
 
@@ -159,13 +216,13 @@ class OrderController extends BaseController
             $order = Order::where('code', $code)->first();
 
             // Check if already confirmed
-            if(!$order->confirmed) {
-                $body = 'Du har accepterat uppdraget.';
-
+            if(! isset($order->confirmed_at)) {
                 $nr = str_replace("+46", "0", $to);
-                $user = User::where('phone', $nr)->first();
 
+                $user = User::where('phone', $nr)->first();
                 $this->confirm($user, $order, false);
+
+                $body = 'Du har accepterat uppdraget.';
             } else {
                 $body = 'Uppdraget är redan taget.';
             }

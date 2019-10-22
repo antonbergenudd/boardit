@@ -9,12 +9,13 @@ use boardit\Http\Requests\PaymentSubmitRequest;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Http\Request;
 
+use Carbon\Carbon;
+
 use boardit\Product;
 use boardit\User;
 
 use boardit\Order;
 
-use Stripe\Charge;
 use Stripe\Stripe;
 
 use Twilio\Rest\Client;
@@ -74,60 +75,33 @@ class PaymentController extends BaseController
             Stripe::setApiKey(env('STRIPE_PROD_KEY'));
         }
 
-        // Generate code and save payment to database
-        $code = str_random(12);
-        $order = new Order;
-
-        $payment_ok = 0;
         if(strtolower($request->city) == 'lund') {
-
-            foreach(Cart::content() as $product) {
-                if($product->id == 15) {
-                    $order->collect = 1;
-                }
-
-                if($product->id == 16) {
-                    $order->deliver = 1;
-                }
-            }
-
-            $total = str_replace(".00", "", Cart::subTotal() + 30); // Addon för utkörning
-
             if(isset($request->payment_by_swish)) {
-                // $order->code = $code;
-                // $order->address = $request->street.', '.$request->postcode.', '.$request->city;
-                // $order->email = isset($request->email) ? $request->email : NULL;
-                // $order->phone = isset($request->tel) ? $request->tel : NULL;
-                // $order->payment = $this->checkDiscount($request->discount_code, $total);
-                // $order->payment_type = 'swish';
-                // $order->note = $request->note;
-                // $order->save();
                 //
-                // $payment_ok = 1;
             } else if(isset($request->payment_by_card)) {
-                $charge = Charge::create([
-                    'amount' => $this->checkDiscount($request->discount_code, $total) * 100,
-                    'currency' => 'sek',
-                    'description' => 'Beställning av spel',
+                $deliverance_date = Carbon::parse("{$request->date} {$request->date_hour}:{$request->date_minute}:00");
+                $code = str_random(12);
+
+                // Save for delayed purchase
+                $customer = \Stripe\Customer::create([
                     'source' => $request->stripeToken,
-                    'receipt_email' => $request->email,
+                    'email' => $request->email,
                 ]);
 
-                if($charge->status == 'succeeded') {
-                    $order->code = $code;
-                    $order->address = $request->street.', '.$request->postcode.', '.$request->city;
-                    $order->email = isset($request->email) ? $request->email : NULL;
-                    $order->phone = isset($request->tel) ? $request->tel : NULL;
-                    $order->payment = $this->checkDiscount($request->discount_code, $total); // Addon för utkörning
-                    $order->payment_type = 'card';
-                    $order->note = $request->note;
-                    $order->save();
+                $order = new Order;
+                $order->payment_token = $customer->id;
+                $order->code = $code;
+                $order->address = $request->street.', '.$request->postcode.', '.$request->city;
+                $order->email = isset($request->email) ? $request->email : NULL;
+                $order->phone = isset($request->tel) ? $request->tel : NULL;
+                $order->payment = $this->checkDiscount($request->discount_code, str_replace(".00", "", Cart::subTotal() + 30)); // Addon för utkörning
+                $order->payment_type = Order::PAYMENT_CARD;
+                $order->deliverance_date = $deliverance_date;
+                $order->note = $request->note;
+                $order->status = Order::PROCESSING;
+                $order->save();
 
-                    $payment_ok = 1;
-                }
-            }
-
-            if($payment_ok) {
+                // Add product - order relation
                 foreach(Cart::content() as $row) {
                     $product = $row->model;
                     $orderToProduct = new ProductOrder;
@@ -135,57 +109,64 @@ class PaymentController extends BaseController
                     // Random product
                     if($product->id == 14) {
                         $items = Product::where('quantity', '>=', 0)->get();
-
                         do {
                             $item_id = array_rand($items->toArray());
                         } while($item_id == 14);
-
                         $product = $items[$item_id];
                     }
 
                     $orderToProduct->product_id = $product->id;
                     $orderToProduct->order_id = $order->id;
 
-                    // Remove item from DB
-                    if($product->quantity) {
-                        $product->quantity--;
-                    }
-
-                    $product->save();
-
                     $orderToProduct->save();
                 }
 
-                $this->notifyThroughSms($order);
-
-                if($request->discount_code) {
-                    $this->removeDiscountCode($request->discount_code);
+                // add 4 hours to bypass UTC time
+                if(Carbon::now()->addHours('4')->gt($deliverance_date)) {
+                    $this->notifyThroughSms($order, 1);
+                } else {
+                    $this->notifyThroughSms($order, 2);
                 }
 
                 Cart::destroy();
 
                 return view('payment.feedback', compact('code'));
-            } else {
-                return view('payment.feedback')->withErrors([
-                    'Det gick fel vid betalningen.'
-                ]);
             }
         } else {
             return view('payment.feedback')->withErrors([
-                'Tyvärr kör vi inte ut till din stad just nu, oroa dig inte, ingen betalning har utförts.'
+                'Tyvärr kör vi inte ut till ditt område just nu, oroa dig inte, ingen betalning har utförts.'
             ]);
         }
     }
 
-    private function notifyThroughSms($order)
+    private function notifyThroughSms($order, $errand)
     {
+        $productsString = '';
+        foreach($order->getProducts as $product) {
+            $productsString .= "\r\n{$product->name}";
+        }
+
         if(env('SEND_SMS')) {
-            $this->sendSms(
-                "En order har skapats!" .
-                "\r\nReferenskod: " . $order->code .
-                "\r\nAdress: " . $order->address .
-                "\r\nSvara med JA för att bekräfta order"
-            );
+            if($errand == 1) {
+                $this->sendSms(
+                    "En order har skapats!" .
+                    "\r\nSnabbt ärende." .
+                    "\r\nLevereras inom 2 timmar från svar." .
+                    "\r\nReferenskod: " . $order->code .
+                    "\r\nProdukter: " .$productsString .
+                    "\r\nAdress: " . $order->address .
+                    "\r\nSvara JA för att bekräfta order."
+                );
+            } else if($errand == 2) {
+                $this->sendSms(
+                    "En order har skapats!" .
+                    "\r\nFramtida ärende." .
+                    "\r\nReferenskod: " . $order->code .
+                    "\r\nDatum: " . $order->deliverance_date .
+                    "\r\nHar du möjlighet att leverera beställningen vid detta datum?" .
+                    "\r\nSvara JA för att bekräfta beställning."
+                );
+            }
         }
     }
 
@@ -196,6 +177,7 @@ class PaymentController extends BaseController
 
         $client = new Client($accountSid, $authToken);
 
+        // Send out to all delivering employees
         foreach(User::where('delivering', 1)->get() as $employee) {
             if($employee->phone != 0) {
                 try {

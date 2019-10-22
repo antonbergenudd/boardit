@@ -1,0 +1,40 @@
+.orders {
+    margin-top:5rem;
+
+    &-actions {
+        width:100%;
+    }
+
+    .order {
+        width: 90%;
+        margin: auto;
+        text-align: left;
+        display:flex;
+        flex-wrap:wrap;
+
+        &-action {
+            display: flex;
+            align-items: center;
+
+            .link {
+                border:1px solid #4CC94C;
+                color:#4CC94C;
+                padding:.5rem 1rem;
+            }
+        }
+
+        &-divider {
+            width:90%;
+            opacity:.5;
+        }
+
+        &-subitem {
+            flex:1;
+            min-width: 20rem;
+
+            @media(max-width: $mobile-bp) {
+                min-width: 10rem;
+            }
+        }
+    }
+}

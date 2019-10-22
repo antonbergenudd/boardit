@@ -36,6 +36,22 @@
                         <h1>1231802255</h1>
                     </div>
 
+                    <h2>Datum för leverans</h2>
+                    <div class="payment-form-input-box">
+                        <div class="input-box-wrapper">
+                            <label for="date">Datum</label>
+                            <input name="date" style="font-family:inherit;" type="date" min="{{ Carbon\Carbon::now('Europe/Stockholm')->format('Y-m-d')}}" value="{{ Carbon\Carbon::now('Europe/Stockholm')->format('Y-m-d')}}">
+                        </div>
+                        <div class="input-box-wrapper">
+                            <label for="date_hour">Tid</label>
+                            <div class="" style="display:flex;">
+                                <input name="date_hour" style="width:1rem; text-align: center; padding: 0.56rem; font-family: inherit;" type="number" min="{{ Carbon\Carbon::now('Europe/Stockholm')->addHours('1')->format('H')}}" max="23" value="{{ Carbon\Carbon::now('Europe/Stockholm')->addHours('1')->format('H') }}">
+                                <span style="border-bottom:1px solid #96DDFF; height:calc(100% - 1px); display:flex; align-items:center;">:</span>
+                                <input name="date_minute" style="width:1rem; text-align: center; padding: 0.56rem; font-family: inherit;" type="number" value="{{ Carbon\Carbon::now('Europe/Stockholm')->format('i')}}" max="59" min="0">
+                            </div>
+                        </div>
+                    </div>
+
                     <h2>Kontaktuppgifter</h2>
                     <div class="payment-form-input-box">
                         <div class="input-box-wrapper">
@@ -51,7 +67,7 @@
                         </div>
                     </div>
 
-                    <h2>Adress</h2>
+                    {{-- <h2>Adress</h2> --}}
                     <div class="payment-form-input-box">
                         <div class="input-box-wrapper">
                             <label for="address">Gata</label>
@@ -70,9 +86,10 @@
                         </div>
                     </div>
 
+                    <h2>Övrigt</h2>
                     <div class="payment-form-input-box">
                         <div class="input-box-wrapper">
-                            <label for="note">Övriga anteckningar</label>
+                            <label for="note">Inför leverans</label>
                             <textarea name="note" rows="4" cols="80" placeholder="Text här.."></textarea>
                         </div>
                     </div>
