@@ -28,6 +28,10 @@ class OrderController extends BaseController
         return view('auth.orders', compact('orders'));
     }
 
+    public function status(Order $order) {
+        return $order->status == Order::CONFIRMED || $order->status == Order::CONFIRMED_AND_RESERVED ? "true" : "false";
+    }
+
     public function confirm(User $user, Order $order, $redirect = true) {
         if(env('STRIPE_TEST_MODE')) {
             Stripe::setApiKey(env('STRIPE_TEST_KEY'));

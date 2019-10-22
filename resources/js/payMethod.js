@@ -5,6 +5,10 @@ $(window).on('load', () => {
 })
 
 function selectPayMethod(e) {
+
+    $("#select_pay_method").addClass('hide');
+    $("#payment_form").removeClass('hide');
+
     let method = $(e.target).data('payMethod');
 
     var paymentInput = document.createElement("input");
@@ -13,20 +17,19 @@ function selectPayMethod(e) {
 
     if(method == 'swish') {
         $('[data-payment-swish]').each((i, el) => {
-            $(el).toggle();
+            $(el).removeClass('hide');
         });
 
         paymentInput.name = 'payment_by_swish';
     } else if(method == 'card') {
         $('[data-payment-card]').each((i, el) => {
-            $(el).toggle();
+            $(el).removeClass('hide');
         });
 
         paymentInput.name = 'payment_by_card';
     }
 
     $("#payment_form").append(paymentInput);
-    $("#payment_form").toggle();
 
     $('#select_pay_method').toggle();
 }

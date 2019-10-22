@@ -130,7 +130,7 @@ class PaymentController extends BaseController
 
                 Cart::destroy();
 
-                return view('payment.feedback', compact('code'));
+                return redirect()->route('payment.feedback')->with(['code' => $code, 'order_id' => $order->id]);
             }
         } else {
             return view('payment.feedback')->withErrors([

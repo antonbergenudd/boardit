@@ -1,7 +1,7 @@
 @extends('layouts.default')
 
 @section('content')
-    <div class="feedback">
+    <div class="feedback" data-order-status="{{Session::get('order_id')}}">
         <div class="feedback-wrapper">
         {{-- Display errors --}}
         {{-- @if($errors->any())
@@ -29,15 +29,21 @@
                 <div class="" style="text-align:center;">
 
                     {{-- SPINNER --}}
-                    <i class="material-icons" style="font-size:70pt; color:#90EE90;">check_circle</i>
-                    {{-- <img style="height:100px;" src="http://rpg.drivethrustuff.com/shared_images/ajax-loader.gif"/> --}}
+                    <i class="hide material-icons" data-order-status-confirmed style="font-size:70pt; color:#90EE90;">check_circle</i>
+                    <img data-order-status-waiting style="height:100px;" src="http://rpg.drivethrustuff.com/shared_images/ajax-loader.gif"/>
                 </div>
 
-                <h2 style="margin-top:0;">{{ $code }}</h2>
+                <h2 style="margin-top:0;">{{ Session::get('code') }}</h2>
                 <p style="margin:0;">Använd denna kod om du har några funderingar runt din order. <br> Bekräftelse kommer skickas via sms inom kort.</p>
 
-                <h2 style="margin-bottom:.5rem;">Vi kontrollerar så att vi har möjlighet att leverera din beställning..</h2>
-                <p style="margin:0;">Du kommer få en bekräftelse via sms inom kort.</p>
+                <div data-order-status-waiting>
+                    <h2 style="margin-bottom:.5rem;">Vi kontrollerar så att vi har möjlighet att leverera din beställning..</h2>
+                    <p style="margin:0;">Du kommer få en bekräftelse via sms inom kort.</p>
+                </div>
+
+                <div class="hide" data-order-status-confirmed>
+                    <h2>Din order är bekräftad!</h2>
+                </div>
 
                 <h2>Har du inte beställt upphämtning?</h2>
                 <p style="margin:0;">Återlämning sker inom 24 timmar efter det att du fått spelet.</p>
