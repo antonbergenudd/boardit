@@ -33,6 +33,11 @@ Route::prefix('cart')->name('cart.')->group(function() {
     Route::get('destroy', 'CartController@destroy')->name('destroy');
 });
 
+// Products
+Route::prefix('product')->name('product.')->group(function() {
+    Route::get('{product}/view', 'ProductController@view')->name('view');
+});
+
 // Payment
 Route::prefix('payment')->name('payment.')->group(function () {
     Route::get('index', 'PaymentController@index')->name('index');
