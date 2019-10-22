@@ -22,6 +22,8 @@
             <p>Tillfälligt slut</p>
         @endif
     @else
+        <a class="link" href="{{route("product.view", ['product' => $product->id])}}">Läs mer</a>
+        
         <p>Levererar ej för tillfället</p>
     @endif
 </div>
