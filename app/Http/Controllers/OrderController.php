@@ -35,6 +35,15 @@ class OrderController extends BaseController
     public function setFailed(Order $order) {
         $order = Order::find($order->id);
         $order->status = Order::FAILED;
+
+        // Add item back to stock if outside of timeframe
+        if($order->deliver_date >= Carbon::now()->addDays('1')->addHours('2')) {
+            foreach($order->getProducts as $product) {
+                $product->quantity++;
+                $product->save();
+            }
+        }
+
         $order->save();
     }
 
@@ -93,6 +102,7 @@ class OrderController extends BaseController
 
             // Random product
             if($product->id == 14) {
+                $orderToProduct = new ProductOrder;
                 $items = Product::where('quantity', '>=', 0)->get();
 
                 do {
@@ -100,6 +110,11 @@ class OrderController extends BaseController
                 } while($item_id == 14);
 
                 $product = $items[$item_id];
+
+                // add random item as relation to order
+                $orderToProduct->product_id = $product->id;
+                $orderToProduct->order_id = $order->id;
+                $orderToProduct->save();
             }
 
             // Remove item from DB

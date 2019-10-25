@@ -115,6 +115,11 @@ class PaymentController extends BaseController
                         $product = $items[$item_id];
                     }
 
+                    // Remove item from DB if within timeframe
+                    if($product->quantity) {
+                        $product->quantity--;
+                    }
+
                     $orderToProduct->product_id = $product->id;
                     $orderToProduct->order_id = $order->id;
 
