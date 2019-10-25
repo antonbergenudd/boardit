@@ -12,15 +12,13 @@
 
                 <p data-cart-item-not-added="{{$product->id}}" class="link @if(\Cart::content()->where('id', $product->id)->count()) hide @endif" data-cart-add="{{ $product->id }}">Lägg till i kundvagn</p>
 
-                <div data-cart-item-added="{{$product->id}}" class="@if(! \Cart::content()->where('id', $product->id)->count()) hide @endif">
-                    <p class="link" data-cart-remove="{{ $product->id }}" style="margin:0;">
-                        Ta bort
-                    </p>
-                </div>
+                <p class="link @if(! \Cart::content()->where('id', $product->id)->count()) hide @endif" data-cart-item-added="{{$product->id}}" data-cart-remove="{{ $product->id }}">
+                    Ta bort
+                </p>
             </div>
         @else
             <a class="link" href="{{route("product.view", ['product' => $product->id])}}">Läs mer</a>
-            
+
             <p>Tillfälligt slut</p>
         @endif
     @else

@@ -27,7 +27,7 @@ function loopCheck() {
     setTimeout(() => {
         checkOrderStatus().then((status) => {
             // 30 represents the minutes to wait
-            if(parseInt(date) + 30*60000 >= new Date().getTime()) {
+            if(parseInt(date) + 1*60000 <= new Date().getTime()) {
                 $('[data-order-status-confirmed]').each((i, el) => {
                     $(el).addClass('hide');
                 });

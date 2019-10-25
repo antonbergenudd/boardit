@@ -124,6 +124,7 @@ class PaymentController extends BaseController
                     $orderToProduct->order_id = $order->id;
 
                     $orderToProduct->save();
+                    $product->save();
                 }
 
                 // add 4 hours to bypass UTC time

@@ -35,15 +35,14 @@
                 </div>
 
                 <h2 data-order-status-confirmed style="margin-top:0;">{{ Session::get('code') }}</h2>
-                <p data-order-status-confirmed style="margin:0;">Använd denna kod om du har några funderingar runt din order. <br> Bekräftelse kommer skickas via sms inom kort.</p>
 
                 <div data-order-status-waiting>
                     <h2 style="margin-bottom:.5rem;">Vi kontrollerar så att vi har möjlighet att leverera din beställning..</h2>
-                    <p style="margin:0;">Du kommer få en bekräftelse via sms inom kort.</p>
                 </div>
 
                 <div class="hide" data-order-status-confirmed>
                     <h2>Din order är bekräftad!</h2>
+                    <p style="margin:0;">Du kommer få en bekräftelse via sms inom kort.</p>
                 </div>
 
                 <h2 data-order-status-confirmed>Har du inte beställt upphämtning?</h2>

@@ -67,7 +67,6 @@
                         </div>
                     </div>
 
-                    {{-- <h2>Adress</h2> --}}
                     <div class="payment-form-input-box">
                         <div class="input-box-wrapper">
                             <label for="address">Gata</label>

@@ -35,6 +35,7 @@ class OrderController extends BaseController
     public function setFailed(Order $order) {
         $order = Order::find($order->id);
         $order->status = Order::FAILED;
+        $order->error = 1;
 
         // Add item back to stock if outside of timeframe
         foreach($order->getProducts as $product) {
