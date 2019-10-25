@@ -172,8 +172,13 @@ class PaymentController extends BaseController
 
     protected function sendSms($message)
     {
-        $accountSid = env('TWILIO_ACCOUNT_SID');
-        $authToken = env('TWILIO_AUTH_TOKEN');
+        if(env('TWILIO_TEST')) {
+            $accountSid = env('TWILIO_ACCOUNT_SID_TEST');
+            $authToken = env('TWILIO_AUTH_TOKEN_TEST');
+        } else {
+            $accountSid = env('TWILIO_ACCOUNT_SID');
+            $authToken = env('TWILIO_AUTH_TOKEN');
+        }
 
         $client = new Client($accountSid, $authToken);
 
@@ -181,11 +186,11 @@ class PaymentController extends BaseController
         foreach(User::where('delivering', 1)->get() as $employee) {
             if($employee->phone != 0) {
                 try {
-                    $client->messages->create(
+                    $message = $client->messages->create(
                         $employee->phone,
                         [
                             "body" => $message,
-                            "from" => env('TWILIO_NUMBER')
+                            "from" => env('TWILIO_TEST') ? env('TWILIO_NUMBER_TEST') : env('TWILIO_NUMBER')
                         ]
                     );
                 } catch (TwilioException $e) {
