@@ -21,9 +21,10 @@ class Order extends Model
         PROCESSING = 1,
         PAYMENT_FAILED = 2,
         CONFIRMED_AND_RESERVED = 3,
-        CONFIRMED = 4,
-        DELIVERED = 5,
-        RETURNED = 6;
+        FAILED = 4,
+        CONFIRMED = 5,
+        DELIVERED = 6,
+        RETURNED = 7;
 
     // Payment type
     const

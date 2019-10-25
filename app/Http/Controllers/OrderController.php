@@ -32,6 +32,12 @@ class OrderController extends BaseController
         return $order->status == Order::CONFIRMED || $order->status == Order::CONFIRMED_AND_RESERVED ? "true" : "false";
     }
 
+    public function setFailed(Order $order) {
+        $order = Order::find($order->id);
+        $order->status = Order::FAILED;
+        $order->save();
+    }
+
     public function confirm(User $user, Order $order, $redirect = true) {
         if(env('STRIPE_TEST_MODE')) {
             Stripe::setApiKey(env('STRIPE_TEST_KEY'));
