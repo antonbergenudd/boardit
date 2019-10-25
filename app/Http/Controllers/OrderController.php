@@ -37,11 +37,9 @@ class OrderController extends BaseController
         $order->status = Order::FAILED;
 
         // Add item back to stock if outside of timeframe
-        if($order->deliver_date >= Carbon::now()->addDays('1')->addHours('2')) {
-            foreach($order->getProducts as $product) {
-                $product->quantity++;
-                $product->save();
-            }
+        foreach($order->getProducts as $product) {
+            $product->quantity++;
+            $product->save();
         }
 
         $order->save();
