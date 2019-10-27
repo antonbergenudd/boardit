@@ -116,6 +116,11 @@ class PaymentController extends BaseController
                         $product = $items[$item_id];
                     }
 
+                    // Remove item from stock
+                    if($product->quantity) {
+                        $product->quantity--;
+                    }
+
                     $orderToProduct->product_id = $product->id;
                     $orderToProduct->order_id = $order->id;
 
@@ -124,7 +129,7 @@ class PaymentController extends BaseController
                 }
 
                 // add 4 hours to bypass UTC time
-                if(Carbon::now()->addHours('4')->gt($deliverance_date)) {
+                if(Carbon::now('Europe/Stockholm')->addHours('2')->gt($deliverance_date)) {
                     $this->notifyThroughSms($order, 1);
                 } else {
                     $this->notifyThroughSms($order, 2);
@@ -148,7 +153,7 @@ class PaymentController extends BaseController
             foreach($order->getProducts as $product) {
                 $productsString .= "\r\n{$product->name}";
             }
-            
+
             if($errand == 1) {
                 $this->sendSms(
                     "En order har skapats!" .
