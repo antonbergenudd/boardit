@@ -7,13 +7,16 @@ use boardit\User;
 use Faker\Generator as Faker;
 
 $factory->define(Order::class, function (Faker $faker) {
+
     return [
         'code' => str_random(12),
-        'user_id' => function () {
+        'user_id' => function() {
             return factory(User::class)->create()->id;
         },
         'address' => $faker->address,
         'payment' => 1,
-        'payment_type' => 'kort',
+        'status' => Order::PROCESSING,
+        'payment_type' => Order::PAYMENT_CARD,
+        'payment_token' => str_random(12),
     ];
 });

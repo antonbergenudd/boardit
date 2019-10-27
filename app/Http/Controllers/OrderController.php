@@ -4,12 +4,10 @@ namespace boardit\Http\Controllers;
 
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Log;
 
 use boardit\ProductOrder;
 use boardit\User;
 use boardit\Order;
-use boardit\Product;
 use boardit\Mail\ConfirmationMailable;
 
 use Carbon\Carbon;
@@ -41,7 +39,6 @@ class OrderController extends BaseController
     }
 
     public function setFailed(Order $order) {
-        $order = Order::find($order->id);
         $order->status = Order::FAILED;
         $order->error = 1;
 
