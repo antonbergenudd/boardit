@@ -1,7 +1,7 @@
 <div class="full-cart">
-    <i class="material-icons header-icon">shopping_cart</i>
+    {{-- <i class="material-icons header-icon">shopping_cart</i> --}}
 
-    <hr class="divider">
+    {{-- <hr class="divider"> --}}
     <div class="full-cart-items">
         @foreach($cart as $product)
             <div class="full-cart-item" data-cart-item={{$product->id}}>
