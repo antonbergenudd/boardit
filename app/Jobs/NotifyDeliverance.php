@@ -35,25 +35,20 @@ class NotifyDeliverance implements ShouldQueue
      */
     public function handle()
     {
-        foreach(Order::whereNotNull('deliverance_date')->where('status', Order::CONFIRMED)->get() as $order) {
+        foreach(Order::whereNotNull('deliverance_date')->whereIn('status', Order::CONFIRMED_AND_RESERVED)->get() as $order) {
             if(
-                Carbon::now('Europe/Stockholm')->addHours('2')->gte($order->deliverance_date)
+                Carbon::now('Europe/Stockholm')->addHours('2')->addMinutes('20')->gte($order->deliverance_date)
                 &&
-                Carbon::now('Europe/Stockholm')->addHours('1')->addMinutes('40')->lt($order->deliverance_date)
+                Carbon::now('Europe/Stockholm')->addHours('2')->lt($order->deliverance_date)
             ) {
-                $productsString = '';
-                foreach($order->getProducts as $product) {
-                    $productsString .= "\r\n{$product->name}";
-                }
-
-                // Notify user who confirmed about order
                 $employee = User::find($order->user_id);
-                $this->notifyEmployee($productsString, $order->address, $employee->phone);
+
+                $this->notifyEmployee($order, $employee->phone);
             }
         }
     }
 
-    private function notifyEmployee($products, $address, $phone) {
+    private function notifyEmployee($order, $phone) {
         if(env('TWILIO_TEST')) {
             $accountSid = env('TWILIO_ACCOUNT_SID_TEST');
             $authToken = env('TWILIO_AUTH_TOKEN_TEST');
@@ -68,13 +63,18 @@ class NotifyDeliverance implements ShouldQueue
             $phone = substr_replace($phone, '+46', 0, 1);
         }
 
+        $productsString = '';
+        foreach($order->getProducts as $product) {
+            $productsString .= "\r\n{$product->name}";
+        }
+
         try {
             $client->messages->create(
                 $phone,
                 [
                     "body" => "En order är schemalagd på dig inom 2 timmar!" .
-                        "\r\nProdukter: " . $products .
-                        "\r\nAdress: " . $address,
+                        "\r\nProdukter: " . $productsString .
+                        "\r\nAdress: " . $order->address,
                     "from" => env('TWILIO_TEST') ? env('TWILIO_NUMBER_TEST') : env('TWILIO_NUMBER')
                 ]
             );
