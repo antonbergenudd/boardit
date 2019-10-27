@@ -24,7 +24,7 @@ function loopCheck() {
     setTimeout(() => {
         checkOrderStatus().then((status) => {
             // 30 represents the minutes to wait
-            if(parseInt(date) + 1*60000 <= new Date().getTime() && !localStorage.getItem("notified_offline")) {
+            if(parseInt(date) + 15*60000 <= new Date().getTime() && !localStorage.getItem("notified_offline")) {
                 $.ajax({
                     url: `/${localStorage.getItem("order_id")}/notify/offline`,
                     type: 'post',
@@ -36,7 +36,7 @@ function loopCheck() {
                 localStorage.setItem("notified_offline", true);
             }
 
-            if(parseInt(date) + 2*60000 <= new Date().getTime()) {
+            if(parseInt(date) + 30*60000 <= new Date().getTime()) {
                 $('[data-order-status-confirmed]').each((i, el) => {
                     $(el).addClass('hide');
                 });
