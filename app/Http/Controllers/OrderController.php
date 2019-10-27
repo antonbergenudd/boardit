@@ -62,7 +62,7 @@ class OrderController extends BaseController
                     "\r\nAdress: " . $order->address .
                     "\r\nSvara JA för att bekräfta order.";
             } else {
-                $message = "body" => "En order har skapats!" .
+                $message = "body" = "En order har skapats!" .
                     "\r\nFramtida ärende." .
                     "\r\nReferenskod: " . $order->code .
                     "\r\nDatum: " . $order->deliverance_date .
