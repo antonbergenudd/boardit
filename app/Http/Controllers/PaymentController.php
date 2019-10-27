@@ -143,12 +143,12 @@ class PaymentController extends BaseController
 
     private function notifyThroughSms($order, $errand)
     {
-        $productsString = '';
-        foreach($order->getProducts as $product) {
-            $productsString .= "\r\n{$product->name}";
-        }
-
         if(env('SEND_SMS')) {
+            $productsString = '';
+            foreach($order->getProducts as $product) {
+                $productsString .= "\r\n{$product->name}";
+            }
+            
             if($errand == 1) {
                 $this->sendSms(
                     "En order har skapats!" .
