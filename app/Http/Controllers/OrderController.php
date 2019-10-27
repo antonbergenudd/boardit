@@ -118,24 +118,25 @@ class OrderController extends BaseController
             $order->status = Order::CONFIRMED;
 
             $order->confirmed_at = Carbon::now();
-            $order->delivered_at = NULL;
             $order->user_id = $user->id;
 
-            // Reserve product from stock if within 24 hours
+            // Set product as reserved if outside of 2 hours and inside of 25 hrs
             if(
+                Carbon::now('Europe/Stockholm')->addHours('2')->lt($order->deliverance_date)
+                &&
                 Carbon::now('Europe/Stockholm')->addDays('1')->gte($order->deliverance_date)
             ) {
-                // Set product as reserved if outside of 2 hours of deliverance
-                if(Carbon::now('Europe/Stockholm')->addHours('2')->lt($order->deliverance_date)) {
-                    $order->status = Order::CONFIRMED_AND_RESERVED;
+                $order->status = Order::CONFIRMED_AND_RESERVED;
+            } else if(Carbon::now('Europe/Stockholm')->addDays('1')->addHours('1')->lt($order->deliverance_date)) {
+                foreach($order->getProducts as $product) {
+                    $product->quantity++;
+                    $product->save();
                 }
-
-                $this->removeFromStock($order);
             }
 
-            // Text confirmation to client
+            // Text confirmation to customer
             try {
-                $this->notifyClientThroughSms($order);
+                $this->notifyCustomerThroughSms($order);
             } catch (TwilioException $e) {
                 echo  $e;
             }
@@ -150,36 +151,6 @@ class OrderController extends BaseController
         }
     }
 
-    private function removeFromStock($order) {
-        foreach(Cart::content() as $row) {
-            $product = $row->model;
-
-            // Random product
-            if($product->id == 14) {
-                $orderToProduct = new ProductOrder;
-                $items = Product::where('quantity', '>=', 0)->get();
-
-                do {
-                    $item_id = array_rand($items->toArray());
-                } while($item_id == 14);
-
-                $product = $items[$item_id];
-
-                // add random item as relation to order
-                $orderToProduct->product_id = $product->id;
-                $orderToProduct->order_id = $order->id;
-                $orderToProduct->save();
-            }
-
-            // Remove item from DB
-            if($product->quantity) {
-                $product->quantity--;
-            }
-
-            $product->save();
-        }
-    }
-
     public function return(User $user, Order $order) {
         $relationships = ProductOrder::where('order_id', $order->id)->get();
 
@@ -190,7 +161,6 @@ class OrderController extends BaseController
 
         $order->status = Order::RETURNED;
         $order->error = 0;
-        $order->delivered_at = NULL;
 
         $order->save();
 
@@ -200,7 +170,6 @@ class OrderController extends BaseController
     public function deliver(User $user, Order $order) {
         $order->status = Order::DELIVERED;
         $order->delivered_at = Carbon::now();
-        $order->confirmed_at = NULL;
         $order->error = 0;
 
         $order->save();
@@ -208,18 +177,7 @@ class OrderController extends BaseController
         return back();
     }
 
-    private function notifyClientThroughSms($order)
-    {
-        $this->sendSms(
-            $order->phone,
-            "Din order är bekräftad!" .
-            "\r\nReferenskod: " . $order->code .
-            "\r\nVäntad leveranstid ". $order->deliverance_date .
-            "\r\nMvh, Boarditgames.\r\nTack för att ni handlade hos oss!"
-        );
-    }
-
-    private function sendSms($to, $message)
+    private function notifyCustomerThroughSms($order)
     {
         if(env('TWILIO_TEST')) {
             $accountSid = env('TWILIO_ACCOUNT_SID_TEST');
@@ -231,15 +189,20 @@ class OrderController extends BaseController
 
         $client = new Client($accountSid, $authToken);
 
-        try {
-            if(substr($to, 0, 1) == '0') {
-                $to = substr_replace($to, '+46', 0, 1);
-            }
+        $phone = $order->phone;
 
+        if(substr($phone, 0, 1) == '0') {
+            $phone = substr_replace($phone, '+46', 0, 1);
+        }
+
+        try {
             $client->messages->create(
-                $to,
+                $phone,
                 [
-                    "body" => $message,
+                    "body" => "Din order är bekräftad!" .
+                        "\r\nReferenskod: " . $order->code .
+                        "\r\nVäntad leveranstid ". $order->deliverance_date .
+                        "\r\nMvh, Boarditgames.\r\nTack för att ni handlade hos oss!",
                     "from" => env('TWILIO_TEST') ? env('TWILIO_NUMBER_TEST') : env('TWILIO_NUMBER')
                 ]
             );
