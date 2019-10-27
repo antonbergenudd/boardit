@@ -67,6 +67,20 @@ class PaymentController extends BaseController
         $code->delete();
     }
 
+    private function checkProductStock() {
+        $stock_ok = true;
+
+        // Add product - order relation
+        foreach(Cart::content() as $row) {
+            $product = $row->model;
+            if($product->quantity == 0) {
+                $stock_ok = false;
+            }
+        }
+
+        return $stock_ok;
+    }
+
     function submit(PaymentSubmitRequest $request) {
         if(env('STRIPE_TEST_MODE')) {
             Stripe::setApiKey(env('STRIPE_TEST_KEY'));
@@ -78,6 +92,13 @@ class PaymentController extends BaseController
             if(isset($request->payment_by_swish)) {
                 //
             } else if(isset($request->payment_by_card)) {
+
+                if(! $this->checkProductStock()) {
+                    return redirect()->route('payment.feedback')->withErrors([
+                        'Tyvärr så hann någon beställa samma produkt som dig innan din beställning gick igenom.'
+                    ]);
+                }
+
                 $deliverance_date = Carbon::parse("{$request->date} {$request->date_hour}:{$request->date_minute}:00");
                 $code = str_random(12);
 
@@ -102,8 +123,6 @@ class PaymentController extends BaseController
 
                 // Add product - order relation
                 foreach(Cart::content() as $row) {
-                    $schedule = true;
-
                     $product = $row->model;
                     $orderToProduct = new ProductOrder;
 
