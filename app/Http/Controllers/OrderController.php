@@ -46,6 +46,44 @@ class OrderController extends BaseController
         $order->save();
     }
 
+    public function notifyOffline(Order $order) {
+        foreach(User::where('delivering', 0)->where('phone', '!=', 0)->get() as $employee) {
+            if(Carbon::now()->addHours('4')->gt($deliverance_date)) {
+                $productsString = '';
+                foreach($order->getProducts as $product) {
+                    $productsString .= "\r\n{$product->name}";
+                }
+
+                $message = "En order har skapats!" .
+                    "\r\nSnabbt ärende." .
+                    "\r\nLevereras inom 2 timmar från svar." .
+                    "\r\nReferenskod: " . $order->code .
+                    "\r\nProdukter: " .$productsString .
+                    "\r\nAdress: " . $order->address .
+                    "\r\nSvara JA för att bekräfta order.";
+            } else {
+                $message = "body" => "En order har skapats!" .
+                    "\r\nFramtida ärende." .
+                    "\r\nReferenskod: " . $order->code .
+                    "\r\nDatum: " . $order->deliverance_date .
+                    "\r\nHar du möjlighet att leverera beställningen vid detta datum?" .
+                    "\r\nSvara JA för att bekräfta beställning.";
+            }
+
+            try {
+                $client->messages->create(
+                    $employee->phone,
+                    [
+                        "body" => $message,
+                        "from" => env('TWILIO_TEST') ? env('TWILIO_NUMBER_TEST') : env('TWILIO_NUMBER')
+                    ]
+                );
+            } catch (TwilioException $e) {
+                echo  $e;
+            }
+        }
+    }
+
     public function confirm(User $user, Order $order, $redirect = true) {
         if(env('STRIPE_TEST_MODE')) {
             Stripe::setApiKey(env('STRIPE_TEST_KEY'));
@@ -166,8 +204,13 @@ class OrderController extends BaseController
 
     private function sendSms($to, $message)
     {
-        $accountSid = env('TWILIO_ACCOUNT_SID');
-        $authToken = env('TWILIO_AUTH_TOKEN');
+        if(env('TWILIO_TEST')) {
+            $accountSid = env('TWILIO_ACCOUNT_SID_TEST');
+            $authToken = env('TWILIO_AUTH_TOKEN_TEST');
+        } else {
+            $accountSid = env('TWILIO_ACCOUNT_SID');
+            $authToken = env('TWILIO_AUTH_TOKEN');
+        }
 
         $client = new Client($accountSid, $authToken);
 
@@ -176,7 +219,7 @@ class OrderController extends BaseController
                 $to,
                 [
                     "body" => $message,
-                    "from" => env('TWILIO_NUMBER')
+                    "from" => env('TWILIO_TEST') ? env('TWILIO_NUMBER_TEST') : env('TWILIO_NUMBER')
                 ]
             );
         } catch (TwilioException $e) {
