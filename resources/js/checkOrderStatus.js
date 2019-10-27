@@ -1,8 +1,10 @@
 $(window).on('load', () => {
-    if($('[data-order-status]').length) {
+    if($('[data-order-status]').length > 0) {
         let order_id = $('[data-order-status]').data('orderStatus');
 
         if(order_id) {
+            localStorage.clear();
+
             localStorage.setItem("order_id", order_id);
             localStorage.setItem("date", new Date().getTime());
         }
@@ -13,8 +15,6 @@ $(window).on('load', () => {
         } else {
             loopCheck();
         }
-    } else {
-        localStorage.clear();
     }
 })
 
