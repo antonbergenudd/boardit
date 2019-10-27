@@ -61,7 +61,7 @@
                 </div>
                 <div class="order-subitem">
                     <h4>Bekräftat av</h4>
-                    @if($order->status >= \boardit\Order::CONFIRMED)
+                    @if($order->status >= \boardit\Order::CONFIRMED_AND_RESERVED)
                         <p>{{$order->confirmedBy->name}}</p>
                     @else
                         <p>Ingen</p>
