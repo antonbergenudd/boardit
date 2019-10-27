@@ -1,5 +1,5 @@
 $(window).on('load', () => {
-    if($('[data-order-status]').length > 0) {
+    if($('[data-order-status]').length) {
         let order_id = $('[data-order-status]').data('orderStatus');
 
         if(order_id) {
