@@ -40,14 +40,14 @@
                     <div class="payment-form-input-box">
                         <div class="input-box-wrapper">
                             <label for="date">Datum</label>
-                            <input name="date" style="font-family:inherit;" type="date" min="{{ Carbon\Carbon::now('Europe/Stockholm')->format('Y-m-d')}}" value="{{ Carbon\Carbon::now('Europe/Stockholm')->hour < 22 && Carbon\Carbon::now('Europe/Stockholm')->hour > 12 ? Carbon\Carbon::now('Europe/Stockholm')->format('Y-m-d') : Carbon\Carbon::now('Europe/Stockholm')->addDays('1')->format('Y-m-d') }}">
+                            <input data-validate-date name="date" style="font-family:inherit;" type="date" min="{{ Carbon\Carbon::now('Europe/Stockholm')->format('Y-m-d')}}" value="{{ Carbon\Carbon::now('Europe/Stockholm')->hour < 22 && Carbon\Carbon::now('Europe/Stockholm')->hour > 12 ? Carbon\Carbon::now('Europe/Stockholm')->format('Y-m-d') : Carbon\Carbon::now('Europe/Stockholm')->addDays('1')->format('Y-m-d') }}">
                         </div>
                         <div class="input-box-wrapper">
                             <label for="date_hour">Tid</label>
                             <div class="" style="display:flex;">
-                                <input name="date_hour" style="width:1rem; text-align: center; padding: 0.56rem; font-family: inherit;" type="number" min="12" max="23" value="{{ Carbon\Carbon::now('Europe/Stockholm')->hour < 22 && Carbon\Carbon::now('Europe/Stockholm')->hour > 12 ? Carbon\Carbon::now('Europe/Stockholm')->addHours('1')->format('H') : 12 }}">
+                                <input data-validate-hour name="date_hour" style="width:1rem; text-align: center; padding: 0.56rem; font-family: inherit;" type="number" min="12" max="23" value="{{ Carbon\Carbon::now('Europe/Stockholm')->hour < 22 && Carbon\Carbon::now('Europe/Stockholm')->hour > 12 ? Carbon\Carbon::now('Europe/Stockholm')->addHours('1')->format('H') : 12 }}">
                                 <span style="border-bottom:1px solid #96DDFF; height:calc(100% - 1px); display:flex; align-items:center;">:</span>
-                                <input name="date_minute" style="width:100%; text-align: left; padding: 0.56rem; font-family: inherit;" type="number" value="{{ Carbon\Carbon::now('Europe/Stockholm')->format('i')}}" max="59" min="0">
+                                <input data-validate-minute name="date_minute" style="width:100%; text-align: left; padding: 0.56rem; font-family: inherit;" type="number" value="{{ Carbon\Carbon::now('Europe/Stockholm')->format('i')}}" max="59" min="0">
                             </div>
                         </div>
                     </div>

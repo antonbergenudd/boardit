@@ -67,11 +67,13 @@
                     border: none;
 
                     &.invalid-input {
-                        border-color: #FF7D7D;
+                        border-color: $soft-red !important;
+                        color:$soft-red;
                     }
 
                     &.valid-input {
-                        border-color: #90EE90;
+                        border-color: $soft-green !important;
+                        color:$soft-green;
                     }
 
                     &:not([type='checkbox']) {

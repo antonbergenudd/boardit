@@ -20,6 +20,18 @@ $(window).on('load', () => {
     $('[data-validate-discount]').each((index, el) => {
         $(el).on('input', discount);
     })
+
+    $('[data-validate-date]').each((index, el) => {
+        $(el).on('input', date);
+    })
+
+    $('[data-validate-hour]').each((index, el) => {
+        $(el).on('input', hour);
+    })
+
+    $('[data-validate-minute]').each((index, el) => {
+        $(el).on('input', minute);
+    })
 })
 
 async function validateDiscount(el) {
@@ -45,6 +57,18 @@ function validateEmail(el) {
 
 function validateCity(el) {
     return el.value.toLowerCase() == 'lund';
+}
+
+function validateDate(el) {
+    return new Date(el.value).getTime() >= new Date().getTime();
+}
+
+function validateHour(el) {
+    return el.value >= 10 && el.value <= 21;
+}
+
+function validateMinute(el) {
+    return el.value >= 0 && el.value <= 59;
 }
 
 function validateRequired(el) {
@@ -84,6 +108,36 @@ async function discount(e) {
 
 function city(e) {
     if(! validateCity(e.target)) {
+        setInputInvalid(e.target);
+    } else {
+        setInputValid(e.target);
+    }
+
+    checkValid();
+}
+
+function date(e) {
+    if(! validateDate(e.target)) {
+        setInputInvalid(e.target);
+    } else {
+        setInputValid(e.target);
+    }
+
+    checkValid();
+}
+
+function hour(e) {
+    if(! validateHour(e.target)) {
+        setInputInvalid(e.target);
+    } else {
+        setInputValid(e.target);
+    }
+
+    checkValid();
+}
+
+function minute(e) {
+    if(! validateMinute(e.target)) {
         setInputInvalid(e.target);
     } else {
         setInputValid(e.target);
