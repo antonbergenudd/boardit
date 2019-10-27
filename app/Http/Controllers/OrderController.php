@@ -47,8 +47,18 @@ class OrderController extends BaseController
     }
 
     public function notifyOffline(Order $order) {
+        if(env('TWILIO_TEST')) {
+            $accountSid = env('TWILIO_ACCOUNT_SID_TEST');
+            $authToken = env('TWILIO_AUTH_TOKEN_TEST');
+        } else {
+            $accountSid = env('TWILIO_ACCOUNT_SID');
+            $authToken = env('TWILIO_AUTH_TOKEN');
+        }
+
+        $client = new Client($accountSid, $authToken);
+
         foreach(User::where('delivering', 0)->where('phone', '!=', 0)->get() as $employee) {
-            if(Carbon::now()->addHours('4')->gt($deliverance_date)) {
+            if(Carbon::now()->addHours('4')->gt($order->deliverance_date)) {
                 $productsString = '';
                 foreach($order->getProducts as $product) {
                     $productsString .= "\r\n{$product->name}";
@@ -71,8 +81,14 @@ class OrderController extends BaseController
             }
 
             try {
+                $phone = $employee->phone;
+
+                if(substr($phone, 0, 1) == '0') {
+                    $phone = substr_replace($phone, '+46', 0, 1);
+                }
+
                 $client->messages->create(
-                    $employee->phone,
+                    $phone,
                     [
                         "body" => $message,
                         "from" => env('TWILIO_TEST') ? env('TWILIO_NUMBER_TEST') : env('TWILIO_NUMBER')
@@ -106,10 +122,11 @@ class OrderController extends BaseController
             $order->user_id = $user->id;
 
             // Reserve product from stock if within 24 hours
-            if(Carbon::now()->addDays('1')->addHours('2')->gte(Carbon::parse($order->deliverance_date))) {
-
+            if(
+                Carbon::now('Europe/Stockholm')->addDays('1')->gte($order->deliverance_date)
+            ) {
                 // Set product as reserved if outside of 2 hours of deliverance
-                if(Carbon::now()->addHours('4')->gte(Carbon::parse($order->deliverance_date))) {
+                if(Carbon::now('Europe/Stockholm')->addHours('2')->lt($order->deliverance_date)) {
                     $order->status = Order::CONFIRMED_AND_RESERVED;
                 }
 
@@ -215,6 +232,10 @@ class OrderController extends BaseController
         $client = new Client($accountSid, $authToken);
 
         try {
+            if(substr($to, 0, 1) == '0') {
+                $to = substr_replace($to, '+46', 0, 1);
+            }
+
             $client->messages->create(
                 $to,
                 [
@@ -238,8 +259,13 @@ class OrderController extends BaseController
 
     public function receiveSms()
     {
-        $accountSid = env('TWILIO_ACCOUNT_SID');
-        $authToken = env('TWILIO_AUTH_TOKEN');
+        if(env('TWILIO_TEST')) {
+            $accountSid = env('TWILIO_ACCOUNT_SID_TEST');
+            $authToken = env('TWILIO_AUTH_TOKEN_TEST');
+        } else {
+            $accountSid = env('TWILIO_ACCOUNT_SID');
+            $authToken = env('TWILIO_AUTH_TOKEN');
+        }
 
         $client = new Client($accountSid, $authToken);
 
@@ -252,8 +278,7 @@ class OrderController extends BaseController
         ** Read the contents of the incoming message fields.
         */
         $body = $_REQUEST['Body'];
-        $to = $_REQUEST['From'];
-        $from = $_REQUEST['To'];
+        $to = env('TWILIO_TEST') ? '+46708605003' : $_REQUEST['From'];
 
         /*
         ** Remove formatting from $body until it is just lowercase
@@ -284,9 +309,8 @@ class OrderController extends BaseController
 
             // Check if already confirmed
             if(! isset($order->confirmed_at)) {
-                $nr = str_replace("+46", "0", $to);
+                $user = User::where('phone', str_replace("+46", "0", $to))->first();
 
-                $user = User::where('phone', $nr)->first();
                 $this->confirm($user, $order, false);
 
                 $body = 'Du har accepterat uppdraget.';
@@ -301,7 +325,7 @@ class OrderController extends BaseController
         $client->messages->create(
             $to,
             array(
-                'from' => $from,
+                'from' => env('TWILIO_TEST') ? env('TWILIO_NUMBER_TEST') : $_REQUEST['To'],
                 'body' => $sendDefault ? $defaultMessage : $body,
             )
         );

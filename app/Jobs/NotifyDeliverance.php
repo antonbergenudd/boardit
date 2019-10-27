@@ -35,17 +35,11 @@ class NotifyDeliverance implements ShouldQueue
      */
     public function handle()
     {
-        $accountSid = env('TWILIO_ACCOUNT_SID');
-        $authToken = env('TWILIO_AUTH_TOKEN');
-        $client = new Client($accountSid, $authToken);
-
         foreach(Order::whereNotNull('deliverance_date')->where('status', Order::CONFIRMED)->get() as $order) {
-
-            // If within 4 - 3,8 hrs, notify employee
             if(
-                Carbon::now()->addHours('4')->gte(Carbon::parse($order->deliverance_date))
+                Carbon::now('Europe/Stockholm')->addHours('2')->gte($order->deliverance_date)
                 &&
-                Carbon::now()->addHours('3')->addMinutes('40')->lt(Carbon::parse($order->deliverance_date))
+                Carbon::now('Europe/Stockholm')->addHours('1')->addMinutes('40')->lt($order->deliverance_date)
             ) {
                 $productsString = '';
                 foreach($order->getProducts as $product) {
@@ -53,13 +47,27 @@ class NotifyDeliverance implements ShouldQueue
                 }
 
                 // Notify user who confirmed about order
-                $employee = User::where('user_id', $order->user_id)->first();
+                $employee = User::find($order->user_id);
                 $this->notifyEmployee($productsString, $order->address, $employee->phone);
             }
         }
     }
 
     private function notifyEmployee($products, $address, $phone) {
+        if(env('TWILIO_TEST')) {
+            $accountSid = env('TWILIO_ACCOUNT_SID_TEST');
+            $authToken = env('TWILIO_AUTH_TOKEN_TEST');
+        } else {
+            $accountSid = env('TWILIO_ACCOUNT_SID');
+            $authToken = env('TWILIO_AUTH_TOKEN');
+        }
+
+        $client = new Client($accountSid, $authToken);
+
+        if(substr($phone, 0, 1) == '0') {
+            $phone = substr_replace($phone, '+46', 0, 1);
+        }
+
         try {
             $client->messages->create(
                 $phone,
@@ -67,7 +75,7 @@ class NotifyDeliverance implements ShouldQueue
                     "body" => "En order är schemalagd på dig inom 2 timmar!" .
                         "\r\nProdukter: " . $products .
                         "\r\nAdress: " . $address,
-                    "from" => env('TWILIO_NUMBER')
+                    "from" => env('TWILIO_TEST') ? env('TWILIO_NUMBER_TEST') : env('TWILIO_NUMBER')
                 ]
             );
         } catch (TwilioException $e) {

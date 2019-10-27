@@ -20,8 +20,8 @@ class Order extends Model
     const
         PROCESSING = 1,
         PAYMENT_FAILED = 2,
-        CONFIRMED_AND_RESERVED = 3,
-        FAILED = 4,
+        FAILED = 3,
+        CONFIRMED_AND_RESERVED = 4,
         CONFIRMED = 5,
         DELIVERED = 6,
         RETURNED = 7;

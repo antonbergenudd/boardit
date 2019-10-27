@@ -22,6 +22,7 @@ Route::get('/about', 'MainController@about')->name('about');
 Route::get('/faq', 'MainController@faq')->name('faq');
 Route::get('/policy', 'MainController@policy')->name('policy');
 
+
 // SMS
 Route::get('/sms/reply', 'OrderController@receiveSms')->name('sms.reply');
 
@@ -50,6 +51,7 @@ Route::post('check/discount', 'PaymentController@controlDiscount')->name('check.
 Route::get('{order}/status', 'OrderController@status')->name('order.status');
 Route::post('{order}/status/failed', 'OrderController@setFailed')->name('order.status.failed');
 Route::post('{order}/notify/offline', 'OrderController@notifyOffline')->name('notify.offline');
+Route::get('{order}/reminder', 'OrderController@orderReminder')->name('reminder');
 
 // Auth
 Route::prefix('auth')->name('auth.')->middleware(['auth'])->group(function() {

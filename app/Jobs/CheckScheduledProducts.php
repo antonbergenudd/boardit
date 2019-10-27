@@ -36,7 +36,11 @@ class CheckScheduledProducts implements ShouldQueue
     public function handle()
     {
         foreach(Order::where('status', Order::CONFIRMED)->get() as $order) {
-            if(Carbon::now()->addDays('1')->addHours('2')->gte(Carbon::parse($order->deliverance_date))) {
+            if(
+                Carbon::now('Europe/Stockholm')->addDays('1')->gte($order->deliverance_date)
+                &&
+                Carbon::now('Europe/Stockholm')->addHours('2')->lt($order->deliverance_date)
+            ) {
                 foreach($order->getProducts as $product) {
                     // Random product
                     if($product->id == 14) {

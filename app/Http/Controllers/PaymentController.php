@@ -68,7 +68,6 @@ class PaymentController extends BaseController
     }
 
     function submit(PaymentSubmitRequest $request) {
-
         if(env('STRIPE_TEST_MODE')) {
             Stripe::setApiKey(env('STRIPE_TEST_KEY'));
         } else {
@@ -103,6 +102,8 @@ class PaymentController extends BaseController
 
                 // Add product - order relation
                 foreach(Cart::content() as $row) {
+                    $schedule = true;
+
                     $product = $row->model;
                     $orderToProduct = new ProductOrder;
 
@@ -113,11 +114,6 @@ class PaymentController extends BaseController
                             $item_id = array_rand($items->toArray());
                         } while($item_id == 14);
                         $product = $items[$item_id];
-                    }
-
-                    // Remove item from DB if within timeframe
-                    if($product->quantity) {
-                        $product->quantity--;
                     }
 
                     $orderToProduct->product_id = $product->id;
@@ -139,8 +135,8 @@ class PaymentController extends BaseController
                 return redirect()->route('payment.feedback')->with(['code' => $code, 'order_id' => $order->id]);
             }
         } else {
-            return view('payment.feedback')->withErrors([
-                'Tyvärr kör vi inte ut till ditt område just nu, oroa dig inte, ingen betalning har utförts.'
+            return redirect()->route('payment.feedback')->withErrors([
+                'Tyvärr kör vi inte ut till ditt område.'
             ]);
         }
     }
@@ -189,19 +185,23 @@ class PaymentController extends BaseController
         $client = new Client($accountSid, $authToken);
 
         // Send out to all delivering employees
-        foreach(User::where('delivering', 1)->get() as $employee) {
-            if($employee->phone != 0) {
-                try {
-                    $message = $client->messages->create(
-                        $employee->phone,
-                        [
-                            "body" => $message,
-                            "from" => env('TWILIO_TEST') ? env('TWILIO_NUMBER_TEST') : env('TWILIO_NUMBER')
-                        ]
-                    );
-                } catch (TwilioException $e) {
-                    echo  $e;
-                }
+        foreach(User::where('delivering', 1)->where('phone', '!=', 0)->get() as $employee) {
+            $phone = $employee->phone;
+
+            if(substr($phone, 0, 1) == '0') {
+                $phone = substr_replace($phone, '+46', 0, 1);
+            }
+
+            try {
+                $message = $client->messages->create(
+                    $phone,
+                    [
+                        "body" => $message,
+                        "from" => env('TWILIO_TEST') ? env('TWILIO_NUMBER_TEST') : env('TWILIO_NUMBER')
+                    ]
+                );
+            } catch (TwilioException $e) {
+                echo  $e;
             }
         }
     }

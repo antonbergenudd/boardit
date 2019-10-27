@@ -22,7 +22,7 @@
     <div>
         <hr class="order-divider">
         @foreach($orders->sortBy('deliverance_date') as $order)
-            <div class="order" class="@if($order->status == \boardit\Order::RETURNED) lock-order @endif @if($order->error) order-error @endif">
+            <div class="order" data-notify-order="{{$order->id}}" class="@if($order->status == \boardit\Order::RETURNED) lock-order @endif @if($order->error) order-error @endif">
                 <div class="order-subitem">
                     <h4>Beställning</h4>
                     <div class="">
@@ -36,8 +36,12 @@
                     <p>{{$order->address}}</p>
                 </div>
                 <div class="order-subitem">
-                    <h4>Beställt</h4>
-                    <p>{{$order->created_at->format('Y-m-d G:i')}}</p>
+                    <h4>Reserverat</h4>
+                    @if($order->status == \boardit\Order::CONFIRMED_AND_RESERVED)
+                        <p>Ja</p>
+                    @else
+                        <p>Nej</p>
+                    @endif
                 </div>
                 @if(isset($note))
                 <div class="order-subitem">
@@ -70,13 +74,13 @@
 
                 <div class="order-subitem">
                     <h4 style="margin-bottom:.5rem;">Action</h4>
-                    @if($order->deliverance_date <= Carbon\Carbon::now('Europe/Stockholm')->addHours('2') && $order->status == \boardit\Order::IDLE)
+                    @if($order->status == \boardit\Order::PROCESSING)
                         <div class="order-action">
                             <a href="{{route('auth.confirm.order', ['order' => $order->id, 'user' => Auth::user()->id])}}" class="link">
                                 Bekräfta
                             </a>
                         </div>
-                    @elseif($order->status == \boardit\Order::CONFIRMED)
+                    @elseif($order->status == \boardit\Order::CONFIRMED || $order->status == \boardit\Order::CONFIRMED_AND_RESERVED)
                         <div class="order-action">
                             <a href="{{route('auth.deliver.order', ['order' => $order->id, 'user' => Auth::user()->id])}}" class="link">
                                 Levererat
@@ -90,8 +94,12 @@
                         </div>
                     @elseif($order->status == \boardit\Order::RETURNED)
                         <p>Behandlat</p>
+                    @elseif($order->status == \boardit\Order::FAILED)
+                        <p>Ingen bekräftelse</p>
+                    @elseif($order->status == \boardit\Order::PAYMENT_FAILED)
+                        <p>Betalning genomfördes ej</p>
                     @else
-                        <p>Väntandes</p>
+                        <p>Väntar på bekräftelse</p>
                     @endif
                 </div>
             </div>

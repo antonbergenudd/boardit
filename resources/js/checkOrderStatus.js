@@ -56,7 +56,9 @@ function loopCheck() {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                 });
-            } else if(status == "true") {
+            }
+
+            if(status == "true") {
                 $('[data-order-status-confirmed]').each((i, el) => {
                     $(el).removeClass('hide');
                 });
@@ -69,11 +71,11 @@ function loopCheck() {
 
                 localStorage.setItem("orderComplete", true);
             }
-        });
 
-        if(loop) {
-            loopCheck();
-        }
+            if(loop) {
+                loopCheck();
+            }
+        });
     }, 10000);
 }
 

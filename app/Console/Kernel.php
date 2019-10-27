@@ -31,11 +31,14 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        // Notify workers every second hour
         // $schedule->job(new ControlDelivering)->everyFifteenMinutes();
 
-        // $schedule->job(new NotifyDeliverance)->everyFifteenMinutes();
+        // Remind workers about upcoming orders
+        $schedule->job(new NotifyDeliverance)->everyFifteenMinutes();
 
-        // $schedule->job(new CheckScheduledProducts)->everyFifteenMinutes();
+        // Remove product from stock 24 hours in advance
+        $schedule->job(new CheckScheduledProducts)->everyFifteenMinutes();
 
         // Close website
         $schedule->job(new CloseDelivering)->dailyAt("20:00"); // Motsvarar 22 på svensk tid
