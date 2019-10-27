@@ -34,7 +34,7 @@
                     <img data-order-status-waiting style="height:100px;" src="http://rpg.drivethrustuff.com/shared_images/ajax-loader.gif"/>
                 </div>
 
-                <h2 data-order-status-confirmed style="margin-top:0;">{{ Session::get('code') }}</h2>
+                <h2 class="hide" data-order-status-confirmed style="margin-top:0;">{{ Session::get('code') }}</h2>
 
                 <div data-order-status-waiting>
                     <h2 style="margin-bottom:.5rem;">Vi kontrollerar så att vi har möjlighet att leverera din beställning..</h2>
