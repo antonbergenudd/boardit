@@ -48,7 +48,7 @@ Route::prefix('payment')->name('payment.')->group(function () {
 // General
 Route::post('check/discount', 'PaymentController@controlDiscount')->name('check.discount');
 Route::get('{order}/status', 'OrderController@status')->name('order.status');
-Route::get('{order}/status/failed', 'OrderController@setFailed')->name('order.status.failed');
+Route::post('{order}/status/failed', 'OrderController@setFailed')->name('order.status.failed');
 
 // Auth
 Route::prefix('auth')->name('auth.')->middleware(['auth'])->group(function() {

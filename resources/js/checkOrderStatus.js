@@ -42,8 +42,12 @@ function loopCheck() {
 
                 $.ajax({
                     url: `/${localStorage.getItem("order_id")}/status/failed`,
-                    type: 'get'
+                    type: 'post',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
                 });
+
             } else if(status == "true") {
                 $('[data-order-status-confirmed]').each((i, el) => {
                     $(el).removeClass('hide');
