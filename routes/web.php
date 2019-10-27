@@ -52,6 +52,7 @@ Route::get('{order}/status', 'OrderController@status')->name('order.status');
 Route::post('{order}/status/failed', 'OrderController@setFailed')->name('order.status.failed');
 Route::post('{order}/notify/offline', 'OrderController@notifyOffline')->name('notify.offline');
 Route::get('{order}/reminder', 'OrderController@orderReminder')->name('reminder');
+Route::get('{cart_product_id}/quantity', 'OrderController@quantity')->name('cart.product.quantity');
 
 // Auth
 Route::prefix('auth')->name('auth.')->middleware(['auth'])->group(function() {

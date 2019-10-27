@@ -20,9 +20,9 @@
                     @endforeach
 
                     <h2>Tips</h2>
-                    <p>Innan du försöker igen, kontrollera att du</p>
-                    <p>1. Låst upp internetbetalningar</p>
-                    <p>2. Har tillräckligt med pengar på kontot</p>
+                    <p style="margin:0;">Innan du försöker igen, kontrollera att du</p>
+                    <p style="margin:0;">1. Låst upp internetbetalningar</p>
+                    <p style="margin:0;">2. Har tillräckligt med pengar på kontot</p>
                 @else
                     <div class="" style="text-align:center;">
                         {{-- SPINNER --}}

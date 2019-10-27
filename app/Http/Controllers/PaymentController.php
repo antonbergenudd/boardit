@@ -94,6 +94,8 @@ class PaymentController extends BaseController
             } else if(isset($request->payment_by_card)) {
 
                 if(! $this->checkProductStock()) {
+                    Cart::destroy();
+                    
                     return redirect()->route('payment.feedback')->withErrors([
                         'Tyvärr så hann någon beställa samma produkt som dig innan din beställning gick igenom.'
                     ]);

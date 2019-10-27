@@ -35,35 +35,52 @@ function addToCart(e) {
 
 function removeFromCart(e) {
     $.ajax({
-        url: `/cart/${e.target.dataset.cartRemove}/remove`,
+        url: `/${e.target.dataset.cartRemove}/quantity`,
         type: 'GET',
-        success: function(res) {
-            $(`[data-cart-item-added="${e.target.dataset.cartRemove}"]`).addClass('hide');
-            $(`[data-cart-item-not-added="${e.target.dataset.cartRemove}"]`).removeClass('hide');
+        success: (quantity) => {
 
-            let id = $(e.target).data('cartRemove');
-            if($('.full-cart')[0]) {
-                let newTotal = parseInt($('[data-cart-total]').text()) - parseInt($(`[data-cart-item="${id}"]`).find('[data-cart-item-price]').text());
+            $.ajax({
+                url: `/cart/${e.target.dataset.cartRemove}/remove`,
+                type: 'GET',
+                success: function(res) {
+                    console.log(quantity)
+                    // Toggle add/remove
+                    if(quantity > 0) {
+                        $(`[data-cart-item-added="${e.target.dataset.cartRemove}"]`).addClass('hide');
+                        $(`[data-cart-item-not-added="${e.target.dataset.cartRemove}"]`).removeClass('hide');
+                        $('[data-cart-item-out]').addClass('hide');
+                    } else {
+                        $(`[data-cart-item-added="${e.target.dataset.cartRemove}"]`).addClass('hide');
+                        $(`[data-cart-item-not-added="${e.target.dataset.cartRemove}"]`).addClass('hide');
+                        $(`[data-cart-item-out="${e.target.dataset.cartRemove}"]`).removeClass('hide');
+                    }
 
-                $('[data-cart-total]').text(newTotal);
-                $('[data-stripe-amount]').attr('data-stripe-amount', newTotal);
+                    let id = $(e.target).data('cartRemove');
 
-                $(e.target).parent().next().remove();
-                $(e.target).parent().remove();
-            }
+                    // Update total
+                    if($('.full-cart')[0]) {
+                        let newTotal = parseInt($('[data-cart-total]').text()) - parseInt($(`[data-cart-item="${id}"]`).find('[data-cart-item-price]').text());
+                        $('[data-cart-total]').text(newTotal);
+                        $('[data-stripe-amount]').attr('data-stripe-amount', newTotal);
 
-            // Update count
-            $('[data-cart-count]').each((i, el) => {
-                let count = parseInt($(el).text());
+                        $(e.target).parent().next().remove();
+                        $(e.target).parent().remove();
+                    }
 
-                count--;
+                    // Update count
+                    $('[data-cart-count]').each((i, el) => {
+                        let count = parseInt($(el).text());
 
-                $(el).text(count);
+                        count--;
 
-                if(count == 0) {
-                    $(el).parent().addClass('hide');
+                        $(el).text(count);
+
+                        if(count == 0) {
+                            $(el).parent().addClass('hide');
+                        }
+                    })
                 }
-            })
+            });
         }
     });
 }

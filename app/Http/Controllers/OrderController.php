@@ -32,6 +32,14 @@ class OrderController extends BaseController
         return $order->status == Order::CONFIRMED || $order->status == Order::CONFIRMED_AND_RESERVED ? "true" : "false";
     }
 
+    public function quantity($cart_product_id) {
+        $item = Cart::search(function($cartItem, $rowId) use ($cart_product_id) {
+            return $cartItem->id == $cart_product_id;
+        })->first();
+
+        return $item->model->quantity;
+    }
+
     public function setFailed(Order $order) {
         $order = Order::find($order->id);
         $order->status = Order::FAILED;

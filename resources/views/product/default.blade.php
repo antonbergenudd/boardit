@@ -15,6 +15,8 @@
                 <p class="link @if(! \Cart::content()->where('id', $product->id)->count()) hide @endif" data-cart-item-added="{{$product->id}}" data-cart-remove="{{ $product->id }}">
                     Ta bort
                 </p>
+
+                <p class="hide" data-cart-item-out="{{$product->id}}">Tillfälligt slut</p>
             </div>
         @else
             <a class="link" href="{{route("product.view", ['product' => $product->id])}}">Läs mer</a>
