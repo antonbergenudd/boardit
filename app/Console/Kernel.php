@@ -44,7 +44,7 @@ class Kernel extends ConsoleKernel
         $schedule->job(new CloseDelivering)->dailyAt("20:00"); // Motsvarar 22 på svensk tid
 
         // Set passed orders
-        $schedule->job(new ControlOrders)->everyMinute();
+        // $schedule->job(new ControlOrders)->everyMinute();
     }
 
     /**

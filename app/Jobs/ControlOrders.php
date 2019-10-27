@@ -25,17 +25,17 @@ class ControlOrders implements ShouldQueue
     }
 
     /**
-     * Execute the job.
+     * If order is either past 2 hours before delivered or past 24 hours and not returned
      *
      * @return void
      */
     public function handle()
     {
-        // If order is either past 2 hours before delivered or past 24 hours and not returned
         foreach(Order::where('error', 0)->get() as $order) {
             if(
-                $order->status == Order::CONFIRMED && Carbon::parse($order->confirmed_at)->addHours('2') < Carbon::now()
-                || $order->status == Order::DELIVERED && Carbon::parse($order->delivered_at)->addDays('1') < Carbon::now()
+                Carbon::now('Europe/Stockholm')->addHours('2')->lt($order->confirmed_at) && $order->status <= Order::CONFIRMED
+                ||
+                Carbon::now('Europe/Stockholm')->addDays('1')->lt($order->delivered_at) && $order->status != Order::RETURNED
             ) {
                 $order->error = 1;
                 $order->save();
