@@ -63,7 +63,7 @@ class OrderController extends BaseController
         $client = new Client($accountSid, $authToken);
 
         foreach(User::where('delivering', 0)->where('phone', '!=', 0)->get() as $employee) {
-            if(Carbon::now()->addHours('4')->gt($order->deliverance_date)) {
+            if(Carbon::now('Europe/Stockholm')->addHours('2')->gt($order->deliverance_date)) {
                 $productsString = '';
                 foreach($order->getProducts as $product) {
                     $productsString .= "\r\n{$product->name}";
@@ -241,7 +241,6 @@ class OrderController extends BaseController
         ** Default response message when receiving a message without key words.
         */
         $defaultMessage = "Svara JA om du vill acceptera uppdraget.";
-
         /*
         ** Read the contents of the incoming message fields.
         */
@@ -256,7 +255,7 @@ class OrderController extends BaseController
         $response = trim($response);
         $response = strtolower($response);
         $sendDefault = true; // Default message is sent unless key word is found in following loop.
-
+        
         /*
         ** Choose the correct message response and set default to false.
         */
