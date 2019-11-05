@@ -10,10 +10,12 @@
 
           gtag('config', 'UA-148437942-1');
         </script>
-        
+
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        <meta name="description" content="Hyr brädspel levererat till dörren.">
+        <meta name="keywords" content="Hyr brädspel, brädspel, hemleverans, studentpriser">
 
         <title>Boardit</title>
         <link rel="shortcut icon" type="image/png" href="{{ asset('img/favicon.png') }}"/>
