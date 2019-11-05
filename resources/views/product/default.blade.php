@@ -4,7 +4,7 @@
     @endif
     <h1 class="product-default-title">{{$product->name}} <span class="price">{{$product->price}} kr</span></h1>
 
-    @if(boardit\User::where('delivering', 1)->count())
+    {{-- @if(boardit\User::where('delivering', 1)->count()) --}}
         @if($product->quantity)
             <div class="add_cart">
 
@@ -23,9 +23,9 @@
 
             <p>Tillfälligt slut</p>
         @endif
-    @else
+    {{-- @else
         <a class="link" href="{{route("product.view", ['product' => $product->id])}}">Läs mer</a>
 
         <p>Levererar ej för tillfället</p>
-    @endif
+    @endif --}}
 </div>
