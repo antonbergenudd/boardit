@@ -14,11 +14,7 @@ use Twilio\Rest\Client;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-use Illuminate\Http\Request;
-use Illuminate\Routing\Route;
-
 use JacobBennett\StripeTestToken;
-use Stripe\Charge;
 
 class OrderControllerTest extends TestCase
 {
@@ -58,7 +54,7 @@ class OrderControllerTest extends TestCase
 
     // /**
     //  * Test quantity.
-    //  *
+    //  * TODO: Test with cart
     //  * @return void
     //  */
     // public function testQuantity() {

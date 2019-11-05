@@ -13,6 +13,8 @@ $factory->define(Order::class, function (Faker $faker) {
         'user_id' => function() {
             return factory(User::class)->create()->id;
         },
+        'email' => $faker->email,
+        'phone' => $faker->phoneNumber,
         'address' => $faker->address,
         'payment' => 1,
         'status' => Order::PROCESSING,

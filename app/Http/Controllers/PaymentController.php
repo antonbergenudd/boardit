@@ -4,9 +4,11 @@ namespace boardit\Http\Controllers;
 
 use boardit\DiscountCode;
 use boardit\ProductOrder;
+
 use boardit\Http\Requests\PaymentSubmitRequest;
 
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 use Carbon\Carbon;
@@ -21,10 +23,19 @@ use Stripe\Stripe;
 use Twilio\Rest\Client;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
-// https://github.com/Crinsane/LaravelShoppingcart#usage
-// https://github.com/stripe/stripe-php
+/**
+ * Handles logic around payments.
+ *
+ * @see https://github.com/Crinsane/LaravelShoppingcart#usage The shopping cart
+ * @see https://github.com/stripe/stripe-php Stripe payment
+ */
 class PaymentController extends BaseController
 {
+    /**
+     * View payment index page.
+     *
+     * @return void
+     */
     function index() {
         $cart = Cart::content();
         $cartTotal = Cart::subtotal();
@@ -32,11 +43,23 @@ class PaymentController extends BaseController
         return view('payment.index', compact('cart', 'cartTotal'));
     }
 
+    /**
+     * View feedback page.
+     *
+     * @return void
+     */
     function feedback() {
         return view('payment.feedback');
     }
 
-    function checkDiscount($discount_code, $total) {
+    /**
+     * Control discount code. Return new total
+     * @param string|null $discount_code
+     * @param int $total
+     *
+     * @return int|null
+     */
+    function checkDiscount(?string $discount_code,int $total) : ?int {
         if($discount_code) {
             $code = DiscountCode::where('code', $discount_code)->first();
 
@@ -48,7 +71,13 @@ class PaymentController extends BaseController
         return $total;
     }
 
-    function controlDiscount(Request $request) {
+    /**
+     * Control discount code. Return value of discount code
+     * @param Request $request
+     *
+     * @return int|null
+     */
+    function controlDiscount(Request $request) : ?int {
         $code = $request->code;
 
         if($code) {
@@ -62,12 +91,23 @@ class PaymentController extends BaseController
         return null;
     }
 
-    function removeDiscountCode($discount_code) {
+    /**
+     * Removes discount code.
+     * @param string $discount_code
+     *
+     * @return void
+     */
+    function removeDiscountCode(string $discount_code) : void {
         $code = DiscountCode::where('code', $discount_code)->first();
         $code->delete();
     }
 
-    private function checkProductStock() {
+    /**
+     * Controls cart product's in stock.
+     *
+     * @return bool
+     */
+    private function checkCartProductStock() : bool {
         $stock_ok = true;
 
         // Add product - order relation
@@ -81,7 +121,13 @@ class PaymentController extends BaseController
         return $stock_ok;
     }
 
-    function submit(PaymentSubmitRequest $request) {
+    /**
+     * Construct a payment request.
+     * @param PaymentSubmitRequest $request
+     *
+     * @return RedirectResponse
+     */
+    function submit(PaymentSubmitRequest $request) : RedirectResponse {
         if(env('STRIPE_TEST_MODE')) {
             Stripe::setApiKey(env('STRIPE_TEST_KEY'));
         } else {
@@ -92,10 +138,9 @@ class PaymentController extends BaseController
             if(isset($request->payment_by_swish)) {
                 //
             } else if(isset($request->payment_by_card)) {
-
-                if(! $this->checkProductStock()) {
+                if(! $this->checkCartProductStock()) {
                     Cart::destroy();
-                    
+
                     return redirect()->route('payment.feedback')->withErrors([
                         'Tyvärr så hann någon beställa samma produkt som dig innan din beställning gick igenom.'
                     ]);
@@ -167,7 +212,14 @@ class PaymentController extends BaseController
         }
     }
 
-    private function notifyThroughSms($order, $errand)
+    /**
+     * Notify employee through sms.
+     * @param Order $order
+     * @param int $errand Type of sms to send
+     *
+     * @return void
+     */
+    private function notifyThroughSms(Order $order, int $errand) : void
     {
         if(env('SEND_SMS')) {
             $productsString = '';
@@ -198,7 +250,13 @@ class PaymentController extends BaseController
         }
     }
 
-    protected function sendSms($message)
+    /**
+     * Perform an sms.
+     * @param string $message
+     *
+     * @return void
+     */
+    protected function sendSms(string $message) : void
     {
         if(env('TWILIO_TEST')) {
             $accountSid = env('TWILIO_ACCOUNT_SID_TEST');
