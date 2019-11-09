@@ -36,18 +36,6 @@ class PaymentController extends BaseController
         return view('payment.feedback');
     }
 
-    // function checkDiscount($discount_code, $total) {
-    //     if($discount_code) {
-    //         $code = DiscountCode::where('code', $discount_code)->first();
-    //
-    //         if(isset($code)) {
-    //             $total = $total * ($code->amount / 100);
-    //         }
-    //     }
-    //
-    //     return $total;
-    // }
-
     function controlDiscount(Request $request) {
         $code = $request->code;
 
@@ -60,11 +48,6 @@ class PaymentController extends BaseController
         }
 
         return null;
-    }
-
-    function removeDiscountCode($discount_code) {
-        $code = DiscountCode::where('code', $discount_code)->first();
-        $code->delete();
     }
 
     private function checkProductStock() {
@@ -116,7 +99,6 @@ class PaymentController extends BaseController
                 $order->address = $request->street.', '.$request->postcode.', '.$request->city;
                 $order->email = isset($request->email) ? $request->email : NULL;
                 $order->phone = isset($request->tel) ? $request->tel : NULL;
-                // $order->payment = $this->checkDiscount($request->discount_code, str_replace(".00", "", Cart::subTotal() + 30)); // Addon för utkörning
                 $order->payment = str_replace(".00", "", Cart::subTotal() + 30);
                 $order->payment_type = Order::PAYMENT_CARD;
                 $order->deliverance_date = $deliverance_date;
