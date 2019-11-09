@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Mail;
 use boardit\ProductOrder;
 use boardit\User;
 use boardit\Order;
+use boardit\DiscountCode;
 use boardit\Mail\ConfirmationMailable;
 
 use Carbon\Carbon;
@@ -105,6 +106,20 @@ class OrderController extends BaseController
         }
     }
 
+    private function checkDiscount($discount_code, $total) {
+        $code = DiscountCode::where('code', $discount_code)->first();
+
+        if(isset($code)) {
+            $total = $total * (1 - ($code->amount / 100));
+
+            if(! $code->repeatable) {
+                $code->delete();
+            }
+        }
+
+        return $total;
+    }
+
     public function confirm(User $user, Order $order, $redirect = true) {
         if(env('STRIPE_TEST_MODE')) {
             Stripe::setApiKey(env('STRIPE_TEST_KEY'));
@@ -112,8 +127,14 @@ class OrderController extends BaseController
             Stripe::setApiKey(env('STRIPE_PROD_KEY'));
         }
 
+        if(isset($order->discount_code)) {
+            $payment = $this->checkDiscount($order->discount_code, $order->payment);
+        } else {
+            $payment = $order->payment;
+        }
+
         $charge = Charge::create([
-            'amount' => $order->payment * 100,
+            'amount' => $payment * 100,
             'currency' => 'sek',
             'description' => 'Beställning av spel',
             'customer' => $order->payment_token,
