@@ -35,7 +35,7 @@ class NotifyDeliverance implements ShouldQueue
      */
     public function handle()
     {
-        foreach(Order::whereNotNull('deliverance_date')->whereIn('status', Order::CONFIRMED_AND_RESERVED)->get() as $order) {
+        foreach(Order::whereNotNull('deliverance_date')->where('status', Order::CONFIRMED_AND_RESERVED)->get() as $order) {
             if(
                 Carbon::now('Europe/Stockholm')->addHours('2')->addMinutes('20')->gte($order->deliverance_date)
                 &&
