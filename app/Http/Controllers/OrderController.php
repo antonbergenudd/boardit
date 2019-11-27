@@ -27,6 +27,10 @@ class OrderController extends BaseController
         return view('auth.orders', compact('orders'));
     }
 
+    public function validateOrder() {
+        return response('Deny', 301);
+    }
+
     public function status(Order $order) {
         return $order->status == Order::CONFIRMED || $order->status == Order::CONFIRMED_AND_RESERVED ? "true" : "false";
     }
