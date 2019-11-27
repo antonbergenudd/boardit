@@ -88,7 +88,7 @@ class PaymentController extends BaseController
                 "confirmation" => route('payment.feedback'), // När order är bekräftad
                 // Callbacks
                 "push" => "https://www.example.com/api/push",
-                "validation" => route('order.validate'), // Bekräftar order först
+                "validation" => "https://boarditgames.se/order/validate", // Bekräftar order först
                 // "shipping_option_update" => "https://www.example.com/api/shipment",
                 // "address_update" => "https://www.example.com/api/address",
                 // "notification" => "https://www.example.com/api/pending",
