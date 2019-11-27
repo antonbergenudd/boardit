@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "54f70dae34342166229008da0756d481",
+    "content-hash": "f8b45719a386172c638fd1d7f82b46be",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -979,6 +979,53 @@
             ],
             "description": "Highlight PHP code in terminal",
             "time": "2018-09-29T18:48:56+00:00"
+        },
+        {
+            "name": "klarna/kco_rest",
+            "version": "v4.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/klarna/kco_rest_php.git",
+                "reference": "2f0798e540ad8ce2fb8c3eed3cdc7f6bed4b6aaf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/klarna/kco_rest_php/zipball/2f0798e540ad8ce2fb8c3eed3cdc7f6bed4b6aaf",
+                "reference": "2f0798e540ad8ce2fb8c3eed3cdc7f6bed4b6aaf",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "~6.0",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "apigen/apigen": "4.0.*",
+                "klarna/apigen-theme": "~2.0",
+                "php-coveralls/php-coveralls": "^2.1",
+                "phploc/phploc": "2.0.*",
+                "phpmd/phpmd": "2.1.*",
+                "phpunit/phpunit": ">=4.0.0, <6.0",
+                "sebastian/phpcpd": "2.0.*",
+                "squizlabs/php_codesniffer": "1.5.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Klarna\\": "src/Klarna/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Klarna AB"
+                }
+            ],
+            "description": "Klarna Checkout PHP SDK",
+            "homepage": "http://developers.klarna.com",
+            "time": "2019-11-05T10:54:28+00:00"
         },
         {
             "name": "laravel/framework",

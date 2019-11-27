@@ -7,9 +7,9 @@
             <div class="full-cart-item" data-cart-item={{$product->id}}>
                 <h2 class="full-cart-item-header">{{ $product->name }}</h2>
                 <p class="full-cart-item-price"><span data-cart-item-price>{{ $product->price }}</span> kr</p>
-                <p class="full-cart-item-remove" data-cart-remove="{{ $product->id }}">
+                {{-- <p class="full-cart-item-remove" data-cart-remove="{{ $product->id }}">
                     Ta bort
-                </p>
+                </p> --}}
             </div>
 
             <hr>
@@ -18,7 +18,7 @@
         @if($cartTotal > 0)
             @if(! \Cart::content()->where('id', 15)->count())
                 <div class="full-cart-pickup-wrapper">
-                    <a class="link full-cart-pickup" href="{{ route('cart.add', ['product' => 15]) }}">Lägg till upphämtning (30kr)</a>
+                    {{-- <a class="link full-cart-pickup" href="{{ route('cart.add', ['product' => 15]) }}">Lägg till upphämtning (30kr)</a> --}}
                     {{-- <a class="link" href="{{ route('cart.add', ['product' => 16]) }}" style="flex:1;">Lägg till utkörning (30kr)</a> --}}
                 </div>
             @endif
