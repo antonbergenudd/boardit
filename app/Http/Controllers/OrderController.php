@@ -52,8 +52,8 @@ class OrderController extends BaseController
 
         $checkout = new \Klarna\Rest\OrderManagement\Order($connector, $request->sid);
 
-        $checkout->acknowledge();
-        // $checkout->cancel();
+        // $checkout->acknowledge();
+        $checkout->cancel();
 
         return back();
     }
