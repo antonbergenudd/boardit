@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="feedback" data-order-status="{{Session::get('order_id')}}">
-        <div class="feedback-wrapper">
+        <div class="feedback-wrapper" style="width:40rem;">
         {{-- Display errors --}}
             <div class="feedback-info">
                 @if($errors->any())
@@ -25,7 +25,7 @@
                     <p style="margin:0;">2. Har tillräckligt med pengar på kontot</p>
                 @else
                     <div id="my-checkout-container"></div>
-                    
+
                     <textarea style="display: none" id="KCO">
                         {!! $html_snippet !!}
                     </textarea>

@@ -85,17 +85,16 @@ class PaymentController extends BaseController
                 "terms" => "https://www.example.com/terms.html",
                 "cancellation_terms" => "https://www.example.com/terms/cancellation.html",
                 "checkout" => "https://www.example.com/checkout.html",
-                "confirmation" => route('payment.feedback'), // När order är bekräftad
+                "confirmation" => route('payment.feedback') . "?sid={checkout.order.id}", // När order är bekräftad
                 // Callbacks
                 "push" => "https://www.example.com/api/push",
-                "validation" => "https://boarditgames.se/order/validate", // Bekräftar order först
+                "validation" => "https://boarditgames.se/order/validate?sid={checkout.order.id}", // Bekräftar order först
                 // "shipping_option_update" => "https://www.example.com/api/shipment",
                 // "address_update" => "https://www.example.com/api/address",
                 // "notification" => "https://www.example.com/api/pending",
                 // "country_change" => "https://www.example.com/api/country"
             ]
         ];
-        dd(route('order.validate'));
 
         try {
             $checkout = new \Klarna\Rest\Checkout\Order($connector);
@@ -103,8 +102,6 @@ class PaymentController extends BaseController
 
             // Store checkout order id
             $orderId = $checkout->getId();
-
-            dd($checkout);
 
             $html_snippet = $checkout['html_snippet'];
 
@@ -117,7 +114,7 @@ class PaymentController extends BaseController
         }
     }
 
-    function feedback() {
+    function feedback(Request $request) {
         if(env('KLARNA_TEST')) {
             $merchantId = env('KLARNA_TEST_USERNAME');
             $sharedSecret = env('KLARNA_TEST_PASSWORD');
@@ -142,8 +139,7 @@ class PaymentController extends BaseController
         );
 
         try {
-            dd('stop');
-            $checkout = new \Klarna\Rest\Checkout\Order($connector, "order id");
+            $checkout = new \Klarna\Rest\Checkout\Order($connector, $request->sid);
             $checkout->fetch();
 
             $html_snippet = $checkout['html_snippet'];
