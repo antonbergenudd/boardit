@@ -34,8 +34,6 @@ class OrderController extends BaseController
     }
 
     public function validatePush(Request $request) {
-        $request->sid
-
         if(env('KLARNA_TEST')) {
             $merchantId = env('KLARNA_TEST_USERNAME');
             $sharedSecret = env('KLARNA_TEST_PASSWORD');
@@ -52,7 +50,7 @@ class OrderController extends BaseController
             $apiEndpoint
         );
 
-        $checkout = new \Klarna\Rest\OrderManagement\Order($connector);
+        $checkout = new \Klarna\Rest\OrderManagement\Order($connector, $request->sid);
 
         // $checkout->acknowledge();
         $checkout->cancel();
