@@ -33,6 +33,33 @@ class OrderController extends BaseController
         return redirect()->route('index');
     }
 
+    public function validatePush(Request $request) {
+        $request->sid
+
+        if(env('KLARNA_TEST')) {
+            $merchantId = env('KLARNA_TEST_USERNAME');
+            $sharedSecret = env('KLARNA_TEST_PASSWORD');
+            $apiEndpoint = \Klarna\Rest\Transport\ConnectorInterface::EU_TEST_BASE_URL;
+        } else {
+            $merchantId = env('KLARNA_USERNAME');
+            $sharedSecret = env('KLARNA_PASSWORD');
+            $apiEndpoint = \Klarna\Rest\Transport\ConnectorInterface::EU_BASE_URL;
+        }
+
+        $connector = \Klarna\Rest\Transport\GuzzleConnector::create(
+            $merchantId,
+            $sharedSecret,
+            $apiEndpoint
+        );
+
+        $checkout = new \Klarna\Rest\OrderManagement\Order($connector);
+
+        // $checkout->acknowledge();
+        $checkout->cancel();
+
+        return back();
+    }
+
     public function status(Order $order) {
         return $order->status == Order::CONFIRMED || $order->status == Order::CONFIRMED_AND_RESERVED ? "true" : "false";
     }
