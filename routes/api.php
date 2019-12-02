@@ -18,3 +18,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::post('/order/validate', 'OrderController@validateOrder');
+Route::post('/order/push', 'OrderController@validatePush');
