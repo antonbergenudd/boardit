@@ -11,6 +11,8 @@ use boardit\Order;
 use boardit\DiscountCode;
 use boardit\Mail\ConfirmationMailable;
 
+use Illuminate\Http\Request;
+
 use Carbon\Carbon;
 use Stripe\Charge;
 use Stripe\Stripe;
@@ -27,7 +29,8 @@ class OrderController extends BaseController
         return view('auth.orders', compact('orders'));
     }
 
-    public function validateOrder() {
+    public function validateOrder(Request $request) {
+        dd($request);
         return response('Deny', 301);
     }
 
