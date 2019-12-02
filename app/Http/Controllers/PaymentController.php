@@ -81,6 +81,9 @@ class PaymentController extends BaseController
             "order_amount" => str_replace('.', '', $cartTotal),
             "order_tax_amount" => 0,
             "order_lines" => $order_lines,
+            "options" => [
+                "require_validate_callback_success" => true,
+            ],
             "merchant_urls" => [
                 "terms" => "https://www.example.com/terms.html",
                 "cancellation_terms" => "https://www.example.com/terms/cancellation.html",
