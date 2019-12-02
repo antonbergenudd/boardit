@@ -46,7 +46,7 @@
     </body>
 
     <!-- START - Dont edit -->
-	<script type="text/javascript">
+	{{-- <script type="text/javascript">
 		var checkoutContainer = document.getElementById('my-checkout-container')
 		checkoutContainer.innerHTML = (document.getElementById("KCO").value).replace(/\\"/g, "\"").replace(/\\n/g, "");
 		var scriptsTags = checkoutContainer.getElementsByTagName('script')
@@ -58,7 +58,9 @@
 			parentNode.removeChild(scriptsTags[i])
 			parentNode.appendChild(newScriptTag)
 		}
-	</script>
+	</script> --}}
 	<!-- END -->
+
+    <script src="https://x.klarnacdn.net/kp/lib/v1/api.js" async></script>
 
 </html>

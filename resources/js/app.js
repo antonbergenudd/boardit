@@ -4,3 +4,4 @@ require('./navbar.js');
 require('./cart.js');
 require('./liveValidation.js');
 require('./checkOrderStatus.js');
+require('./klarna.js');

@@ -28,93 +28,97 @@ class PaymentController extends BaseController
     function index() {
         $cart = Cart::content();
         $cartTotal = Cart::subtotal();
+        // 
+        // if(env('KLARNA_TEST')) {
+        //     $merchantId = env('KLARNA_TEST_USERNAME');
+        //     $sharedSecret = env('KLARNA_TEST_PASSWORD');
+        //     $apiEndpoint = \Klarna\Rest\Transport\ConnectorInterface::EU_TEST_BASE_URL;
+        // } else {
+        //     $merchantId = env('KLARNA_USERNAME');
+        //     $sharedSecret = env('KLARNA_PASSWORD');
+        //     $apiEndpoint = \Klarna\Rest\Transport\ConnectorInterface::EU_BASE_URL;
+        // }
+        //
+        // /*
+        // EU_BASE_URL = 'https://api.klarna.com'
+        // EU_TEST_BASE_URL = 'https://api.playground.klarna.com'
+        // NA_BASE_URL = 'https://api-na.klarna.com'
+        // NA_TEST_BASE_URL = 'https://api-na.playground.klarna.com'
+        // */
+        //
+        // $connector = \Klarna\Rest\Transport\GuzzleConnector::create(
+        //     $merchantId,
+        //     $sharedSecret,
+        //     $apiEndpoint
+        // );
+        //
+        // // Add product - order relation
+        // $order_lines = [];
+        // foreach(Cart::content() as $row) {
+        //     $product = $row->model;
+        //
+        //     $price = str_replace('.', '', $product->price) . '00';
+        //     $price_tax = $price * 0.25 . '';
+        //
+        //     $order_lines[] = [
+        //         "type" => "physical",
+        //         "reference" => "123050",
+        //         "name" => $product->name,
+        //         "quantity" => 1,
+        //         "quantity_unit" => "st",
+        //         "unit_price" => $price,
+        //         "tax_rate" => 0,
+        //         "total_amount" => $price,
+        //         "total_tax_amount" => 0,
+        //     ];
+        // }
+        //
+        // // dd(str_replace('.', '', $cartTotal) + str_replace('.', '', $cartTotal) * 0.25 . '');
+        // $order = [
+        //     "purchase_country" => "se",
+        //     "purchase_currency" => "sek",
+        //     "locale" => "sv-SE",
+        //     "order_amount" => str_replace('.', '', $cartTotal),
+        //     "order_tax_amount" => 0,
+        //     "order_lines" => $order_lines,
+        //     "options" => [
+        //         "require_validate_callback_success" => true,
+        //     ],
+        //     "merchant_urls" => [
+        //         "terms" => "https://www.example.com/terms.html",
+        //         "cancellation_terms" => "https://www.example.com/terms/cancellation.html",
+        //         "checkout" => "https://www.example.com/checkout.html",
+        //         "confirmation" => route('payment.feedback') . "?sid={checkout.order.id}", // När order är bekräftad
+        //         // Callbacks
+        //         "push" => "https://boarditgames.se/api/order/push?sid={checkout.order.id}",
+        //         "validation" => "https://boarditgames.se/api/order/validate?sid={checkout.order.id}", // Bekräftar order först
+        //         // "shipping_option_update" => "https://www.example.com/api/shipment",
+        //         // "address_update" => "https://www.example.com/api/address",
+        //         // "notification" => "https://www.example.com/api/pending",
+        //         // "country_change" => "https://www.example.com/api/country"
+        //     ]
+        // ];
+        //
+        // try {
+        //     $checkout = new \Klarna\Rest\Checkout\Order($connector);
+        //     $checkout->create($order);
+        //
+        //     dd($checkout);
+        //
+        //     // Store checkout order id
+        //     $orderId = $checkout->getId();
+        //
+        //     $html_snippet = $checkout['html_snippet'];
+        //
+        //     return view('payment.index', compact('cart', 'cartTotal', 'html_snippet'));
+        //
+        // } catch (Exception $e) {
+        //     return redirect()->route('payment.index')->withErrors([
+        //         'Någonting gick fel i betalningen'
+        //     ]);
+        // }
 
-        if(env('KLARNA_TEST')) {
-            $merchantId = env('KLARNA_TEST_USERNAME');
-            $sharedSecret = env('KLARNA_TEST_PASSWORD');
-            $apiEndpoint = \Klarna\Rest\Transport\ConnectorInterface::EU_TEST_BASE_URL;
-        } else {
-            $merchantId = env('KLARNA_USERNAME');
-            $sharedSecret = env('KLARNA_PASSWORD');
-            $apiEndpoint = \Klarna\Rest\Transport\ConnectorInterface::EU_BASE_URL;
-        }
-
-        /*
-        EU_BASE_URL = 'https://api.klarna.com'
-        EU_TEST_BASE_URL = 'https://api.playground.klarna.com'
-        NA_BASE_URL = 'https://api-na.klarna.com'
-        NA_TEST_BASE_URL = 'https://api-na.playground.klarna.com'
-        */
-
-        $connector = \Klarna\Rest\Transport\GuzzleConnector::create(
-            $merchantId,
-            $sharedSecret,
-            $apiEndpoint
-        );
-
-        // Add product - order relation
-        $order_lines = [];
-        foreach(Cart::content() as $row) {
-            $product = $row->model;
-
-            $price = str_replace('.', '', $product->price) . '00';
-            $price_tax = $price * 0.25 . '';
-
-            $order_lines[] = [
-                "type" => "physical",
-                "reference" => "123050",
-                "name" => $product->name,
-                "quantity" => 1,
-                "quantity_unit" => "st",
-                "unit_price" => $price,
-                "tax_rate" => 0,
-                "total_amount" => $price,
-                "total_tax_amount" => 0,
-            ];
-        }
-
-        // dd(str_replace('.', '', $cartTotal) + str_replace('.', '', $cartTotal) * 0.25 . '');
-        $order = [
-            "purchase_country" => "se",
-            "purchase_currency" => "sek",
-            "locale" => "sv-SE",
-            "order_amount" => str_replace('.', '', $cartTotal),
-            "order_tax_amount" => 0,
-            "order_lines" => $order_lines,
-            "options" => [
-                "require_validate_callback_success" => true,
-            ],
-            "merchant_urls" => [
-                "terms" => "https://www.example.com/terms.html",
-                "cancellation_terms" => "https://www.example.com/terms/cancellation.html",
-                "checkout" => "https://www.example.com/checkout.html",
-                "confirmation" => route('payment.feedback') . "?sid={checkout.order.id}", // När order är bekräftad
-                // Callbacks
-                "push" => "https://boarditgames.se/api/order/push?sid={checkout.order.id}",
-                "validation" => "https://boarditgames.se/api/order/validate?sid={checkout.order.id}", // Bekräftar order först
-                // "shipping_option_update" => "https://www.example.com/api/shipment",
-                // "address_update" => "https://www.example.com/api/address",
-                // "notification" => "https://www.example.com/api/pending",
-                // "country_change" => "https://www.example.com/api/country"
-            ]
-        ];
-
-        try {
-            $checkout = new \Klarna\Rest\Checkout\Order($connector);
-            $checkout->create($order);
-
-            // Store checkout order id
-            $orderId = $checkout->getId();
-
-            $html_snippet = $checkout['html_snippet'];
-
-            return view('payment.index', compact('cart', 'cartTotal', 'html_snippet'));
-
-        } catch (Exception $e) {
-            return redirect()->route('payment.index')->withErrors([
-                'Någonting gick fel i betalningen'
-            ]);
-        }
+        return view('payment.index', compact('cart', 'cartTotal'));
     }
 
     function feedback(Request $request) {
