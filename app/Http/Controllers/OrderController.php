@@ -30,8 +30,7 @@ class OrderController extends BaseController
     }
 
     public function validateOrder(Request $request) {
-        dd($request);
-        return response('Deny', 301);
+        return response('Accept', 200);
     }
 
     public function status(Order $order) {
