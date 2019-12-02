@@ -30,7 +30,7 @@ class OrderController extends BaseController
     }
 
     public function validateOrder(Request $request) {
-        return redirect()->to('index')->send();
+        return redirect()->route('index');
     }
 
     public function status(Order $order) {
