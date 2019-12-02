@@ -90,8 +90,8 @@ class PaymentController extends BaseController
                 "checkout" => "https://www.example.com/checkout.html",
                 "confirmation" => route('payment.feedback') . "?sid={checkout.order.id}", // När order är bekräftad
                 // Callbacks
-                "push" => "https://boarditgames.se/order/push?sid={checkout.order.id}",
-                "validation" => "https://boarditgames.se/order/validate?sid={checkout.order.id}", // Bekräftar order först
+                "push" => "https://boarditgames.se/api/order/push?sid={checkout.order.id}",
+                "validation" => "https://boarditgames.se/api/order/validate?sid={checkout.order.id}", // Bekräftar order först
                 // "shipping_option_update" => "https://www.example.com/api/shipment",
                 // "address_update" => "https://www.example.com/api/address",
                 // "notification" => "https://www.example.com/api/pending",
