@@ -1,7 +1,13 @@
 .games {
-    .games-wrapper {
+    display: flex;
+
+    &-categories {
+        flex: 1;
+    }
+
+    &-wrapper {
         margin-top:5rem;
-        width:100%;
+        flex:4;
         display:flex;
         flex-wrap:wrap;
         justify-content: center;

@@ -4,6 +4,7 @@ namespace boardit\Http\Controllers;
 
 use Illuminate\Routing\Controller as BaseController;
 use boardit\Product;
+use boardit\Category;
 use Gloudemans\Shoppingcart\Facades\Cart;
 
 class MainController extends BaseController
@@ -40,10 +41,11 @@ class MainController extends BaseController
 
     function games() {
         $products = Product::where('show', 1)->get();
+        $categories = Category::get();
 
         $cart = Cart::content();
         $cartTotal = Cart::subTotal();
 
-        return view('games', compact('products', 'cart', 'cartTotal'));
+        return view('games', compact('products', 'cart', 'cartTotal', 'categories'));
     }
 }
