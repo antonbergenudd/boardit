@@ -18,7 +18,7 @@
     </div>
 
     <div class="index-box">
-        <h1>Populära spel</h1>
+        {{-- <h1>Populära spel</h1> --}}
         <div class="popular-games-wrapper">
             @foreach($products as $product)
                 @include('product.default')
@@ -37,5 +37,11 @@
             <p><b>Vid upphämtning endast!</b> Efter det att du fått dina spel levererade till din dörr, har du upp till 24 timmar på dig att spela så mycket det bara går, sedan kommer ett bud att hämta upp spelen igen vid samma adress som avlämningen skedde på.</p>
         </div>
     </div>
+
+    {{-- @if(isset($cart) && $cart->first())
+        @include('modules.cart.floating')
+    @endif --}}
+
+    @include('modules.cart.floating')
 </div>
 @stop

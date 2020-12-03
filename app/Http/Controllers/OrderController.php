@@ -37,7 +37,7 @@ class OrderController extends BaseController
         $item = Cart::search(function($cartItem, $rowId) use ($cart_product_id) {
             return $cartItem->id == $cart_product_id;
         })->first();
-
+        
         return $item->model->quantity;
     }
 

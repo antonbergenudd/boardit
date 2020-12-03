@@ -40,6 +40,9 @@
 
         <div class="content">
             @yield('content')
+
+            {{-- @if(isset($cart) && $cart->first()) --}}
+            {{-- @endif --}}
         </div>
 
         @include('footer')

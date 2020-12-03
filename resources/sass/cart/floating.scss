@@ -14,20 +14,30 @@
 
     &-close {
         position:absolute;
-        top:1.3rem;
+        top:0rem;
         right:1rem;
         text-decoration: none;
         color: inherit;
         font-size:10pt;
+        cursor: pointer;
     }
 
     &-title {
         margin:0;
+        text-transform: uppercase;
     }
 
     &-items-wrapper {
-        text-align:left;
-        max-height:50vh;
-        overflow:scroll;
+        text-align: left;
+        max-height: 27.5vh;
+        overflow: auto;
+
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    }
+
+    &-button {
+        margin-bottom: 10px;
     }
 }

@@ -13,6 +13,7 @@
         flex-wrap: wrap;
 
         p {
+            color: #636b6f;
             flex:1;
             padding: 1rem;
             text-align: center;
@@ -23,12 +24,13 @@
         display: flex;
         width: 100%;
         margin-top:5rem;
+        justify-content: center;
     }
 
     .links > a {
         text-align: center;
+        margin: 1rem;
         color: #636b6f;
-        flex:1;
         font-size: 13px;
         font-weight: 600;
         letter-spacing: .1rem;

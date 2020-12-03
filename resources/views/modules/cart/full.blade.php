@@ -5,14 +5,17 @@
     <div class="full-cart-items">
         @foreach($cart as $product)
             <div class="full-cart-item" data-cart-item={{$product->id}}>
-                <h2 class="full-cart-item-header">{{ $product->name }}</h2>
-                <p class="full-cart-item-price"><span data-cart-item-price>{{ $product->price }}</span> kr</p>
+                <img style="margin-right: 2rem; width:150px;" src="{{ asset('img/games/'.$product->model->thumbnail) }}" alt="{{$product->model->name}}">
+                <div style="display: flex; flex-direction:column;">
+                    <h3 class="full-cart-item-header">{{ $product->name }}</h3>
+                    <p class="full-cart-item-price" style="text-align: left"><span data-cart-item-price>{{ $product->price }}</span> kr</p>
+                </div>
                 <p class="full-cart-item-remove" data-cart-remove="{{ $product->id }}">
                     Ta bort
                 </p>
             </div>
 
-            <hr>
+            <hr style="opacity: .3;">
         @endforeach
 
         @if($cartTotal > 0)
@@ -27,8 +30,8 @@
         @endif
     </div>
 
-    <div class="full-cart-total">
+    {{-- <div class="full-cart-total">
         <p class="full-cart-total-subtitle">Leveransavgift: 30.00 kr</p>
         <h1 class="full-cart-total-title"><b>Totalt</b>: <span class="font-project" data-cart-total>{{ $cartTotal + 30 }}</span> kr</h1>
-    </div>
+    </div> --}}
 </div>

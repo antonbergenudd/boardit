@@ -12,10 +12,15 @@ class CartController extends BaseController
 {
     public function add(Product $product) {
         if(! Cart::content()->where('id', $product->id)->count() && $product->quantity) {
-            Cart::add($product, 1)->associate('boardit\Product');
+            $item = Cart::add($product, 1)->associate('boardit\Product');
+
+            return [
+                $item,
+                $item->model
+            ];
         }
 
-        return back();
+        return null;
     }
 
     public function destroy() {
@@ -24,14 +29,16 @@ class CartController extends BaseController
         return back();
     }
 
-    public function removeById($id) {
-        $items = Cart::search(function($cartItem, $rowId) use ($id) {
-            return $cartItem->id == $id;
-        });
+    public function removeById($rowId) {
+        if(Cart::search(function($cartItem) use ($rowId) {
+            return $cartItem->rowId == $rowId;
+        })->first() != null) {
+            Cart::remove($rowId);
 
-        Cart::remove($items->first()->rowId);
+            return "true";
+        };
 
-        return back();
+        return "false";
     }
 
     public function removeByRowId($rowId) {

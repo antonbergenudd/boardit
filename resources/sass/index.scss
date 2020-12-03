@@ -38,9 +38,11 @@
         }
 
         .popular-games-wrapper {
-            display:flex;
+            background-color: rgb(241, 241, 241);
+            display: flex;
+            justify-content: space-between; 
             flex-wrap:wrap;
-            padding:3rem 0;
+            padding:3rem 0.5rem;
         }
     }
 

@@ -6,6 +6,7 @@ use Illuminate\Routing\Controller as BaseController;
 use boardit\Product;
 use boardit\Category;
 use Gloudemans\Shoppingcart\Facades\Cart;
+use Illuminate\Http\Request;
 
 class MainController extends BaseController
 {
@@ -39,10 +40,27 @@ class MainController extends BaseController
         return view('policy', compact('cart', 'cartTotal'));
     }
 
-    function games() {
-        $products = Product::where('show', 1)->get();
-        $categories = Category::get();
+    function games(Request $request) {
 
+        $products = Product::where('show', 1);
+
+        if ($request->has('name')) {
+            $products->where('name', 'like', $request->name);
+        }
+
+        if ($request->has('price')) {
+            $products->where('price', '>=', $request->price);
+        }
+
+        if ($request->has('category')) {
+            $products->whereHas('getCategories', function ($query) use ($request) {
+                $query->where('categories.id', $request->category);
+            });
+        }
+
+        $products = $products->get();
+
+        $categories = Category::get();
         $cart = Cart::content();
         $cartTotal = Cart::subTotal();
 
