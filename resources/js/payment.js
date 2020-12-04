@@ -19,7 +19,7 @@ function loadKlarnaContainer() {
         url: "https://api.playground.klarna.com/checkout/v3/orders",
         method: "POST",
         contentType:"application/json",
-        dataType: "jsonp",
+        dataType: "json",
         headers: {
             "Authorization": "Basic " + btoa("PK31935_0640002d7a81:H6h2IVrUFHmiXZRw"),
             "Access-Control-Allow-Origin": "*"
