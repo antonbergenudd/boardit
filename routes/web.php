@@ -22,6 +22,9 @@ Route::get('/about', 'MainController@about')->name('about');
 Route::get('/faq', 'MainController@faq')->name('faq');
 Route::get('/policy', 'MainController@policy')->name('policy');
 
+Route::get('/validate', 'MainController@validate')->name('validate');
+Route::get('/confirm', 'MainController@confirm')->name('confirm');
+
 // SMS
 Route::get('/sms/reply', 'OrderController@receiveSms')->name('sms.reply');
 

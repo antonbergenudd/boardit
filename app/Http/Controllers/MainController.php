@@ -66,4 +66,12 @@ class MainController extends BaseController
 
         return view('games', compact('products', 'cart', 'cartTotal', 'categories'));
     }
+
+    function validate(Request $request) {
+        return Response::make('', 303)->header('Location', route("validate"));
+    }
+
+    function confirm(Request $request) {
+        return view('confirm');
+    }
 }
