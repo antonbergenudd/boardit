@@ -1,8 +1,8 @@
 .cart-floating {
-    border-radius: 3%;
-    box-shadow:-2px 2px 8px rgba(0,0,0,.3);
+    // border-radius: 3%;
+    box-shadow:-2px -2px 7px rgba(0,0,0,.1);
     position:fixed;
-    right: 1rem;
+    right: 0.5rem;
     top: 4rem;
     background-color:white;
     padding:1rem;
@@ -31,6 +31,7 @@
         text-align: left;
         max-height: 27.5vh;
         overflow: auto;
+        min-height: 10rem;
 
         &::-webkit-scrollbar {
             display: none;

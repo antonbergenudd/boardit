@@ -68,7 +68,8 @@ class MainController extends BaseController
     }
 
     function validate(Request $request) {
-        return Response::make('', 303)->header('Location', route("validate"));
+        // return Response::make('', 303)->header('Location', route("validate"));
+        return Response::make('', 200)->header('Location', route("validate"));
     }
 
     function confirm(Request $request) {

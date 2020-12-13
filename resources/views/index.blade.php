@@ -13,7 +13,9 @@
     <div class="index-box flex-center index-jumbotron">
         <div class="jumbotron-content-wrapper">
             <img src="{{ asset('img/logo.png') }}" alt="Boarditgames">
-            <p class="jumbotron-slogan">Rent it. <span class="font-project">Board it.</span> Enjoy it.</p>
+            {{-- <p class="jumbotron-slogan">Rent it. <span class="font-project">Board it.</span> Enjoy it.</p> --}}
+            <p class="jumbotron-slogan">Tack för. <span class="font-project">Hjälpen.</span> Siss <3.</p>
+            <p class="jumbotron-slogan">Tänker typ, font, struktur, innehåll bla bla bla, du kan testa lägga till ett spel och se hur de ser ut!</p>
         </div>
     </div>
 

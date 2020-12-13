@@ -4,6 +4,7 @@
         <a href="{{ url('/games') }}">Spel</a>
         <a href="{{ url('/about') }}">Om oss</a>
         <a href="{{ url('/policy') }}">Policy</a>
+        <a href="{{ url('/faq') }}">FAQ</a>
     </div>
 
     <div class="footer-contact">

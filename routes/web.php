@@ -45,6 +45,7 @@ Route::prefix('product')->name('product.')->group(function() {
 Route::prefix('payment')->name('payment.')->group(function () {
     Route::get('index', 'PaymentController@index')->name('index');
     Route::get('feedback', 'PaymentController@feedback')->name('feedback');
+    Route::get('checkout', 'PaymentController@checkout')->name('checkout');
     Route::post('submit', 'PaymentController@submit')->name('submit');
 });
 

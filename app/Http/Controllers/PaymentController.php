@@ -36,6 +36,11 @@ class PaymentController extends BaseController
         return view('payment.feedback');
     }
 
+    function checkout() {
+        $cart = Cart::content();
+        return view('payment.checkout', compact('cart'));
+    }
+
     function controlDiscount(Request $request) {
         $code = $request->code;
 

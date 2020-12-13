@@ -18,7 +18,7 @@
     </div>
 
     <div style="flex:4">
-        <div style="margin-top:2rem; display:flex; padding:2rem; border-bottom: 1px solid rgba(0, 0, 0, 0.2)">
+        {{-- <div style="margin-top:2rem; display:flex; padding:2rem; border-bottom: 1px solid rgba(0, 0, 0, 0.2)">
             <form action="{{ route('games') }}" method="get" style="display: flex; justify-content:space-between; width:40rem;">
                 <div style="display: flex; flex-direction:column; text-align:left;">
                     <span>Name</span>
@@ -35,7 +35,7 @@
                 
                 <input class="button-link" type="submit" value="Filter">
             </form>
-        </div>
+        </div> --}}
 
         <div class="games-wrapper">
             @foreach($products as $product)

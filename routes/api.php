@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use Gloudemans\Shoppingcart\Facades\Cart;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +16,11 @@ use Illuminate\Http\Request;
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
+});
+
+Route::middleware('api')->get('/cart', function (Request $request) {
+    $cart = Cart::content();
+    $cartTotal = Cart::subTotal();
+    dd($cartTotal);
+    return $cart;
 });
