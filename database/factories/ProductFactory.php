@@ -4,6 +4,8 @@ namespace Database\Factories;
 
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 
 class ProductFactory extends Factory
 {
@@ -21,10 +23,14 @@ class ProductFactory extends Factory
      */
     public function definition()
     {
+        $productSuffixes = ['Sweater', 'Pants', 'T-Shirt', 'Glasses', 'Hat', 'Socks'];
+        $name = $this->faker->company() . ' ' . Arr::random($productSuffixes);
+        
         return [
-            'name' => $this->faker->name(),
-            'description' => $this->faker->text(),
-            'price' => $this->faker->numberBetween(50, 150),
+            'name' => $name,
+            'slug' => Str::slug($name),
+            'description' => $this->faker->realText(140),
+            'price' => $this->faker->numberBetween(50, 150) + '00',
         ];
     }
 }

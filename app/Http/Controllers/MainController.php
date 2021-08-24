@@ -8,12 +8,10 @@ use App\Models\Product;
 class MainController extends Controller
 {
     public function index() {
-        $products = Product::all();
-        return view('index', compact('products'));
+        return view('index');
     }
 
-    public function assortment() {
-        $products = Product::all();
-        return view('assortment', compact('products'));
+    public function products() {
+        return view('products');
     }
 }

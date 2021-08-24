@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
-use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,8 +14,10 @@ use App\Http\Controllers\ProductController;
 |
 */
 
-Route::get('/', [MainController::class, 'index'])->name('index');
-Route::get('/sortiment', [MainController::class, 'assortment'])->name('assortment');
+Auth::routes();
 
-Route::get('/products', [ProductController::class, 'index'])->name('products');
-Route::get('/products/{product}', [ProductController::class, 'show'])->name('product');
+Route::get('/', [MainController::class, 'index']);
+
+Route::any('/{any}', function() {
+    return view('index');
+})->where('any', '.*');

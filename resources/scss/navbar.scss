@@ -1,65 +1,7 @@
 .navbar {
-    width: calc(100% - 20rem);
-    height: 6rem;
-
-    padding: 0 10rem;
-    position: absolute;
-    top:0;
-    left:0;
-    z-index: 1;
-
-    display: flex;
-    justify-content: space-between;
-
     font-family: $font-navbar-links;
-
-    .active-link {
-        text-decoration: underline !important;
-        text-underline-position: under;
-    }
-
-    .logo {
-        &-wrapper {
-            display: flex;
-        }
-
-        .logo-img-wrapper {
-            width: 15rem;
-            position: relative;
-
-            img {
-                max-width: 70%;
-                height: auto;
-            }
-        }
-    }
-
-    .links {
-        height: 100%;
-        white-space: nowrap;
-        display: flex;
-
-        a {
-            color:white;
-            flex: 1;
-            transition: all 100ms linear;
-            padding: 0 0.75rem;
-            font-size: 12pt;
-            text-decoration: none;
-            text-transform: uppercase;
-            font-weight: bold;
-            letter-spacing: 2px;
-
-            &:hover {
-                opacity: 0.7;
-            }
-        }
-
-        @media (max-width: 850px) {
-            display: none;
-        }
-    }
-
+    
+    // Mobile
     .collapsed-links {
         display: none;
         width: 4rem;

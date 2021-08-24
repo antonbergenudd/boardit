@@ -1,4 +1,7 @@
-// Variables
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import "node_modules/font-awesome/scss/font-awesome.scss";
 @import "normalize";
 @import "variables";
@@ -20,6 +23,60 @@ h1, h2, h3 {
     letter-spacing: 4px;
 }
 
+.is-active {
+    text-decoration: underline !important;
+    text-underline-position: under;
+}
+
+.slick-dots .slick-active button:before {
+  color: darken($project-color, 20%) !important;
+}
+
+.bg-project {
+    background-color:$project-color;
+    
+    &-dark-sm {
+        background-color:darken($project-color, 5%);
+    }
+    
+    &-dark-lg {
+        background-color:darken($project-color, 20%);
+    }
+    
+    &-light-sm {
+        background-color:lighten($project-color, 5%);
+    }
+}
+
+.text-project {
+    color: $project-color;
+}
+
+.border-project {
+    border-color: $project-color;
+}
+
+.rotate {
+    -moz-transition: all .25s linear;
+    -webkit-transition: all .25s linear;
+    transition: all .25s linear;
+    
+    -moz-transform:rotate(180deg);
+    -webkit-transform:rotate(180deg);
+    transform:rotate(180deg);
+}
+
+.showSidebar {
+    right:0;
+}
+
+.sidebarVisible {
+    transform: translateX(-400px);
+}
+
+
+
+
 .hide {
     display: none !important;
 }
@@ -32,14 +89,8 @@ h1, h2, h3 {
     }
 }
 
-.bg-blue {
-    background-color:$project-color;
-    color:white;
-}
-
 .block {
-    width: 100vw;
-    min-height: 20rem;
+    width: 100vw; // w-screen
     position: relative;
 
     &.hero {

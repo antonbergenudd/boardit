@@ -1,32 +1,164 @@
-/**
- * First we will load all of this project's JavaScript dependencies which
- * includes Vue and other libraries. It is a great starting point when
- * building robust, powerful web applications using Vue and Laravel.
- */
+import Vue from 'vue'
+import Vuex from 'vuex'
 
-require('./bootstrap');
+import App from './pages/app'
+import Index from './pages/index'
+import Products from './pages/products/index'
+import ProductInfo from './pages/products/show'
+import Checkout from './pages/checkout/index'
+import Delivery from './pages/checkout/delivery'
+import Payment from './pages/checkout/payment'
+import Summary from './pages/checkout/summary'
+import TermsAndCondition from './pages/termsAndCondition'
 
-window.Vue = require('vue').default;
+import VueRouter from 'vue-router'
+import * as VueGoogleMaps from 'vue2-google-maps'
+import createPersistedState from "vuex-persistedstate";
 
-/**
- * The following block of code may be used to automatically register your
- * Vue components. It will recursively scan this directory for the Vue
- * components and automatically register them with their "basename".
- *
- * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
- */
+// Layout components
+Vue.component('navbar-component', require('./components/layout/navbarComponent.vue').default);
+Vue.component('footer-component', require('./components/layout/footerComponent.vue').default);
+Vue.component('sidebar-component', require('./components/layout/sidebarComponent.vue').default);
+Vue.component('chat-support-component', require('./components/common/chatSupportComponent.vue').default);
 
-// const files = require.context('./', true, /\.vue$/i)
-// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+// Pages
+// Vue.component('search-bar-component', require('./pages/products/components/searchBarComponent.vue').default);
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
+Vue.use(Vuex)
+Vue.use(VueRouter);
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: 'AIzaSyBe__mmTgHFrkGO0z7Bh8pRMOpZwe10d38',
+    libraries: 'places',
+  }
+});
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+const router = new VueRouter({
+    mode: 'history',
+    linkExactActiveClass: 'is-active',
+    routes: [
+        {
+            path: '/',
+            name: 'index',
+            component: Index
+        },
+        {
+            path: '/products',
+            name: 'products',
+            component: Products
+        },
+        {
+            path: '/product/:slug',
+            name: 'products.show',
+            component: ProductInfo
+        },
+        {
+            path: '/checkout',
+            name: 'order.checkout',
+            component: Checkout
+        },
+        {
+            path: '/checkout/delivery',
+            name: 'order.delivery',
+            component: Delivery
+        },
+        {
+            path: '/checkout/payment',
+            name: 'order.payment',
+            component: Payment
+        },
+        {
+            path: '/checkout/summary',
+            name: 'order.summary',
+            component: Summary
+        },
+        {
+            path: '/terms-and-condition',
+            name: 'general.terms',
+            component: TermsAndCondition
+        },
+    ],
+});
+
+const store = new Vuex.Store({
+    plugins: [createPersistedState({
+        storage: window.sessionStorage,
+    })],
+    state: {
+        products: [],
+        cart: [],
+        order: {
+            delivery: "home",
+            customer: {
+                first_name: '',
+                last_name: '',
+                address: '',
+                zip_code: '',
+                city: '',
+                phone: '',
+            },
+            save_info: false
+        },
+        showSidebar: false
+    },
+    mutations: {
+        updateProducts(state, products) {
+            state.products = products;
+        },
+        addToCart(state, product) {
+            let productInCartIndex = state.cart.findIndex(item => item.slug === product.slug);
+            
+            if(productInCartIndex !== -1) {
+                state.cart[productInCartIndex].quantity++;
+                return;
+            }
+            
+            product.quantity = 1;
+            
+            state.cart.push(product);
+        },
+        removeFromCart(state, index) {
+            if(state.cart[index].quantity > 1) {
+                state.cart[index].quantity--;
+            } else {
+                state.cart.splice(index, 1);
+            }
+        },
+        updateOrder(state, order) {
+            state.order = order;
+        },
+        updateCart(state, cart) {
+            state.cart = cart;
+        },
+        toggleSidebar(state, showSidebar) {
+            state.showSidebar = showSidebar;
+        }
+    },
+    actions: {
+        getProducts({ commit }) {
+            axios.get('/api/products').then(response => {
+                commit('updateProducts', response.data)
+            }).catch(error => console.error(error));
+        },
+        clearCart({ commit }) {
+            commit('updateCart', []);
+        }
+    }
+});
 
 const app = new Vue({
     el: '#app',
+    components: { App },
+    watch:{
+        $route (to, from){
+            if(this.$store.state.showSidebar)
+                this.$store.state.showSidebar = false;
+        }
+    },
+    router,
+    store,
+    created() {
+        store.dispatch('getProducts').then(_ => {})
+            .catch(error => console.error(error));
+    }
 });
