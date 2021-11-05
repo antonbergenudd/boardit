@@ -32,16 +32,14 @@
                 <div class="mt-2 border border-gray-300 rounded-md w-full">
                     <div class="flex items-center border-b-2 border-gray-300 p-4 w-full">
                         <label>
-                            <input class="opacity-50" type="radio" value="home" v-model="order.delivery">
+                            <input class="opacity-50" type="radio" v-model="order.delivery">
                             <i class="mx-2 fa fa-truck"></i>
-                            <p v-text="order.delivery"></p>
-                            <p v-text="order"></p>
                             Hemleverans
                         </label>
                     </div>
                     <div class="flex items-center p-4 w-full">
                         <label>
-                            <input class="opacity-50" type="radio" value="pickup" v-model="order.delivery">
+                            <input class="opacity-50" type="radio" v-model="order.delivery">
                             <i class="mx-2 fa fa-home"></i>
                             Hämta
                         </label>
@@ -52,9 +50,9 @@
             <!-- Adress -->
             <div class="mt-6">
                 <p class="text-lg mb-2 font-medium">Leveransadress</p>
-                <input placeholder="Förnamn" class="text-xs border border-gray-300 mb-4 rounded-md focus:border-project p-3 w-full" v-model="order.customer.first_name">
-                <input placeholder="Efternamn" class="text-xs border border-gray-300 mb-4 rounded-md focus:border-project p-3 w-full" v-model="order.customer.last_name">
-                <input placeholder="Gatuadress och husnummer" class="text-xs border border-gray-300 mb-4 rounded-md focus:border-project p-3 w-full" v-model="order.customer.address">
+                <input placeholder="Förnamn" class="text-xs border border-gray-300 mb-4 rounded-md focus:border-project p-3 w-full" v-model="first_name">
+                <input placeholder="Efternamn" class="text-xs border border-gray-300 mb-4 rounded-md focus:border-project p-3 w-full" v-model="last_name">
+                <input placeholder="Gatuadress och husnummer" class="text-xs border border-gray-300 mb-4 rounded-md focus:border-project p-3 w-full" v-model="address">
                 <input placeholder="Postnummer" class="text-xs border border-gray-300 mb-4 rounded-md focus:border-project p-3 w-full" v-model="order.customer.zip_code">
                 <input placeholder="Stad/ort" class="text-xs border border-gray-300 mb-4 rounded-md focus:border-project p-3 w-full" v-model="order.customer.city">
                 <input placeholder="Telefon (valfritt)" class="text-xs border border-gray-300 mb-4 rounded-md focus:border-project p-3 w-full" v-model="order.customer.phone">
@@ -126,39 +124,15 @@
 
 <script>
 import { loadStripe } from '@stripe/stripe-js';
+import { mapState } from "vuex";
 export default {
     data() {
         return {
             stripe: {},
             cardElement: {},
-            // order: {
-            //     delivery: 'home',
-            //     discount_code: '',
-            // },
-            // customer: {
-            //     first_name: '',
-            //     last_name: '',
-            //     email: '',
-            //     address: '',
-            //     city: '',
-            //     zip_code: '',
-            //     phone: ''
-            // },
             paymentProcessing: false,
         }
     },
-    // async mounted() {
-    //     this.stripe = await loadStripe(process.env.MIX_STRIPE_KEY);
-    // 
-    //     const elements = this.stripe.elements();
-    //     this.cardElement = elements.create('card', {
-    //         classes: {
-    //             base: 'bg-gray-100 rounded border border-gray-300 focus:border-indigo-500 text-base outline-none text-gray-700 p-3 leading-8 transition-colors duration-200 ease-in-out',
-    //         }
-    //     });
-    // 
-    //     this.cardElement.mount('#card-element');
-    // },
     methods: {
         cartLineTotal(item) {
             let price = item.price * item.quantity;
@@ -166,61 +140,36 @@ export default {
             
             return price.toLocaleString('sv-SE', { style: 'currency', currency: 'SEK' });
         },
-        // async processPayment() {
-        //     this.processingPayment = true;
-        // 
-        //     const {paymentMethod, error} = await this.stripe.createPaymentMethod(
-        //         'card', this.cardElement, {
-        //             billing_details: {
-        //                 name: this.customer.first_name + ' ' + this.customer.last_name,
-        //                 email: this.customer.email,
-        //                 address: {
-        //                     line1: this.customer.address,
-        //                     city: this.customer.city,
-        //                     state: this.customer.state,
-        //                     postal_code: this.customer.zip_code
-        //                 }
-        //             }
-        //         }
-        //     );
-        // 
-        //     if(error) {
-        //         console.log(error);
-        //         this.paymentProcessing = false;
-        //         alert(error);
-        //     } else {
-        //         this.customer.payment_method_id = paymentMethod.id;
-        //         this.customer.amount = this.cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
-        //         this.customer.cart = JSON.stringify(this.cart);
-        // 
-        //         axios.post('/api/purchase', this.customer).then(response => {
-        //             this.paymentProcessing = false;
-        // 
-        //             this.$store.commit('updateOrder', response.data);
-        //             this.$store.dispatch('clearCart');
-        // 
-        //             this.$router.push({ name: 'order.summary' });
-        //         }).catch(error => {
-        //             console.log(error);
-        //             this.paymentProcessing = false;
-        //             alert(error);
-        //         })
-        //     }
-        // }
     },
     computed: {
-        order() {
-            return this.$store.state.order;
+        ...mapState(["order"]),
+        first_name: {
+            set(first_name) {
+                this.$store.commit("setOrder", { customer: { first_name } });
+            },
+            get() {
+                return this.order.customer.first_name;
+            }
         },
-        // delivery() {
-        //     return this.$store.state.delivery;
-        // },
+        last_name: {
+            set(last_name) {
+                this.$store.commit("setOrder", { customer: { last_name } });
+            },
+            get() {
+                return this.order.customer.last_name;
+            }
+        },
+        address: {
+            set(address) {
+                this.$store.commit("setOrder", { customer: { address } });
+            },
+            get() {
+                return this.order.customer.address;
+            }
+        },
         cart() {
             return this.$store.state.cart;
         },
-        // cartQuantity() {
-        //     return this.$store.state.cart.reduce((acc, item) => acc + item.quantity, 0);
-        // },
         cartTotal() {
             let price = this.$store.state.cart.reduce((acc, item) => acc + (item.price * item.quantity), 0);
             price = price / 100;

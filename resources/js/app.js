@@ -88,7 +88,6 @@ const store = new Vuex.Store({
         products: [],
         cart: [],
         order: {
-            delivery: "home",
             customer: {
                 first_name: '',
                 last_name: '',
@@ -97,6 +96,7 @@ const store = new Vuex.Store({
                 city: '',
                 phone: '',
             },
+            delivery: "home",
             save_info: false
         },
         showSidebar: false
@@ -132,6 +132,12 @@ const store = new Vuex.Store({
         },
         toggleSidebar(state, showSidebar) {
             state.showSidebar = showSidebar;
+        },
+        setOrder(state, values) {
+            console.log(state.order);
+            console.log(values);
+            console.log( Object.assign({}, state.order, values));
+          state.order = Object.assign({}, state.order, values);
         }
     },
     actions: {
@@ -151,8 +157,7 @@ const app = new Vue({
     components: { App },
     watch:{
         $route (to, from){
-            if(this.$store.state.showSidebar)
-                this.$store.state.showSidebar = false;
+            this.$store.state.showSidebar = false;
         }
     },
     router,

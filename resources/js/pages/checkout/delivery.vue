@@ -16,7 +16,8 @@
                     <div class="flex justify-between items-center p-4 w-full">
                         <div class="flex">
                             <p class="mr-4 text-sm text-gray-600">Kontakta</p>
-                            <p v-text="$store.state.order.customer.email"></p>
+                            <p v-text="$store.state.order.customer.email" v-show="!editAdress"></p>
+                            <input type="text" v-show="editAdress" v-model="$store.state.order.customer.email" />
                         </div>
                         <p class="text-sm text-project">ändra</p>
                     </div>
@@ -26,9 +27,10 @@
                     <div class="flex justify-between items-center p-4 w-full">
                         <div class="flex">
                             <p class="mr-4 text-sm text-gray-600">Skicka till</p>
-                            <p>{stored address}</p>
+                            <p v-text="$store.state.order.customer.address" v-show="!editAdress"></p>
+                            <input type="text" v-show="editAdress" v-model="$store.state.order.customer.address" />
                         </div>
-                        <p class="text-sm text-project">ändra</p>
+                        <a class="text-sm text-project" @click="editAdress = true" v-show="!editAdress">ändra</a>
                     </div>
                 </div>
             </div>
@@ -136,6 +138,7 @@
 export default {
     data() {
         return {
+            editAdress: false,
             order: {
                 delivery: 'home',
                 delivery_method: 'locally',
